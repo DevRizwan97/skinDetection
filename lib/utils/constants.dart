@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 
 final white = Colors.white;
-final purple = Color(0xff6a3bd9);
-final blue = Color(0xff2ec4f8);
+final fontOrange = Color(0xffF6A545);
+final cardColor = Color(0xffFEF9F4);
 final black = Color(0xff0b0b0b);
 
 
