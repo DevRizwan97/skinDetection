@@ -9,3 +9,5 @@ final cardColor = Color(0xffFEF9F4);
 final black = Color(0xff0b0b0b);
 
 
+ const SHARED_PREF_KEY_THEME = "theme_code";
+const SHARED_PREF_KEY_TEMPERATURE_UNIT = "temp_unit";

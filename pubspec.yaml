@@ -32,6 +32,15 @@ dependencies:
   intl: ^0.16.1
   auto_size_text: ^2.1.0
   font_awesome_flutter: ^8.10.0
+  equatable: ^0.2.4
+  bloc: ^0.13.0
+  flutter_bloc: ^0.13.0
+  shared_preferences: 0.5.3+1
+  geolocator: ^5.0.0
+  permission_handler: ^3.1.0
+  charts_flutter: ^0.9.0
+  flutter_swiper: ^1.1.6
+  flutter_native_splash: ^0.1.9
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +67,11 @@ flutter:
     - family: Poppins
       fonts:
         - asset: fonts/Poppins-Regular.ttf
+    - family: WeatherIcons
+      fonts:
+        - asset: fonts/weathericons-regular.ttf
+
+
 
 
   #   - family: Trajan Pro
