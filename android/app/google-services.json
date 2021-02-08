@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1030801878178",
+    "project_id": "skin-5d325",
+    "storage_bucket": "skin-5d325.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030801878178:android:a38b4a171756802ce07bfb",
+        "android_client_info": {
+          "package_name": "com.getweys.skindetection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030801878178-sfdcsmbmu5b2t25ag35ceg4ithgi3kmf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAlZACgLgjhN5R9-_TcgsqdORdd9w8I3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1030801878178-sfdcsmbmu5b2t25ag35ceg4ithgi3kmf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

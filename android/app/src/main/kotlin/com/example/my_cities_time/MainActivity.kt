@@ -1,4 +1,4 @@
-package com.example.my_cities_time
+package com.getweys.skindetection
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,6 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:my_cities_time/models/user.dart';
+import 'package:my_cities_time/screens/location.dart';
+import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/utils/constants.dart';
+import 'package:my_cities_time/utils/helper.dart';
+import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -8,6 +13,13 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+
+  TextEditingController email=TextEditingController(),username=TextEditingController(),password=TextEditingController(),confirm_password=TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +70,7 @@ class _SignUpState extends State<SignUp> {
                                 padding:
                                     const EdgeInsets.only(top: 10.0, right: 30),
                                 child: TextField(
+                                  controller: email,
                                   autofocus: false,
                                   style: TextStyle(
                                       fontSize: 17.0, color: Colors.black),
@@ -98,6 +111,7 @@ class _SignUpState extends State<SignUp> {
                                     const EdgeInsets.only(top: 10.0, right: 30),
                                 child: TextField(
                                   autofocus: false,
+                                  controller: username,
                                   style: TextStyle(
                                       fontSize: 17.0, color: Colors.black),
                                   decoration: InputDecoration(
@@ -137,6 +151,8 @@ class _SignUpState extends State<SignUp> {
                                     const EdgeInsets.only(top: 10.0, right: 30),
                                 child: TextField(
                                   autofocus: false,
+                                  controller: password,
+                                  obscureText: true,
                                   style: TextStyle(
                                       fontSize: 17.0, color: Colors.black),
                                   decoration: InputDecoration(
@@ -177,6 +193,8 @@ class _SignUpState extends State<SignUp> {
                                     const EdgeInsets.only(top: 10.0, right: 30),
                                 child: TextField(
                                   autofocus: false,
+                                  controller: confirm_password,
+                                  obscureText: true,
                                   style: TextStyle(
                                       fontSize: 17.0, color: Colors.black),
                                   decoration: InputDecoration(
@@ -216,7 +234,10 @@ class _SignUpState extends State<SignUp> {
                                         borderRadius:
                                             BorderRadius.circular(9.0),
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        signup();
+
+                                      },
                                       color: fontOrange,
                                       textColor: Colors.white,
                                       child: Padding(
@@ -298,5 +319,40 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+  signup(){
+
+    var state = Provider.of<AuthState>(context, listen: false);
+    // if(check()==true){
+    //   print(check());
+    //   showsnackbartop("Signup Error", "Field missing", 4,error, error, error, context);
+    //
+    // }
+    if(!(password.text.contains(confirm_password.text))){
+
+      showsnackbartop("Password", "Password are not same", 4,error, error, error, context);
+
+
+    }
+    Users users=Users(
+      username: username.text,
+      confirm_password: confirm_password.text,
+      email: email.text,
+      password: password.text,
+
+    );
+state.createUser(users);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Location()),
+    );
+  }
+  bool check(){
+    if(email.text==null||email.text==""||username.text==null||username.text==""||password.text==null||password.text==""||confirm_password.text==""||confirm_password.text!=null){
+      return true;
+
+    }
+    return false;
+
   }
 }
