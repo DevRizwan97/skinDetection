@@ -40,6 +40,8 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
     super.dispose();
   }TabBar _getTabBar() {
     return TabBar(
+      indicatorColor:Colors.orange.shade300,
+
       tabs: <Widget>[
         Tab(child: Text("Travel Destination",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w700,fontSize: 15),),),
         Tab(child: Text("Suntan Roadmap",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w700,fontSize: 15),),),
@@ -125,6 +127,7 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
     return TabBarView(
       children: tabs,
       controller: tabController,
+
     );
   }
 
@@ -340,7 +343,7 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
                               child: Container(
                                 height: MediaQuery.of(context).size.height * 0.24,
                                 child: Card(
-                                    color: white,
+                                    color: cardColor,
                                     elevation: 5,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
@@ -353,29 +356,26 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
                                       padding: const EdgeInsets.only(
                                           top: 20.0, left: 30, bottom: 20, right: 20),
                                       child: Row(
+
                                         children: [
 
-                                          // Row(
-                                          //     mainAxisAlignment: MainAxisAlignment.center,
-                                          //
-                                          //     crossAxisAlignment: CrossAxisAlignment.center,
-                                          //     children:[
-                                          //       Text(
-                                          //         "${weathers[index].cityName}",
-                                          //         style: TextStyle(
-                                          //             color: fontOrange,
-                                          //             fontFamily: "Poppins",
-                                          //             fontWeight: FontWeight.w700,
-                                          //             fontSize: 16),
-                                          //       ),
-                                          //
-                                          //
-                                          //     ]),
+
                                           Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
+                                              Expanded(
+                                                child: Center(
+                                                  child: Text("${weathers[index].cityName}",style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontFamily: "Poppins",
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 18
+                                                  ),),
+                                                ),
+                                              ),
                                               Row(
+
                                                 children: [
                                                   Text(
                                                     "UV Index : ",
@@ -403,7 +403,7 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
                                                         fontWeight: FontWeight.w700,
                                                         fontSize: 16),
                                                   ),
-                                                  Text("${weathers[index].temperature.celsius.toString()} ${$deg} C",style: TextStyle(
+                                                  Text("${weathers[index].temperature.celsius.toString()} \u00B0C",style: TextStyle(
                                                       color: Colors.black,
                                                       fontFamily: "Poppins",
                                                       fontWeight: FontWeight.w700,
@@ -479,7 +479,7 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
                               child: Container(
                                 height: MediaQuery.of(context).size.height * 0.24,
                                 child: Card(
-                                    color: white,
+                                    color: cardColor,
                                     elevation: 5,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
@@ -514,15 +514,15 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
                                     style: TextStyle(
                                         fontFamily: "Poppins",
                                         fontWeight: FontWeight.w700,
-                                        fontSize: 25),
+                                        fontSize: 24),
                                   ),
                                   SizedBox(
-                                    height: 10,
+                                    height: 12,
                                   ),
                                   Container(
                                     width: double.infinity,
-                                    height: 200,
-                                    color: white,
+                                    height: MediaQuery.of(context).size.height*0.3,
+
 
                                     child:
 
@@ -530,41 +530,37 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
                                     ListView(
                                       children: List.generate(state.all_skin_data==null?0:state.all_skin_data.length,(index){
 
-                                        return  Card(
-                                          elevation: 0,
+                                        return  Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(state.all_skin_data[index].city,style: TextStyle(color: Colors.black,fontSize: 18,fontFamily: "Poppins",fontWeight: FontWeight.w700),),
+                                                ],),
+                                              SizedBox(height: 10,),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text("Date",style: TextStyle(color:fontOrange,fontSize: 16,fontWeight: FontWeight.w700,fontFamily: "Poppins"),),
+                                                      SizedBox(width: 5,),
+                                                      Text(state.all_skin_data[index].date.substring(0,11),style: TextStyle(color: Colors.black,fontSize: 16,fontFamily: "Poppins"),),
+                                                    ],
+                                                  ),
 
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  children: [
-                                                    Text(state.all_skin_data[index].city,style: TextStyle(color: Colors.black,fontSize: 20),),
-                                                  ],),
-                                                SizedBox(height: 10,),
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Text("Date",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
-                                                        SizedBox(width: 10,),
-                                                        Text(state.all_skin_data[index].date.substring(0,11),style: TextStyle(color: Colors.black,fontSize: 20),),
-                                                      ],
-                                                    ),
-
-                                                    Row(
-                                                      children: [
-                                                        Text("Time",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
-                                                        SizedBox(width: 10,),
-                                                        Text(state.all_skin_data[index].time,style: TextStyle(color: Colors.black,fontSize: 20),),
-                                                      ],
-                                                    ),
-                                                  ],),
-                                              ],
-                                            ),
+                                                  Row(
+                                                    children: [
+                                                      Text("Time",style: TextStyle(color:fontOrange,fontSize: 16,fontWeight: FontWeight.w700,fontFamily: "Poppins"),),
+                                                      SizedBox(width: 5,),
+                                                      Text(state.all_skin_data[index].time,style: TextStyle(color: Colors.black,fontSize:16,fontFamily: "Poppins"),),
+                                                    ],
+                                                  ),
+                                                ],),
+                                            ],
                                           ),
                                         );
                                       }),

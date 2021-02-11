@@ -368,7 +368,7 @@ bool loader=false;
         loader=false;
       });
       showsnackbartop("Password", "Password are not same", 4,error, error, error, context);
-
+return;
 
     }
     Users users=Users(

@@ -24,6 +24,7 @@ import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/utils/WeatherIconMapper.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:my_cities_time/widgets/weather_widget.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -511,12 +512,9 @@ class _LocationState extends State<Location> {
                                               // ),
                                             ],
                                           ),
-                                          Spacer(),
                                           Icon(
                                             getIconData(weather_icon),
-                                            color: AppStateContainer.of(context)
-                                                .theme
-                                                .accentColor,
+                                            color: Colors.black,
                                             size: 70,
                                           ),
                                           // Image.asset(
@@ -649,6 +647,64 @@ class _LocationState extends State<Location> {
                           SizedBox(
                             height: 10,
                           ),
+
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 12.0, bottom: 12.0, right: 40, left: 40),
+                            child: Container(
+                              height: 50,
+                              width: 70,
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                onPressed: () {_showIntDialog();},
+                                color: fontOrange,
+                                textColor: Colors.white,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.alarm),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text("Set Up Your UV Alarm",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: "Poppins")),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 3.0, bottom: 12.0, right: 40, left: 40),
+                            child: Container(
+                              height: 50,
+                              width: 70,
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                onPressed: () {},
+                                color: fontOrange,
+                                textColor: Colors.white,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+
+                                    Text("Set up sunscreen Reminder",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: "Poppins")),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(
                                 left: 25.0, right: 12.0, bottom: 5, top: 10),
@@ -753,62 +809,33 @@ class _LocationState extends State<Location> {
                                 SizedBox(
                                   height: 15,
                                 ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Risk For Skin Cancer",
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w700,
-                                        color: fontOrange,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      ": ${state.skin == null ? "" : state.skin.cancer_risk}",
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+
+                                // Row(
+                                //   children: [
+                                //     Text(
+                                //       "Risk For Skin Cancer",
+                                //       style: TextStyle(
+                                //         fontFamily: "Poppins",
+                                //         fontWeight: FontWeight.w700,
+                                //         color: fontOrange,
+                                //         fontSize: 20,
+                                //       ),
+                                //     ),
+                                //     SizedBox(
+                                //       width: 10,
+                                //     ),
+                                //     Text(
+                                //       ": ${state.skin == null ? "" : state.skin.cancer_risk}",
+                                //       style: TextStyle(
+                                //         fontFamily: "Poppins",
+                                //         fontWeight: FontWeight.w700,
+                                //         color: Colors.black,
+                                //         fontSize: 20,
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
                               ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 12.0, bottom: 12.0, right: 40, left: 40),
-                            child: Container(
-                              height: 50,
-                              width: 70,
-                              child: RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
-                                onPressed: () {},
-                                color: fontOrange,
-                                textColor: Colors.white,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.alarm),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("Set Up Your UV Alarm",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w700,
-                                            fontFamily: "Poppins")),
-                                  ],
-                                ),
-                              ),
                             ),
                           ),
                           SizedBox(width: 10),
@@ -859,6 +886,24 @@ class _LocationState extends State<Location> {
       default:
         return WeatherIcons.clear_day;
     }
+  }
+  Future _showIntDialog() async {
+    await showDialog<int>(
+      context: context,
+      builder: (BuildContext context) {
+        return new NumberPickerDialog.integer(
+          minValue: 1,
+          maxValue: 10,
+          step: 1,
+          initialIntegerValue: 1,
+        );
+      },
+    ).then((num value) {
+      // if (value != null) {
+      //   setState(() => _currentIntValue = value);
+      //   integerNumberPicker.animateInt(value);
+      // }
+    });
   }
 }
 
