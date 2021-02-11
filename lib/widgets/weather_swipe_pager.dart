@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:my_cities_time/model/weather.dart';
+import 'package:my_cities_time/models/weather.dart';
 import 'package:my_cities_time/widgets/temperature_line_chart.dart';
 
 import '../main.dart';

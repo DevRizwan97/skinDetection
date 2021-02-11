@@ -6,18 +6,18 @@ class Themes {
 
   static final _dark = ThemeData(
     primarySwatch: MaterialColor(
-      Colors.black.value,
+      Color(0xffF6A545).value,
       const <int, Color>{
         50: Colors.black12,
-        100: Colors.black26,
-        200: Colors.black38,
-        300: Colors.black45,
-        400: Colors.black54,
-        500: Colors.black87,
-        600: Colors.black87,
-        700: Colors.black87,
-        800: Colors.black87,
-        900: Colors.black87,
+        100: Color(0xffF6A545),
+        200: Color(0xffF6A545),
+        300: Color(0xffF6A545),
+        400: Color(0xffF6A545),
+        500: Color(0xffF6A545),
+        600: Color(0xffF6A545),
+        700: Color(0xffF6A545),
+        800: Color(0xffF6A545),
+        900: Color(0xffF6A545),
       },
     ),
     accentColor: Colors.white,

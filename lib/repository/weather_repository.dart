@@ -1,7 +1,7 @@
 
 import 'package:meta/meta.dart';
 import 'package:my_cities_time/api/weather_api_client.dart';
-import 'package:my_cities_time/model/weather.dart';
+import 'package:my_cities_time/models/weather.dart';
 
 class WeatherRepository {
   final WeatherApiClient weatherApiClient;

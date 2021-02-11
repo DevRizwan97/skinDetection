@@ -1,21 +1,28 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:my_cities_time/screens/Splash.dart';
 import 'package:my_cities_time/screens/blog.dart';
 import 'package:my_cities_time/screens/location.dart';
 import 'package:my_cities_time/screens/settings_screen.dart';
 import 'package:my_cities_time/screens/signin.dart';
 import 'package:my_cities_time/screens/signup.dart';
+import 'package:my_cities_time/screens/the_skin_lab.dart';
 import 'package:my_cities_time/states/appState.dart';
 import 'package:my_cities_time/states/authstate.dart';
+import 'package:my_cities_time/themes.dart';
+import 'package:my_cities_time/utils/constants.dart';
+import 'package:my_cities_time/utils/converters.dart';
 import 'package:provider/provider.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
 
-  BlocSupervisor().delegate = SimpleBlocDelegate();
   WidgetsFlutterBinding.ensureInitialized();
+  BlocSupervisor().delegate = SimpleBlocDelegate();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(AppStateContainer(child: MyApp()));
+
 }
 
 
@@ -39,9 +46,12 @@ class MyApp extends StatelessWidget {
     ChangeNotifierProvider<AuthState>(create: (_) => AuthState()),
     ],
     child: MaterialApp(
+      theme: ThemeData(
+        canvasColor: fontOrange
+      ),
       debugShowCheckedModeBanner:false,
-      home: TheSkinLab(),
-    );
+      home:SplashPage(),
+    ));
   }
 }
 

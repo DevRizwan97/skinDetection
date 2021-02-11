@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_cities_time/api/http_exception.dart';
-import 'package:my_cities_time/model/weather.dart';
+import 'package:my_cities_time/models/weather.dart';
 
 /// Wrapper around the open weather map api
 /// https://openweathermap.org/current
@@ -49,5 +49,18 @@ class WeatherApiClient {
     final forecastJson = json.decode(res.body);
     List<Weather> weathers = Weather.fromForecastJson(forecastJson);
     return weathers;
+  }
+
+  Future<String> onecallweatherdata(
+      {double latitude, double longitude}) async {
+    final url =
+        '$baseUrl/data/2.5/onecall?lat=$latitude&lon=$longitude&appid=$apiKey';
+    print('fetching $url');
+    final res = await this.httpClient.get(url);
+    if (res.statusCode != 200) {
+      throw HTTPException(res.statusCode, "unable to fetch weather data");
+    }
+    final weatherJson = json.decode(res.body);
+    return weatherJson['current'];
   }
 }

@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:my_cities_time/api/http_exception.dart';
 import 'package:my_cities_time/bloc/weather_event.dart';
 import 'package:my_cities_time/bloc/weather_state.dart';
-import 'package:my_cities_time/model/weather.dart';
+import 'package:my_cities_time/models/weather.dart';
 import 'package:my_cities_time/repository/weather_repository.dart';
 
 

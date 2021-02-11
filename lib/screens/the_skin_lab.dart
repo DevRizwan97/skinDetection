@@ -1,5 +1,26 @@
+
+
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart' as picker;
+import 'package:intl/intl.dart';
+import 'package:my_cities_time/api/api_keys.dart';
+import 'package:my_cities_time/api/http_exception.dart';
+import 'package:my_cities_time/models/skin.dart';
+import 'package:my_cities_time/screens/Splash.dart';
+import 'package:my_cities_time/screens/signup.dart';
+import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/utils/constants.dart';
+import 'package:my_cities_time/utils/helper.dart';
+import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
+import 'package:weather/weather.dart';
 
 class TheSkinLab extends StatefulWidget {
   @override
@@ -7,8 +28,17 @@ class TheSkinLab extends StatefulWidget {
 }
 
 class _TheSkinLabState extends State<TheSkinLab> {
+  File _image;
+  bool loader=false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    var state = Provider.of<AuthState>(context, listen: false);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -19,7 +49,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
             fit: BoxFit.fill,
           ),
         ),
-        child: Column(
+        child: loader?SpinKitRipple(color: fontOrange,size: 40,):Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -30,7 +60,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                crossAxisAlignment: CrossAxisAlignment.start,
                children: [
                  Text(
-                   "Hi, Steve",
+                   "Hi, "+(state.userModel==null?"":state.userModel.username),
                    style: TextStyle(
                        color: fontOrange,
                        fontSize: 20,
@@ -58,7 +88,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                     padding:
                     const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 5),
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.24,
+                      height: MediaQuery.of(context).size.height * 0.35,
                       child: Card(
                           color: cardColor,
                           elevation: 5,
@@ -70,84 +100,82 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                 bottomLeft: Radius.circular(15)),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.only(top:20.0,left: 30,bottom: 20,right: 20),
+                            padding: const EdgeInsets.only(top:20.0,left: 50,bottom: 20,right: 50),
                             child: Row(
                               children: [
                                 Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Row(
                                       children: [
-                                        Text(
-                                          "UV Index : ",
-                                          style: TextStyle(
-                                              color: fontOrange,
-                                              fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16),
+                                        Icon(
+                                          Icons.camera_alt,
+                                          size: 60,
+
                                         ),
-                                        Text("10",style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 16),),
+
                                       ],
                                     ),
                                     SizedBox(height: 5,),
                                     Row(
                                       children: [
-                                        Text(
-                                          "Temprature : ",
-                                          style: TextStyle(
-                                              color: fontOrange,
-                                              fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16),
+                                        RaisedButton(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(9.0),
+                                          ),
+                                          onPressed: () {
+
+                                            _imgFromCamera();
+                                          },
+                                          color: fontOrange,
+                                          textColor: Colors.white,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 30.0,
+                                                left: 30.0,
+                                                bottom: 10,
+                                                top: 10),
+                                            child: Text("Take Picture",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontFamily: "Poppins")),
+                                          ),
                                         ),
-                                        Text("20 'C",style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 16),),
                                       ],
                                     ),
                                     SizedBox(height: 5,),
                                     Row(
                                       children: [
-                                        Text(
-                                          "Weather : ",
-                                          style: TextStyle(
-                                              color: fontOrange,
-                                              fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16),
+                                        RaisedButton(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(9.0),
+                                          ),
+                                          onPressed: () {
+
+                                            _imgFromGallery();
+                                          },
+                                          color: fontOrange,
+                                          textColor: Colors.white,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 30.0,
+                                                left: 30.0,
+                                                bottom: 10,
+                                                top: 10),
+                                            child: Text("Choose Picture",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontFamily: "Poppins")),
+                                          ),
                                         ),
-                                        Text("Sunny",style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 16),),
                                       ],
                                     ),
-                                    SizedBox(height: 5,),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Peak UVI Time : ",
-                                          style: TextStyle(
-                                              color: fontOrange,
-                                              fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16),
-                                        ),
-                                        Text("2:10 PM",style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 16),),
-                                      ],
-                                    ),
+
 
                                   ],
                                 ),
@@ -247,5 +275,106 @@ class _TheSkinLabState extends State<TheSkinLab> {
         ),
       ),
     );
+  }
+  _imgFromCamera() async {
+    File image = (await picker.ImagePicker.pickImage(
+        source: picker.ImageSource.camera, imageQuality: 50
+    )) ;
+
+    setState(() {
+      _image = image;
+      sendimagefile(_image);
+    });
+
+  }
+
+  _imgFromGallery() async {
+    File image = (await  picker.ImagePicker.pickImage(
+        source: picker.ImageSource.gallery, imageQuality: 50
+    )) ;
+
+    setState(() {
+      _image = image;
+      sendimagefile(_image);
+    });
+  }
+
+  sendimagefile(File file) async {
+
+setState(() {
+  loader=true;
+});
+try {
+  var postUri = Uri.parse(api_url);
+  var request = new http.MultipartRequest("POST", postUri);
+  print(postUri);
+  request.files.add(new http.MultipartFile.fromBytes(
+      'image', await File.fromUri(file.uri).readAsBytes()));
+  request.files.add(
+    http.MultipartFile(
+      'image',
+      file.readAsBytes().asStream(),
+      file.lengthSync(),
+      filename: "Skinimage",
+    ),
+  );
+  // request.headers.addAll(headers);
+  request.send().then((response) async {
+    print(response.statusCode);
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      final respStr = await response.stream.bytesToString();
+      print(respStr);
+      final Map parsed = json.decode(respStr);
+      final skinmodel = Skin.fromJson(parsed);
+
+      WeatherFactory wf = new WeatherFactory(ApiKey.OPEN_WEATHER_MAP);
+      var state = Provider.of<AuthState>(context, listen: false);
+
+      Position position = await Geolocator()
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+      final coordinates = new Coordinates(
+          position.latitude,  position.longitude);
+      var addresses = await Geocoder.local.findAddressesFromCoordinates(
+          coordinates);
+      Weather weather = await wf.currentWeatherByLocation(position.latitude, position.longitude);
+      if(state.user.uid!=null){
+        skinmodel.city=addresses.first.locality;
+        skinmodel.temperature=weather.temperature.celsius.toString();
+        skinmodel.weather_detail=weather.weatherDescription;
+        skinmodel.weathericon=weather.weatherIcon;
+        DateTime now = new DateTime.now();
+        DateTime date = new DateTime(now.year, now.month, now.day);
+        skinmodel.date=date.toString();
+        skinmodel.time=DateFormat.Hms().format(now);
+        kDatabase.child('skin').child(state.userModel.userId)..child(addresses.first.locality).child(DateTime.now().millisecondsSinceEpoch.toString()).set(
+            skinmodel.toJson()
+        );
+        setState(() {
+          loader = false;
+        });    Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SplashPage()));
+      }
+      else {    setState(() {
+        loader = false;
+      });
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SignUp(skinmodel: skinmodel,)));
+      }
+      }
+    else {
+      setState(() {
+        loader = false;
+      });
+    }
+  });
+}catch(e){
+  setState(() {
+    loader = false;
+  });
+}
   }
 }

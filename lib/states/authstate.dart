@@ -6,11 +6,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:my_cities_time/models/skin.dart';
 import 'package:my_cities_time/models/user.dart';
 import 'package:my_cities_time/states/appState.dart';
 import 'package:path/path.dart' as Path;
 
 import 'package:firebase_database/firebase_database.dart' as dabase;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthState extends AppState {
 
@@ -21,7 +23,8 @@ class AuthState extends AppState {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   Users get userModel => _userModel;
   Users _userModel;
-
+List<Skin> _all_skin_data=List<Skin>();
+  Skin _skin;
   String userId;
   dabase.Query _profileQuery;
   List<Users> _profileUserModelList;
@@ -31,6 +34,17 @@ class AuthState extends AppState {
     } else {
       return null;
     }
+  }
+  List<Skin> get all_skin_data {
+    if (_all_skin_data != null && _all_skin_data.length > 0) {
+      return _all_skin_data;
+    } else {
+      return null;
+    }
+  }
+  Skin get skin{
+
+    return _skin;
   }
   databaseInit() {
     try {
@@ -50,10 +64,54 @@ class AuthState extends AppState {
         userId = user.uid;
         getProfileUser();
       } else {
+
+        loading = false;
       }
-      loading = false;
       return user;
     } catch (error) {
+      loading = false;
+//      cprint(error, errorIn: 'getCurrentUser');
+//      authStatus = AuthStatus.NOT_LOGGED_IN;
+      return null;
+    }
+  }
+
+  Future<Skin> getCurrentUserSkin() async {
+    try {
+      loading = true;
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String city=prefs.getString("location");
+      user = await _firebaseAuth.currentUser;
+      if (user != null) {
+        userId = user.uid;
+        getProfileUserSkin(userProfileId: userId,city: city);
+      } else {
+      }
+      loading = false;
+     // return user;
+    } catch (error) {
+      print(error);
+      loading = false;
+//      cprint(error, errorIn: 'getCurrentUser');
+//      authStatus = AuthStatus.NOT_LOGGED_IN;
+      return null;
+    }
+  }
+  Future<List<Skin>> getallSkins() async {
+    try {
+      loading = true;
+
+      user = await _firebaseAuth.currentUser;
+      if (user != null) {
+        userId = user.uid;
+        getallUserSkin(userProfileId: userId);
+      } else {
+      }
+      loading = false;
+      // return user;
+    } catch (error) {
+      print(error);
       loading = false;
 //      cprint(error, errorIn: 'getCurrentUser');
 //      authStatus = AuthStatus.NOT_LOGGED_IN;
@@ -79,7 +137,7 @@ class AuthState extends AppState {
             _profileUserModelList.add(Users.fromJson(map));
             if (userProfileId == user.uid) {
               _userModel = _profileUserModelList.last;
-
+              getCurrentUserSkin();
 
             }
           }
@@ -87,6 +145,83 @@ class AuthState extends AppState {
         loading = false;
       });
     } catch (error) {
+      print("hassan");
+      print(error);
+      loading = false;
+    }
+  }
+  getProfileUserSkin({String userProfileId,String city}) {
+    try {
+      loading = true;
+
+      print(city);
+      print(userProfileId);
+      kDatabase
+          .child("skin")
+          .child(userProfileId).child(city)
+          .once()
+          .then((DataSnapshot snapshot) {
+        if (snapshot.value != null) {
+          var map = snapshot.value;
+          print(map);
+          if (map != null) {
+            map.values.forEach((k) => {
+            _skin=(Skin.fromJson1(k)),
+              print(_skin.city),
+
+        loading=false,
+        notifyListeners(),
+
+
+            });
+
+          }
+
+        }
+        else {
+          loading = false;
+        }
+      });
+    } catch (error) {
+
+      print("hassa1n");
+      print(error);
+      loading = false;
+    }
+  }
+
+  getallUserSkin({String userProfileId}) {
+    try {
+      loading = true;
+      kDatabase
+          .child("skin")
+          .child(userProfileId)
+          .once()
+          .then((DataSnapshot snapshot) {
+        if (snapshot.value != null) {
+          var map = snapshot.value;
+          if (map != null) {
+            map.values.forEach((k) => {
+            k.values.forEach((k) => {
+             _all_skin_data.add(Skin.fromJson1(k)),
+            loading=false,
+            notifyListeners(),
+
+
+            })
+            });
+
+          }
+
+        }
+        else {
+          loading = false;
+        }
+      });
+    } catch (error) {
+
+      print("afnan hassan");
+      print(error);
       loading = false;
     }
   }
@@ -180,7 +315,7 @@ class AuthState extends AppState {
         .createUserWithEmailAndPassword(
         email: user.email , password: user.password);
     user.userId=firebaseuser.user.uid;
-    kDatabase.child('profile').child(user.userId).set(
+  await kDatabase.child('profile').child(user.userId).set(
      user.toJson()
     );
     _userModel = user;

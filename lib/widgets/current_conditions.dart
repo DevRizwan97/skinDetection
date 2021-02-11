@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_cities_time/model/weather.dart';
+import 'package:my_cities_time/models/weather.dart';
 import 'package:my_cities_time/widgets/value_tile.dart';
 
 import '../main.dart';

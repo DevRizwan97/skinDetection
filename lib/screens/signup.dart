@@ -1,29 +1,50 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
+import 'package:my_cities_time/api/api_keys.dart';
+import 'package:my_cities_time/models/skin.dart';
 import 'package:my_cities_time/models/user.dart';
+import 'package:my_cities_time/screens/Splash.dart';
 import 'package:my_cities_time/screens/location.dart';
 import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:my_cities_time/utils/helper.dart';
 import 'package:provider/provider.dart';
-
+import 'package:location/location.dart' as loc;
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weather/weather.dart';
 class SignUp extends StatefulWidget {
+  final Skin skinmodel;
+
+  const SignUp({Key key, this.skinmodel}) : super(key: key);
   @override
   _SignUpState createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
-
+bool loader=false;
   TextEditingController email=TextEditingController(),username=TextEditingController(),password=TextEditingController(),confirm_password=TextEditingController();
+  loc.Location location = loc.Location();//explicit reference to the Location class
+  Future _checkGps() async {
+    if (!await location.serviceEnabled()) {
+      location.requestService();
+    }
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _checkGps();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body:
+      loader?SpinKitRipple(color: fontOrange,size: 40,):Container(
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
@@ -70,6 +91,7 @@ class _SignUpState extends State<SignUp> {
                                 padding:
                                     const EdgeInsets.only(top: 10.0, right: 30),
                                 child: TextField(
+                                  keyboardType: TextInputType.emailAddress,
                                   controller: email,
                                   autofocus: false,
                                   style: TextStyle(
@@ -320,16 +342,31 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-  signup(){
+  signup() async {
+    setState(() {
+      loader=true;
+    });
 
+    WeatherFactory wf = new WeatherFactory(ApiKey.OPEN_WEATHER_MAP);
     var state = Provider.of<AuthState>(context, listen: false);
+
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+    final coordinates = new Coordinates(
+        position.latitude,  position.longitude);
+    var addresses = await Geocoder.local.findAddressesFromCoordinates(
+        coordinates);
+    Weather weather = await wf.currentWeatherByLocation(position.latitude, position.longitude);
+
     // if(check()==true){
     //   print(check());
     //   showsnackbartop("Signup Error", "Field missing", 4,error, error, error, context);
     //
     // }
     if(!(password.text.contains(confirm_password.text))){
-
+      setState(() {
+        loader=false;
+      });
       showsnackbartop("Password", "Password are not same", 4,error, error, error, context);
 
 
@@ -341,11 +378,33 @@ class _SignUpState extends State<SignUp> {
       password: password.text,
 
     );
-state.createUser(users);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Location()),
+await state.createUser(users);
+Skin skinmodel=widget.skinmodel;
+skinmodel.city=addresses.first.locality;
+skinmodel.temperature=weather.temperature.celsius.toString();
+skinmodel.weather_detail=weather.weatherDescription;
+skinmodel.weathericon=weather.weatherIcon;
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(now.year, now.month, now.day);
+    skinmodel.date=date.toString();
+    skinmodel.time=DateFormat.Hms().format(now);
+    kDatabase.child('skin').child(state.userModel.userId)..child(addresses.first.locality).child(DateTime.now().millisecondsSinceEpoch.toString()).set(
+        skinmodel.toJson()
     );
+
+    setState(() {
+      loader=false;
+    });
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("location", addresses.first.locality).then((bool success) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SplashPage()),
+      );
+
+    });
+
   }
   bool check(){
     if(email.text==null||email.text==""||username.text==null||username.text==""||password.text==null||password.text==""||confirm_password.text==""||confirm_password.text!=null){
