@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:charcode/charcode.dart';
 import 'package:flutter/material.dart';
+
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:my_cities_time/api/api_keys.dart';
@@ -11,6 +13,7 @@ import 'package:my_cities_time/models/city_weather.dart';
 import 'package:my_cities_time/screens/blog.dart';
 import 'package:my_cities_time/screens/the_protection_shop.dart';
 import 'package:my_cities_time/screens/the_skin_lab.dart';
+import 'package:my_cities_time/shared/widgets/DrawerWidget.dart';
 import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:my_cities_time/screens/location.dart';
@@ -25,6 +28,10 @@ class Travel extends StatefulWidget {
 
 class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
   TabController tabController;bool loader=false;
+  LatLng lating;
+
+
+  Iterable markers = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -71,7 +78,31 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
     });
 
   }
-  _fetchWeatherWithLocation() async {
+
+getmarkers(){
+setState(() {
+  loader=true;
+});
+  var state = Provider.of<AuthState>(context, listen: false);
+
+  Iterable _markers = Iterable.generate(state.all_skin_data.length, (i) {
+    LatLng latLngMarker = LatLng(state.all_skin_data[i].lat, state.all_skin_data[i].long);
+
+    return Marker(markerId: MarkerId("marker$i"), position: latLngMarker,infoWindow: InfoWindow(
+      title: 'City',
+      snippet: state.all_skin_data[i].city,
+    ), );
+
+  });
+  setState(() {
+    markers=_markers;
+ loader=false;
+  });
+
+}
+
+_fetchWeatherWithLocation() async {
+    getmarkers();
     var permissionHandler = PermissionHandler();
     var permissionResult = await permissionHandler
         .requestPermissions([PermissionGroup.locationWhenInUse]);
@@ -88,7 +119,7 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
     });
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-
+  lating  =LatLng(position.latitude, position.longitude);
     // await getweather(position);
 
     await (getallweatherdata(
@@ -135,168 +166,12 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
   Widget build(BuildContext context) {
     var state = Provider.of<AuthState>(context, listen: false);
     return Scaffold(
-
-
-      drawer:  ClipRRect(
-        borderRadius: BorderRadius.only(
-            topRight: Radius.circular(35), bottomRight: Radius.circular(35)),
-        child: Drawer(
-
-          child: ListView(padding: EdgeInsets.all(0.0), children: <Widget>[
-
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(color: fontOrange),
-
-              currentAccountPicture: Container(
-
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image:
-                        AssetImage("assets/images/photo.jpg",
-                        ))),
-              ),
-
-// decoration: BoxDecoration(
-//   color: fontOrange
-// ),
-
-
-              accountName: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-
-                  Text(
-                    state.userModel==null?'':state.userModel.username,
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                        fontSize: 22.0),
-                  ),
-                ],
-              ),
-              arrowColor: Colors.transparent,
-
-              // currentAccountPicture: CircleAvatar(
-              //
-              //   backgroundImage: AssetImage("assets/images/img.jpeg"),
-              //   backgroundColor: Colors.transparent,
-              //   radius: 30,
-              // ),
-              onDetailsPressed: () {},
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            GestureDetector(
-              onTap: () {
-
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TheSkinLab(),));
-              },
-              child: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.only(left:20.0),
-                  child: Text(
-                    'The Skin Lab',
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 20,
-                        color: white,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ),
-              ),
-
-            ),
-            Divider(color: white,thickness: 0.5,),
-
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Location(),));
-              },
-              child: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.only(left:20.0),
-                  child: Text(
-                    'Location',
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 20,
-                        color: white,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ),
-
-              ),
-            ),
-            Divider(color: white,thickness: 0.5,),
-
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Travel(),));
-              },
-              child: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.only(left:20.0),
-                  child: Text(
-                    'Travel',
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 20,
-                        color: white,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ),
-
-              ),
-            ),
-            Divider(color: white,thickness: 0.5,),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TheProtectionShop(),));
-              },
-              child: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.only(left:20.0),
-                  child: Text(
-                    'The Protection Shop',
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 20,
-                        color: white,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ),
-
-              ),
-            ),
-            Divider(color: white,thickness: 0.5,),
-            GestureDetector(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Blog(),));
-              },
-              child: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.only(left:20.0),
-                  child: Text(
-                    'Blog Section',
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 20,
-                        color: white,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ),
-
-              ),
-            ),
-            Divider(color: white,thickness: 0.5,),
-
-          ]),
-        ),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
       ),
+      extendBodyBehindAppBar: true,
+      drawer: DrawerWidget(),
 
       body: Container(
         width: double.infinity,
@@ -307,34 +182,31 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
             fit: BoxFit.fill,
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-
-                Padding(
-
-                  padding: const EdgeInsets.only(top: 100, left: 40),
-                  child: Text(
-                    "Travel",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 32,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w700),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 100, left: 40),
+                    child: Text(
+                      "Travel",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 32,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w700),
+                    ),
                   ),
-                ),
-                _getTabBar(),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.7,
-                  child: _getTabBarView(
-                    <Widget>[
-                      Expanded(
-                        child:
+                  _getTabBar(),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.7,
+                    child: _getTabBarView(
+                      <Widget>[
                         loader?SpinKitRipple(color:fontOrange,size:40):ListView(
                           children:List.generate(weathers==null?0:weathers.length,(index){
                             return   Padding(
@@ -469,9 +341,7 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
                           }),
 
                         ),
-                      ),
-                      Expanded(
-                        child: ListView(
+                        ListView(
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(
@@ -488,15 +358,25 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
                                           topLeft: Radius.circular(15),
                                           bottomLeft: Radius.circular(15)),
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 20.0, left: 30, bottom: 20, right: 20),
-                                      child: Row(
-                                        children: [
+                                    child: loader?SpinKitRipple(color:fontOrange,size:40):GoogleMap(
+    mapType: MapType.normal,
+    markers:Set.from(
+      markers,
+    ),
 
-                                        ],
-                                      ),
-                                    )),
+                                      initialCameraPosition:
+                                      CameraPosition(target: lating, zoom: 15),
+
+    // initialZoom: 20,
+
+
+    // onMapCreated: (GoogleMapController controller) {
+    // controller.setMapStyle(MapStyle.retro);
+    // _controller.complete(controller);
+    // },
+    ),
+
+                                ),
                               ),
                             ),
                             SizedBox(
@@ -653,15 +533,15 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
                             ),
                             SizedBox(width: 10),
                           ],
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
 
-          ],
+            ],
+          ),
         ),
       ),
     );

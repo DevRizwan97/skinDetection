@@ -17,8 +17,10 @@ import 'package:my_cities_time/api/weather_api_client.dart';
 import 'package:my_cities_time/bloc/weather_bloc.dart';
 import 'package:my_cities_time/bloc/weather_event.dart';
 import 'package:my_cities_time/bloc/weather_state.dart';
+import 'package:my_cities_time/flutter_datetime_picker.dart';
 import 'package:my_cities_time/models/weather.dart' as weather;
 import 'package:my_cities_time/repository/weather_repository.dart';
+import 'package:my_cities_time/shared/widgets/DrawerWidget.dart';
 import 'package:my_cities_time/screens/Travel.dart';
 import 'package:my_cities_time/screens/blog.dart';
 import 'package:my_cities_time/screens/the_protection_shop.dart';
@@ -33,6 +35,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather/weather.dart';
 
 import '../main.dart';
@@ -51,8 +54,10 @@ class _LocationState extends State<Location> {
   String weather_temp, weather_desc, weather_icon, uvi_index;
   WeatherBloc _weatherBloc;
   String _cityName = 'karachi';
+  SharedPreferences prefs;
 
   _fetchWeatherWithLocation() async {
+   prefs = await SharedPreferences.getInstance();
     var permissionHandler = PermissionHandler();
     var permissionResult = await permissionHandler
         .requestPermissions([PermissionGroup.locationWhenInUse]);
@@ -127,6 +132,7 @@ class _LocationState extends State<Location> {
     final weatherJson = json.decode(res.body);
     setState(() {
       uvi_index=weatherJson['current']['uvi'].toString();
+      prefs.setString("uvi_index",uvi_index);
     });
     return weatherJson['current']['uvi'].toString();
   }
@@ -146,187 +152,13 @@ class _LocationState extends State<Location> {
     var state = Provider.of<AuthState>(context, listen: false);
     _cityName = state.skin == null ? "karachi" : state.skin.city;
     return Scaffold(
-        drawer: ClipRRect(
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(35), bottomRight: Radius.circular(35)),
-          child: Drawer(
-            child: ListView(padding: EdgeInsets.all(0.0), children: <Widget>[
-              UserAccountsDrawerHeader(
-                decoration: BoxDecoration(color: fontOrange),
 
-                currentAccountPicture: Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage(
-                            "assets/images/photo.jpg",
-                          ))),
-                ),
-
-// decoration: BoxDecoration(
-//   color: fontOrange
-// ),
-
-                accountName: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      state.userModel == null ? '' : state.userModel.username,
-                      style: TextStyle(
-                          fontFamily: "Poppins",
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                          fontSize: 22.0),
-                    ),
-                  ],
-                ),
-                arrowColor: Colors.transparent,
-
-                // currentAccountPicture: CircleAvatar(
-                //
-                //   backgroundImage: AssetImage("assets/images/img.jpeg"),
-                //   backgroundColor: Colors.transparent,
-                //   radius: 30,
-                // ),
-                onDetailsPressed: () {},
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TheSkinLab(),
-                      ));
-                },
-                child: ListTile(
-                  title: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Text(
-                      'The Skin Lab',
-                      style: TextStyle(
-                          fontFamily: "Poppins",
-                          fontSize: 20,
-                          color: white,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                ),
-              ),
-              Divider(
-                color: white,
-                thickness: 0.5,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Location(),
-                      ));
-                },
-                child: ListTile(
-                  title: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Text(
-                      'Location',
-                      style: TextStyle(
-                          fontFamily: "Poppins",
-                          fontSize: 20,
-                          color: white,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                ),
-              ),
-              Divider(
-                color: white,
-                thickness: 0.5,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Travel(),
-                      ));
-                },
-                child: ListTile(
-                  title: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Text(
-                      'Travel',
-                      style: TextStyle(
-                          fontFamily: "Poppins",
-                          fontSize: 20,
-                          color: white,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                ),
-              ),
-              Divider(
-                color: white,
-                thickness: 0.5,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TheProtectionShop(),
-                      ));
-                },
-                child: ListTile(
-                  title: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Text(
-                      'The Protection Shop',
-                      style: TextStyle(
-                          fontFamily: "Poppins",
-                          fontSize: 20,
-                          color: white,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                ),
-              ),
-              Divider(
-                color: white,
-                thickness: 0.5,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Blog(),
-                      ));
-                },
-                child: ListTile(
-                  title: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Text(
-                      'Blog Section',
-                      style: TextStyle(
-                          fontFamily: "Poppins",
-                          fontSize: 20,
-                          color: white,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                ),
-              ),
-              Divider(
-                color: white,
-                thickness: 0.5,
-              ),
-            ]),
-          ),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
         ),
+        extendBodyBehindAppBar: true,
+        drawer: DrawerWidget(),
         body: Container(
                 width: double.infinity,
                 height: double.infinity,
@@ -662,7 +494,11 @@ class _LocationState extends State<Location> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
-                                onPressed: () {_showIntDialog();},
+                                onPressed: () {
+
+                                  _showIntDialog();
+
+                                  },
                                 color: fontOrange,
                                 textColor: Colors.white,
                                 child: Row(
@@ -693,22 +529,14 @@ class _LocationState extends State<Location> {
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
                                 onPressed: () {
-                                  Time notificationtime=Time(23,8,0);
-                                  const AndroidNotificationDetails androidPlatformChannelSpecifics =
-                                  AndroidNotificationDetails(
-                                      'your channel id', 'your channel name', 'your channel description',
-                                      importance: Importance.max,
-                                      priority: Priority.high,
-                                      showWhen: false);
-                                  const NotificationDetails platformChannelSpecifics =
-                                  NotificationDetails(android: androidPlatformChannelSpecifics);
-                                  flutterLocalNotificationsPlugin.showDailyAtTime(0, "testing","testing", notificationtime,platformChannelSpecifics);
-                                   AndroidAlarmManager.periodic(
-    const Duration(seconds: 5),
-    // Ensure we have a unique alarm ID.
-    Random().nextInt(pow(2, 31).toInt()),
-    printHello,
-    );
+        _showDialog1();
+
+    //                                AndroidAlarmManager.periodic(
+    // const Duration(seconds: 5),
+    // // Ensure we have a unique alarm ID.
+    // Random().nextInt(pow(2, 31).toInt()),
+    // printHello,
+    // );
 
                                 },
                                 color: fontOrange,
@@ -910,9 +738,11 @@ class _LocationState extends State<Location> {
     }
   }
   Future _showIntDialog() async {
+
     await showDialog<int>(
       context: context,
       builder: (BuildContext context) {
+
         return new NumberPickerDialog.integer(
           minValue: 1,
           maxValue: 10,
@@ -921,16 +751,78 @@ class _LocationState extends State<Location> {
         );
       },
     ).then((num value) {
+      prefs.setString("uv", value.toString());
+
+                                     AndroidAlarmManager.periodic(
+      const Duration(seconds: 5),
+      // Ensure we have a unique alarm ID.
+      Random().nextInt(pow(2, 31).toInt()),
+      printHello,
+      );
       // if (value != null) {
       //   setState(() => _currentIntValue = value);
       //   integerNumberPicker.animateInt(value);
       // }
     });
   }
-  void printHello() {
-    final DateTime now = DateTime.now();
-    final int isolateId = Isolate.current.hashCode;
-    print("[$now] Hello, world! isolate=${isolateId} function='$printHello'");
+
+  void _showDialog1() {
+    DatePicker.showTime12hPicker(context, showTitleActions: true, onChanged: (date) {
+      print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+    }, onConfirm: (date) {
+      Time notificationtime=Time(date.hour,date.minute,0);
+      const AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails(
+          'your channel id', 'your channel name', 'your channel description',
+          importance: Importance.max,
+          priority: Priority.high,
+          playSound: true,
+
+          sound: RawResourceAndroidNotificationSound('slow_spring_board'),
+          showWhen: false);
+      const NotificationDetails platformChannelSpecifics =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
+      flutterLocalNotificationsPlugin.showDailyAtTime(0, "Sunscreen Remainder","Remainder for sun screeen", notificationtime,platformChannelSpecifics);
+
+    }, currentTime: DateTime.now());
+
+  }
+  void printHello() async {
+
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    final url =
+        '${ApiKey.baseUrl}/data/2.5/onecall?lat=${position.latitude}&lon=${position.longitude}&appid=${ApiKey.OPEN_WEATHER_MAP}';
+    print('fetching $url');
+    final res = await http.get(url);
+    if (res.statusCode != 200) {
+      throw HTTPException(res.statusCode, "unable to fetch weather data");
+    }
+    final weatherJson = json.decode(res.body);
+    setState(() {
+      uvi_index=weatherJson['current']['uvi'].toString();
+ if(double.parse(uvi_index)<=double.parse(prefs.getString("uv"))){
+   const AndroidNotificationDetails androidPlatformChannelSpecifics =
+   AndroidNotificationDetails(
+       'your channel id', 'your channel name', 'your channel description',
+       importance: Importance.max,
+       priority: Priority.high,
+       playSound: true,
+
+       sound: RawResourceAndroidNotificationSound('slow_spring_board'),
+       showWhen: false);
+   const NotificationDetails platformChannelSpecifics =
+   NotificationDetails(android: androidPlatformChannelSpecifics);
+   flutterLocalNotificationsPlugin.show(0, "UV Alarm", "UV index reached",platformChannelSpecifics);
+
+
+ }
+    });
+    // return weatherJson['current']['uvi'].toString();
+    // int ub=prefs.getInt("uv");
+    // final DateTime now = DateTime.now();
+    // final int isolateId = Isolate.current.hashCode;
+    // print("[$now] Hello, world! isolate=${isolateId} function='$printHello'");
   }
 
 

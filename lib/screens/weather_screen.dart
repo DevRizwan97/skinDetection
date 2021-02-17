@@ -10,6 +10,7 @@ import 'package:my_cities_time/bloc/weather_event.dart';
 import 'package:my_cities_time/bloc/weather_state.dart';
 import 'package:my_cities_time/repository/weather_repository.dart';
 import 'package:my_cities_time/screens/settings_screen.dart';
+import 'package:my_cities_time/shared/widgets/DrawerWidget.dart';
 import 'package:my_cities_time/widgets/weather_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -48,6 +49,7 @@ class _WeatherScreenState extends State<WeatherScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DrawerWidget(),
         appBar: AppBar(
           backgroundColor: AppStateContainer.of(context).theme.primaryColor,
           elevation: 0,

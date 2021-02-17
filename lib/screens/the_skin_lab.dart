@@ -12,7 +12,12 @@ import 'package:my_cities_time/api/http_exception.dart';
 import 'package:my_cities_time/camera_camera.dart';
 import 'package:my_cities_time/models/skin.dart';
 import 'package:my_cities_time/screens/Splash.dart';
+import 'package:my_cities_time/screens/Travel.dart';
+import 'package:my_cities_time/screens/blog.dart';
+import 'package:my_cities_time/screens/location.dart';
 import 'package:my_cities_time/screens/signup.dart';
+import 'package:my_cities_time/screens/the_protection_shop.dart';
+import 'package:my_cities_time/shared/widgets/DrawerWidget.dart';
 import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:my_cities_time/utils/helper.dart';
@@ -40,6 +45,14 @@ class _TheSkinLabState extends State<TheSkinLab> {
   Widget build(BuildContext context) {
     var state = Provider.of<AuthState>(context, listen: false);
     return Scaffold(
+
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
+      extendBodyBehindAppBar: true,
+
+      drawer:state.user!=null?DrawerWidget():null,
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -93,7 +106,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                           padding: const EdgeInsets.only(
                               left: 12.0, right: 12.0, bottom: 5),
                           child: Container(
-                            height: MediaQuery.of(context).size.height * 0.35,
+                            height: MediaQuery.of(context).size.height * 0.4,
                             child: Card(
                                 color: cardColor,
                                 elevation: 5,
@@ -410,6 +423,8 @@ class _TheSkinLabState extends State<TheSkinLab> {
           Weather weather = await wf.currentWeatherByLocation(
               position.latitude, position.longitude);
 
+          skinmodel.lat=position.latitude==null?0:position.latitude;
+          skinmodel.long=position.longitude==null?0:position.longitude;
           if (state.user != null) {
             skinmodel.city = addresses.first.locality;
             skinmodel.temperature = weather.temperature.celsius.toString();
@@ -419,6 +434,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
             DateTime date = new DateTime(now.year, now.month, now.day);
             skinmodel.date = date.toString();
             skinmodel.time = DateFormat.Hms().format(now);
+
             kDatabase.child('skin').child(state.userModel.userId)
               ..child(addresses.first.locality)
                   .child(DateTime.now().millisecondsSinceEpoch.toString())

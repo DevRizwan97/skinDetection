@@ -1,7 +1,14 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_cities_time/screens/Travel.dart';
+import 'package:my_cities_time/screens/blog.dart';
+import 'package:my_cities_time/screens/location.dart';
+import 'package:my_cities_time/screens/the_skin_lab.dart';
+import 'package:my_cities_time/shared/widgets/DrawerWidget.dart';
+import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/utils/constants.dart';
+import 'package:provider/provider.dart';
 
 class TheProtectionShop extends StatefulWidget {
   @override
@@ -11,7 +18,20 @@ class TheProtectionShop extends StatefulWidget {
 class _TheProtectionShopState extends State<TheProtectionShop> {
   @override
   Widget build(BuildContext context) {
+
+    var state = Provider.of<AuthState>(context, listen: false);
     return Scaffold(
+
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
+      extendBodyBehindAppBar: true,
+      drawer:  ClipRRect(
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(35), bottomRight: Radius.circular(35)),
+        child: DrawerWidget(),
+      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,

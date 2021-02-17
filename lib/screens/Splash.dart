@@ -52,7 +52,7 @@ class _SplashPageState extends State<SplashPage> {
             //   strokeWidth: 2,
             // ),
             Image.asset(
-              'assets/images/tLogo.png',
+              'assets/images/tlogo.png',
               height: 120,
               width: 120,
             )

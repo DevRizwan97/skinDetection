@@ -2,6 +2,7 @@ import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:my_cities_time/screens/Splash.dart';
 import 'package:my_cities_time/screens/blog.dart';
@@ -56,16 +57,17 @@ void main() async {
   final NotificationAppLaunchDetails notificationAppLaunchDetails =
   await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
 
+  GoogleMap.init('AIzaSyDW5wGY0Yr8JDsgitFCCFt96HUNnnRvagI');
   const AndroidInitializationSettings initializationSettingsAndroid =
-  AndroidInitializationSettings('fb');
+  AndroidInitializationSettings('tlogo');
 
   /// Note: permissions aren't requested here just to demonstrate that can be
   /// done later
   final IOSInitializationSettings initializationSettingsIOS =
   IOSInitializationSettings(
-      requestAlertPermission: false,
+      requestAlertPermission: true,
       requestBadgePermission: false,
-      requestSoundPermission: false,
+      requestSoundPermission: true,
       onDidReceiveLocalNotification:
           (int id, String title, String body, String payload) async {
         didReceiveLocalNotificationSubject.add(ReceivedNotification(
@@ -73,9 +75,9 @@ void main() async {
       });
   const MacOSInitializationSettings initializationSettingsMacOS =
   MacOSInitializationSettings(
-      requestAlertPermission: false,
+      requestAlertPermission: true,
       requestBadgePermission: false,
-      requestSoundPermission: false);
+      requestSoundPermission: true);
   final InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
