@@ -44,7 +44,7 @@ bool loader=false;
   Widget build(BuildContext context) {
     return Scaffold(
       body:
-      loader?SpinKitRipple(color: fontOrange,size: 40,):Container(
+      Container(
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
@@ -245,7 +245,7 @@ bool loader=false;
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Padding(
+                                  loader?SpinKitRipple(color: fontOrange,size: 40,):      Padding(
                                     padding: const EdgeInsets.only(
                                         top: 12.0,
                                         bottom: 12.0,
@@ -378,32 +378,54 @@ return;
       password: password.text,
 
     );
-await state.createUser(users);
-Skin skinmodel=widget.skinmodel;
-skinmodel.city=addresses.first.locality;
-skinmodel.temperature=weather.temperature.celsius.toString();
-skinmodel.weather_detail=weather.weatherDescription;
-skinmodel.weathericon=weather.weatherIcon;
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
-    skinmodel.date=date.toString();
-    skinmodel.time=DateFormat.Hms().format(now);
-    kDatabase.child('skin').child(state.userModel.userId)..child(addresses.first.locality).child(DateTime.now().millisecondsSinceEpoch.toString()).set(
-        skinmodel.toJson()
-    );
+    try {
+      await state.createUser(users);
 
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Skin skinmodel = widget.skinmodel;
+      skinmodel.city = addresses.first.locality;
+      skinmodel.temperature = weather.temperature.celsius.toString();
+      skinmodel.weather_detail = weather.weatherDescription;
+      skinmodel.weathericon = weather.weatherIcon;
+      DateTime now = new DateTime.now();
+      DateTime date = new DateTime(now.year, now.month, now.day);
+      skinmodel.date = date.toString();
+      skinmodel.time = DateFormat.Hms().format(now);
+      setState(() {
+        loader = false;
+      });
+
+      kDatabase.child('skin').child(state.userModel.userId)
+        ..child(addresses.first.locality).child(DateTime
+            .now()
+            .millisecondsSinceEpoch
+            .toString()).set(
+            skinmodel.toJson()
+        ).then((value) => {
+          prefs.setString("location", addresses.first.locality).then((
+              bool success) {
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                SplashPage()), (Route<dynamic> route) => false);
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => SplashPage()),
+            // );
+          })
+        });
+
+
+    }catch(e){
+
+      showsnackbartop("Registration Error", "Error registering this user", 4, Colors.red,Colors.red, Colors.red, context);
+    }
     setState(() {
-      loader=false;
+      loader = false;
     });
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("location", addresses.first.locality).then((bool success) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SplashPage()),
-      );
 
-    });
+
+
+
 
   }
   bool check(){

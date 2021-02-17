@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart' as picker;
 import 'package:intl/intl.dart';
 import 'package:my_cities_time/api/api_keys.dart';
 import 'package:my_cities_time/api/http_exception.dart';
+import 'package:my_cities_time/camera_camera.dart';
 import 'package:my_cities_time/models/skin.dart';
 import 'package:my_cities_time/screens/Splash.dart';
 import 'package:my_cities_time/screens/signup.dart';
@@ -348,8 +349,11 @@ class _TheSkinLabState extends State<TheSkinLab> {
   }
 
   _imgFromCamera() async {
-    File image = (await picker.ImagePicker.pickImage(
-        source: picker.ImageSource.camera, imageQuality: 50));
+    File image = (await  Navigator.push(context, MaterialPageRoute(builder: (context) => Camera(
+        orientationEnablePhoto: CameraOrientation.all,
+      imageMask: CameraFocus.rectangle(
+      color: Colors.black.withOpacity(0.5),
+    ),))));
 
     setState(() {
       _image = image;

@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'dart:isolate';
+import 'dart:math';
 
+import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -323,12 +327,7 @@ class _LocationState extends State<Location> {
             ]),
           ),
         ),
-        body: loader
-            ? SpinKitRipple(
-                color: fontOrange,
-                size: 40,
-              )
-            : Container(
+        body: Container(
                 width: double.infinity,
                 height: double.infinity,
                 decoration: BoxDecoration(
@@ -337,7 +336,12 @@ class _LocationState extends State<Location> {
                     fit: BoxFit.fill,
                   ),
                 ),
-                child: Column(
+                child: loader
+                    ? SpinKitRipple(
+                  color: fontOrange,
+                  size: 40,
+                )
+                    : Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -688,7 +692,25 @@ class _LocationState extends State<Location> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Time notificationtime=Time(23,8,0);
+                                  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+                                  AndroidNotificationDetails(
+                                      'your channel id', 'your channel name', 'your channel description',
+                                      importance: Importance.max,
+                                      priority: Priority.high,
+                                      showWhen: false);
+                                  const NotificationDetails platformChannelSpecifics =
+                                  NotificationDetails(android: androidPlatformChannelSpecifics);
+                                  flutterLocalNotificationsPlugin.showDailyAtTime(0, "testing","testing", notificationtime,platformChannelSpecifics);
+                                   AndroidAlarmManager.periodic(
+    const Duration(seconds: 5),
+    // Ensure we have a unique alarm ID.
+    Random().nextInt(pow(2, 31).toInt()),
+    printHello,
+    );
+
+                                },
                                 color: fontOrange,
                                 textColor: Colors.white,
                                 child: Row(
@@ -905,6 +927,13 @@ class _LocationState extends State<Location> {
       // }
     });
   }
+  void printHello() {
+    final DateTime now = DateTime.now();
+    final int isolateId = Isolate.current.hashCode;
+    print("[$now] Hello, world! isolate=${isolateId} function='$printHello'");
+  }
+
+
 }
 
 class _IconData extends IconData {
