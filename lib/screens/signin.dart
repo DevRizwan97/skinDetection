@@ -50,7 +50,7 @@ class _SignInState extends State<SignIn> {
                               Text(
                                 "Email",
                                 style: TextStyle(
-                                    fontFamily: "Poppins",
+                                    fontFamily: "OpenSans",
                                     fontSize: 17,
                                     fontWeight: FontWeight.w400),
                               ),
@@ -66,7 +66,7 @@ class _SignInState extends State<SignIn> {
                                     fillColor: Colors.grey.shade200,
                                     hintText: 'Email',
                                     hintStyle: TextStyle(
-                                        fontFamily: "Poppins",
+                                        fontFamily: "OpenSans",
                                         color: Colors.grey.shade600),
                                     contentPadding: const EdgeInsets.only(
                                         left: 20.0, bottom: 7.0, top: 7.0),
@@ -90,7 +90,7 @@ class _SignInState extends State<SignIn> {
                               Text(
                                 "Password",
                                 style: TextStyle(
-                                    fontFamily: "Poppins",
+                                    fontFamily: "OpenSans",
                                     fontSize: 17,
                                     fontWeight: FontWeight.w400),
                               ),
@@ -106,7 +106,7 @@ class _SignInState extends State<SignIn> {
                                     fillColor: Colors.grey.shade200,
                                     hintText: 'Password',
                                     hintStyle: TextStyle(
-                                        fontFamily: "Poppins",
+                                        fontFamily: "OpenSans",
                                         color: Colors.grey.shade600),
                                     contentPadding: const EdgeInsets.only(
                                         left: 20.0, bottom: 7.0, top: 7.0),
@@ -157,7 +157,7 @@ class _SignInState extends State<SignIn> {
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w700,
-                                                fontFamily: "Poppins")),
+                                                fontFamily: "OpenSans")),
                                       ),
                                     ),
                                   ),
@@ -169,7 +169,7 @@ class _SignInState extends State<SignIn> {
                                   Text(
                                     "Or",
                                     style: TextStyle(
-                                        fontFamily: "Poppins",
+                                        fontFamily: "OpenSans",
                                         fontSize: 17,
                                         fontWeight: FontWeight.w400),
                                   ),
@@ -185,7 +185,7 @@ class _SignInState extends State<SignIn> {
                                   Text(
                                     "Sign in With",
                                     style: TextStyle(
-                                      fontFamily: "Poppins",
+                                      fontFamily: "OpenSans",
                                       fontSize: 20,
                                       fontWeight: FontWeight.w700,
                                       color: fontOrange,

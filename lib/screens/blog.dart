@@ -4,6 +4,7 @@ import 'package:my_cities_time/screens/Travel.dart';
 import 'package:my_cities_time/screens/location.dart';
 import 'package:my_cities_time/screens/the_protection_shop.dart';
 import 'package:my_cities_time/screens/the_skin_lab.dart';
+import 'package:my_cities_time/shared/widgets/DrawerWidget.dart';
 import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:provider/provider.dart';
@@ -25,166 +26,12 @@ class _BlogState extends State<Blog> {
         elevation: 0.0,
       ),
       extendBodyBehindAppBar: true,
-      drawer:  ClipRRect(
-        borderRadius: BorderRadius.only(
-            topRight: Radius.circular(35), bottomRight: Radius.circular(35)),
-        child: Drawer(
-
-          child: ListView(padding: EdgeInsets.all(0.0), children: <Widget>[
-
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(color: fontOrange),
-
-              currentAccountPicture: Container(
-
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image:
-                        AssetImage("assets/images/photo.jpg",
-                        ))),
-              ),
-
-// decoration: BoxDecoration(
-//   color: fontOrange
-// ),
 
 
-              accountName: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+      drawer:state.user!=null?DrawerWidget():null,
 
-                  Text(
-                    state.userModel==null?'':state.userModel.username,
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                        fontSize: 22.0),
-                  ),
-                ],
-              ),
-              arrowColor: Colors.transparent,
 
-              // currentAccountPicture: CircleAvatar(
-              //
-              //   backgroundImage: AssetImage("assets/images/img.jpeg"),
-              //   backgroundColor: Colors.transparent,
-              //   radius: 30,
-              // ),
-              onDetailsPressed: () {},
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            GestureDetector(
-              onTap: () {
 
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TheSkinLab(),));
-              },
-              child: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.only(left:20.0),
-                  child: Text(
-                    'The Skin Lab',
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 20,
-                        color: white,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ),
-              ),
-
-            ),
-            Divider(color: white,thickness: 0.5,),
-
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Location(),));
-              },
-              child: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.only(left:20.0),
-                  child: Text(
-                    'Location',
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 20,
-                        color: white,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ),
-
-              ),
-            ),
-            Divider(color: white,thickness: 0.5,),
-
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Travel(),));
-              },
-              child: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.only(left:20.0),
-                  child: Text(
-                    'Travel',
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 20,
-                        color: white,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ),
-
-              ),
-            ),
-            Divider(color: white,thickness: 0.5,),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TheProtectionShop(),));
-              },
-              child: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.only(left:20.0),
-                  child: Text(
-                    'The Protection Shop',
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 20,
-                        color: white,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ),
-
-              ),
-            ),
-            Divider(color: white,thickness: 0.5,),
-            GestureDetector(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Blog(),));
-              },
-              child: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.only(left:20.0),
-                  child: Text(
-                    'Blog Section',
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 20,
-                        color: white,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ),
-
-              ),
-            ),
-            Divider(color: white,thickness: 0.5,),
-
-          ]),
-        ),
-      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -203,7 +50,7 @@ class _BlogState extends State<Blog> {
               child: Text("Blog Section",style: TextStyle(
                   color:Colors.black,
                   fontSize: 32,
-                  fontFamily: "Poppins",
+                  fontFamily: "OpenSans",
                   fontWeight: FontWeight.w700
               ),),
             ),
@@ -241,7 +88,7 @@ class _BlogState extends State<Blog> {
                               padding: const EdgeInsets.only(top:8.0,left: 8.9,right: 8.0,bottom: 5),
                               child: AutoSizeText(
                                   'Sun Protection Guidelines',
-                                  style: TextStyle(fontSize: 14.0,fontFamily: "Poppins",fontWeight: FontWeight.w700),
+                                  style: TextStyle(fontSize: 14.0,fontFamily: "OpenSans",fontWeight: FontWeight.w700),
                                   maxLines: 3
                               ),
                             ),
@@ -251,7 +98,7 @@ class _BlogState extends State<Blog> {
                                 padding: const EdgeInsets.only(left:8.0,bottom: 8.0),
                                 child: AutoSizeText(
                                     'Lorem ipsum dolor sit amet,consetetur sadipscing elitr, sed diam nonumy',
-                                    style: TextStyle(fontSize: 12.0,fontFamily: "Poppins"),
+                                    style: TextStyle(fontSize: 12.0,fontFamily: "OpenSans"),
                                     maxLines: 3
                                 ),
                               ),

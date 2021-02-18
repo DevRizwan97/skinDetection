@@ -85,7 +85,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                           style: TextStyle(
                               color: fontOrange,
                               fontSize: 20,
-                              fontFamily: "Poppins",
+                              fontFamily: "OpenSans",
                               fontWeight: FontWeight.w400),
                         ),
                         Text(
@@ -93,266 +93,269 @@ class _TheSkinLabState extends State<TheSkinLab> {
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 32,
-                              fontFamily: "Poppins",
+                              fontFamily: "OpenSans",
                               fontWeight: FontWeight.w700),
                         ),
                       ],
                     ),
                   ),
+                  SizedBox(height: 20,),
                   Expanded(
-                    child: ListView(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 12.0, right: 12.0, bottom: 5),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.4,
-                            child: Card(
-                                color: cardColor,
-                                elevation: 5,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(15),
-                                      topRight: Radius.circular(15),
-                                      topLeft: Radius.circular(15),
-                                      bottomLeft: Radius.circular(15)),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 12.0, right: 12.0, bottom: 5),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.33,
+                              child: Card(
+                                  color: cardColor,
+                                  elevation: 5,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(15),
+                                        topRight: Radius.circular(15),
+                                        topLeft: Radius.circular(15),
+                                        bottomLeft: Radius.circular(15)),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 10.0,
+                                        left: 50,
+                                        bottom: 10,
+                                        right: 50),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.camera_alt,
+                                                  size: 90,
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                RaisedButton(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            9.0),
+                                                  ),
+                                                  onPressed: () {
+                                                    _imgFromCamera();
+                                                  },
+                                                  color: fontOrange,
+                                                  textColor: Colors.white,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 40.0,
+                                                            left: 40.0,
+                                                            bottom: 10,
+                                                            top: 10),
+                                                    child: Text("Take Picture",
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            fontFamily:
+                                                                "OpenSans")),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                RaisedButton(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            9.0),
+                                                  ),
+                                                  onPressed: () {
+                                                    _imgFromGallery();
+                                                  },
+                                                  color: fontOrange,
+                                                  textColor: Colors.white,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 30.0,
+                                                            left: 30.0,
+                                                            bottom: 10,
+                                                            top: 10),
+                                                    child: Text("Choose Picture",
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            fontFamily:
+                                                                "OpenSans")),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 25.0, right: 12.0, bottom: 5, top: 10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "NOTE ",
+                                  style: TextStyle(
+                                      fontFamily: "OpenSans",
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 25),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 20.0,
-                                      left: 50,
-                                      bottom: 20,
-                                      right: 50),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.camera_alt,
-                                                size: 90,
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              RaisedButton(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          9.0),
-                                                ),
-                                                onPressed: () {
-                                                  _imgFromCamera();
-                                                },
-                                                color: fontOrange,
-                                                textColor: Colors.white,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 30.0,
-                                                          left: 30.0,
-                                                          bottom: 10,
-                                                          top: 10),
-                                                  child: Text("Take Picture",
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontFamily:
-                                                              "Poppins")),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            children: [
-                                              RaisedButton(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          9.0),
-                                                ),
-                                                onPressed: () {
-                                                  _imgFromGallery();
-                                                },
-                                                color: fontOrange,
-                                                textColor: Colors.white,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 30.0,
-                                                          left: 30.0,
-                                                          bottom: 10,
-                                                          top: 10),
-                                                  child: Text("Choose Picture",
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontFamily:
-                                                              "Poppins")),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      height: 10.0,
+                                      width: 10.0,
+                                      decoration: new BoxDecoration(
+                                        color: fontOrange,
+                                        shape: BoxShape.circle,
                                       ),
-                                    ],
-                                  ),
-                                )),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "Please take a close distance picture that only contains your skin.",
+                                        maxLines: 4,
+                                        overflow: TextOverflow.ellipsis,
+                                        // textDirection: TextDirection.rtl,
+                                        textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                            fontFamily: "OpenSans",
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                    margin: const EdgeInsets.only(
+                                        left: 20.0, right: 10.0),
+                                    child: Divider(
+                                      color: fontOrange,
+                                      height: 10,
+                                      thickness: 1.5,
+                                    )),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      height: 10.0,
+                                      width: 10.0,
+                                      decoration: new BoxDecoration(
+                                        color: fontOrange,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "Try to avoid shadow and insufficient lighting conditions.",
+                                        maxLines: 4,
+                                        overflow: TextOverflow.ellipsis,
+                                        // textDirection: TextDirection.rtl,
+                                        textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                            fontFamily: "OpenSans",
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                    margin: const EdgeInsets.only(
+                                        left: 20.0, right: 10.0),
+                                    child: Divider(
+                                      color: fontOrange,
+                                      height: 10,
+                                      thickness: 1.5,
+                                    )),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      height: 10.0,
+                                      width: 10.0,
+                                      decoration: new BoxDecoration(
+                                        color: fontOrange,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "Choose Broad Spectrum Sunscream",
+                                        maxLines: 4,
+                                        overflow: TextOverflow.ellipsis,
+                                        // textDirection: TextDirection.rtl,
+                                        textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                            fontFamily: "OpenSans",
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 25.0, right: 12.0, bottom: 5, top: 10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "NOTE ",
-                                style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 25),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    height: 10.0,
-                                    width: 10.0,
-                                    decoration: new BoxDecoration(
-                                      color: fontOrange,
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      "Please take a close distance picture that only contains your skin.",
-                                      maxLines: 4,
-                                      overflow: TextOverflow.ellipsis,
-                                      // textDirection: TextDirection.rtl,
-                                      textAlign: TextAlign.justify,
-                                      style: TextStyle(
-                                          fontFamily: "Poppins",
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 20.0, right: 10.0),
-                                  child: Divider(
-                                    color: fontOrange,
-                                    height: 10,
-                                    thickness: 1.5,
-                                  )),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    height: 10.0,
-                                    width: 10.0,
-                                    decoration: new BoxDecoration(
-                                      color: fontOrange,
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      "Try to avoid shadow and insufficient lighting conditions.",
-                                      maxLines: 4,
-                                      overflow: TextOverflow.ellipsis,
-                                      // textDirection: TextDirection.rtl,
-                                      textAlign: TextAlign.justify,
-                                      style: TextStyle(
-                                          fontFamily: "Poppins",
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 20.0, right: 10.0),
-                                  child: Divider(
-                                    color: fontOrange,
-                                    height: 10,
-                                    thickness: 1.5,
-                                  )),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    height: 10.0,
-                                    width: 10.0,
-                                    decoration: new BoxDecoration(
-                                      color: fontOrange,
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      "Choose Broad Spectrum Sunscream",
-                                      maxLines: 4,
-                                      overflow: TextOverflow.ellipsis,
-                                      // textDirection: TextDirection.rtl,
-                                      textAlign: TextAlign.justify,
-                                      style: TextStyle(
-                                          fontFamily: "Poppins",
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                      ],
+                          SizedBox(width: 10),
+                        ],
+                      ),
                     ),
                   )
                 ],

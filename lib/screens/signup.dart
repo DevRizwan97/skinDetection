@@ -55,7 +55,7 @@ bool loader=false;
         ),
         child: ListView(
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height / 4.6),
+            SizedBox(height: MediaQuery.of(context).size.height / 8.5),
             Align(
               alignment: Alignment.bottomCenter,
               child: Column(
@@ -80,28 +80,30 @@ bool loader=false;
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Email",
-                                style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w400),
+                              Padding(
+                                padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                child: Text(
+                                  "Email",
+                                  style: TextStyle(
+                                      fontFamily: "OpenSans",
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400),
+                                ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 10.0, right: 30),
+                                padding: const EdgeInsets.only(top:8.0,left: 10,right: 10),
                                 child: TextField(
                                   keyboardType: TextInputType.emailAddress,
                                   controller: email,
                                   autofocus: false,
                                   style: TextStyle(
-                                      fontSize: 17.0, color: Colors.black),
+                                      fontSize: 15.0, color: Colors.black),
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: Colors.grey.shade200,
+                                    fillColor: Color(0xfff3f3f3),
                                     hintText: 'Email',
                                     hintStyle: TextStyle(
-                                        fontFamily: "Poppins",
+                                        fontFamily: "OpenSans",
                                         color: Colors.grey.shade600),
                                     contentPadding: const EdgeInsets.only(
                                         left: 20.0, bottom: 7.0, top: 7.0),
@@ -121,27 +123,30 @@ bool loader=false;
                               SizedBox(
                                 height: 12,
                               ),
-                              Text(
-                                "Username",
-                                style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w400),
+                              Padding(
+                                padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                child: Text(
+                                  "Username",
+                                  style: TextStyle(
+                                      fontFamily: "OpenSans",
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400),
+                                ),
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(top: 10.0, right: 30),
+                                    const EdgeInsets.only(top:8.0,left: 10,right: 10),
                                 child: TextField(
                                   autofocus: false,
                                   controller: username,
                                   style: TextStyle(
-                                      fontSize: 17.0, color: Colors.black),
+                                      fontSize: 15.0, color: Colors.black),
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: Colors.grey.shade200,
+                                    fillColor: Color(0xfff3f3f3),
                                     hintText: 'Username',
                                     hintStyle: TextStyle(
-                                        fontFamily: "Poppins",
+                                        fontFamily: "OpenSans",
                                         color: Colors.grey.shade600),
                                     contentPadding: const EdgeInsets.only(
                                         left: 20.0, bottom: 7.0, top: 7.0),
@@ -161,28 +166,31 @@ bool loader=false;
                               SizedBox(
                                 height: 12,
                               ),
-                              Text(
-                                "Password",
-                                style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w400),
+                              Padding(
+                                padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                child: Text(
+                                  "Password",
+                                  style: TextStyle(
+                                      fontFamily: "OpenSans",
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400),
+                                ),
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(top: 10.0, right: 30),
+                                    const EdgeInsets.only(top:8.0,left: 10,right: 10),
                                 child: TextField(
                                   autofocus: false,
                                   controller: password,
                                   obscureText: true,
                                   style: TextStyle(
-                                      fontSize: 17.0, color: Colors.black),
+                                      fontSize: 15.0, color: Colors.black),
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: Colors.grey.shade200,
+                                    fillColor: Color(0xfff3f3f3),
                                     hintText: 'Password',
                                     hintStyle: TextStyle(
-                                        fontFamily: "Poppins",
+                                        fontFamily: "OpenSans",
                                         color: Colors.grey.shade600),
                                     contentPadding: const EdgeInsets.only(
                                         left: 20.0, bottom: 7.0, top: 7.0),
@@ -202,29 +210,32 @@ bool loader=false;
                               SizedBox(
                                 height: 12,
                               ),
-                              Text(
-                                "Confirm Password",
-                                style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w400),
+                              Padding(
+                                padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                child: Text(
+                                  "Confirm Password",
+                                  style: TextStyle(
+                                      fontFamily: "OpenSans",
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400),
+                                ),
                               ),
 
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(top: 10.0, right: 30),
+                                    const EdgeInsets.only(top:8.0,left: 10,right: 10),
                                 child: TextField(
                                   autofocus: false,
                                   controller: confirm_password,
                                   obscureText: true,
                                   style: TextStyle(
-                                      fontSize: 17.0, color: Colors.black),
+                                      fontSize: 15.0, color: Colors.black),
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: Colors.grey.shade200,
+                                    fillColor: Color(0xfff3f3f3),
                                     hintText: 'Confirm Password',
                                     hintStyle: TextStyle(
-                                        fontFamily: "Poppins",
+                                        fontFamily: "OpenSans",
                                         color: Colors.grey.shade600),
                                     contentPadding: const EdgeInsets.only(
                                         left: 20.0, bottom: 7.0, top: 7.0),
@@ -241,6 +252,7 @@ bool loader=false;
                                   ),
                                 ),
                               ),
+                              SizedBox(height: 20,),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -264,15 +276,15 @@ bool loader=false;
                                       textColor: Colors.white,
                                       child: Padding(
                                         padding: const EdgeInsets.only(
-                                            right: 30.0,
-                                            left: 30.0,
+                                            right: 20.0,
+                                            left: 20.0,
                                             bottom: 10,
                                             top: 10),
                                         child: Text("Sign Up",
                                             style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 17,
                                                 fontWeight: FontWeight.w700,
-                                                fontFamily: "Poppins")),
+                                                fontFamily: "OpenSans")),
                                       ),
                                     ),
                                   ),
@@ -284,7 +296,7 @@ bool loader=false;
                                   Text(
                                     "Or",
                                     style: TextStyle(
-                                        fontFamily: "Poppins",
+                                        fontFamily: "OpenSans",
                                         fontSize: 17,
                                         fontWeight: FontWeight.w400),
                                   ),
@@ -300,8 +312,8 @@ bool loader=false;
                                   Text(
                                     "Sign Up With",
                                     style: TextStyle(
-                                      fontFamily: "Poppins",
-                                      fontSize: 20,
+                                      fontFamily: "OpenSans",
+                                      fontSize: 18,
                                       fontWeight: FontWeight.w700,
                                       color: fontOrange,
                                     ),
