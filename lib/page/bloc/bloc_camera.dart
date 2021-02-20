@@ -1,13 +1,15 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:my_cities_time/utils/constants.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
-
+import 'package:image/image.dart' as img;
 class BlocCamera {
   var cameras = BehaviorSubject<List<CameraDescription>>();
   var selectCamera = BehaviorSubject<bool>();
@@ -37,6 +39,14 @@ class BlocCamera {
 
     try {
       final xFile = await controllCamera.takePicture();
+      // img.Image image = img.decodeImage(File(xFile.path).readAsBytesSync());
+      // image=copyCrop(image,0,0,50,50);
+
+// var f= File('example.png').writeAsBytesSync(img.encodePng(image));
+//       final codec = await instantiateImageCodec(image.getBytes(format: img.Format.rgba));
+//       final frameInfo = await codec.getNextFrame();
+      //File f=File.fromRawPath(image.getBytes(format: img.Format.rgba));
+
       File croppedFile = await ImageCropper.cropImage(
           sourcePath: xFile.path,
           aspectRatioPresets: [
@@ -47,7 +57,7 @@ class BlocCamera {
             CropAspectRatioPreset.ratio16x9
           ],
           androidUiSettings: AndroidUiSettings(
-              toolbarTitle: 'Image Cropper',
+              toolbarTitle: 'Crop Image',
               toolbarColor: fontOrange,
               toolbarWidgetColor: Colors.white,
               initAspectRatio: CropAspectRatioPreset.original,
@@ -56,18 +66,40 @@ class BlocCamera {
             minimumAspectRatio: 1.0,
           )
       );
+
       return croppedFile.path;
     } on CameraException catch (e) {
       print(e);
       return null;
     }
   }
+  img.Image copyCrop(img.Image src, int x, int y, int w, int h) {
+    img.Image dst = img.Image(w, h, channels: src.channels, exif: src.exif,
+        iccp: src.iccProfile);
+
+    for (int yi = 0, sy = y; yi < h; ++yi, ++sy) {
+      for (int xi = 0, sx = x; xi < w; ++xi, ++sx) {
+        dst.setPixel(xi, yi, src.getPixel(sx, sy));
+      }
+    }
+
+    return dst;
+  }
 
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
-  void onTakePictureButtonPressed() {
+  void onTakePictureButtonPressed(context) {
     takePicture().then((String filePath) {
       imagePath.sink.add(File(filePath));
+      print("afnan hassan");
+      print(filePath);
+      if (filePath== null)
+        Navigator.pop(context,
+            filePath);
+      else {
+        // widget
+        //     .onFile(bloc.imagePath.value);
+      }
     });
   }
 

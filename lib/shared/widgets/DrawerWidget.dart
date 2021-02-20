@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:my_cities_time/screens/Travel.dart';
 import 'package:my_cities_time/screens/blog.dart';
 import 'package:my_cities_time/screens/location.dart';
+import 'package:my_cities_time/screens/skintracker.dart';
 import 'package:my_cities_time/screens/the_protection_shop.dart';
 import 'package:my_cities_time/screens/the_skin_lab.dart';
 import 'package:my_cities_time/states/authstate.dart';
@@ -233,6 +234,33 @@ mainAxisAlignment: MainAxisAlignment.center,
                     ),
                   ),
                 ),
+                Divider(
+                  color: white,
+                  thickness: 0.5,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SkinTracker(),
+                        ));
+                  },
+                  child: ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Text(
+                        'Skin Tracker',
+                        style: TextStyle(
+                            fontFamily: "OpenSans",
+                            fontSize: 20,
+                            color: white,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ),
+                ),
+
                 Divider(
                   color: white,
                   thickness: 0.5,

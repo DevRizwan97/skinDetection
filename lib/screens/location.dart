@@ -142,6 +142,7 @@ class _LocationState extends State<Location> {
     // TODO: implement initState
     super.initState();
     _weatherBloc = WeatherBloc(weatherRepository: widget.weatherRepository);
+
     _fetchWeatherWithLocation().catchError((error) {
       // _fetchWeatherWithCity();
     });
@@ -287,7 +288,7 @@ class _LocationState extends State<Location> {
                                                           fontSize: 16),
                                                     ),
                                                     Text(
-                                                      weather_temp==null?"":weather_temp + "",
+                                                      weather_temp==null?"":double.parse(weather_temp).floorToDouble().toString() + "",
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontFamily: "OpenSans",
@@ -465,9 +466,10 @@ class _LocationState extends State<Location> {
                                                     fontSize: 17),
                                               ),
                                               Text(
-                                                (state.skin == null
-                                                    ? ""
-                                                    : state.skin.spf),
+                                                uvi_index==null?"":double.parse(uvi_index)<=3?"SPF 15+":double.parse(uvi_index)<=8?"SPF 30+":"SPF 50+",
+                                                // (state.skin == null
+                                                //     ? ""
+                                                //     : state.skin.spf),
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontFamily: "OpenSans",

@@ -46,6 +46,11 @@ List<Skin> _all_skin_data=List<Skin>();
 
     return _skin;
   }
+  void addskin(Skin skin){
+
+    _all_skin_data.add(skin);
+    notifyListeners();
+  }
   databaseInit() {
     try {
       if (_profileQuery == null) {

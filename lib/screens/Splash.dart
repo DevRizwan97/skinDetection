@@ -40,6 +40,7 @@ class _SplashPageState extends State<SplashPage> {
       child: Container(
         height: height,
         width: height,
+        color: Colors.white,
         alignment: Alignment.center,
         child: Stack(
           alignment: Alignment.center,

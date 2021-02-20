@@ -57,6 +57,7 @@ class _CameraState extends State<Camera> {
       bloc.controllCamera = CameraController(
         data[0],
         ResolutionPreset.high,
+        enableAudio: false
       );
       bloc.cameraOn.sink.add(0);
       bloc.controllCamera.initialize().then((_) {
@@ -114,7 +115,15 @@ class _CameraState extends State<Camera> {
                 onPressed: () {
                   sizeImage = MediaQuery.of(context).size;
 
-                  bloc.onTakePictureButtonPressed();
+                  bloc.onTakePictureButtonPressed(context);
+
+                  // if (widget.onFile == null)
+                  //   Navigator.pop(context,
+                  //       bloc.imagePath.value);
+                  // else {
+                  //   widget
+                  //       .onFile(bloc.imagePath.value);
+                  // }
                 },
               ),
               backgroundColor: Colors.black38,

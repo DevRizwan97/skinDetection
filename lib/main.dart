@@ -65,9 +65,9 @@ void main() async {
   /// done later
   final IOSInitializationSettings initializationSettingsIOS =
   IOSInitializationSettings(
-      requestAlertPermission: true,
+      requestAlertPermission: false,
       requestBadgePermission: false,
-      requestSoundPermission: true,
+      requestSoundPermission: false,
       onDidReceiveLocalNotification:
           (int id, String title, String body, String payload) async {
         didReceiveLocalNotificationSubject.add(ReceivedNotification(
@@ -75,9 +75,9 @@ void main() async {
       });
   const MacOSInitializationSettings initializationSettingsMacOS =
   MacOSInitializationSettings(
-      requestAlertPermission: true,
+      requestAlertPermission: false,
       requestBadgePermission: false,
-      requestSoundPermission: true);
+      requestSoundPermission: false);
   final InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,

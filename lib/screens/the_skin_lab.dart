@@ -367,7 +367,8 @@ class _TheSkinLabState extends State<TheSkinLab> {
   _imgFromCamera() async {
     File image = (await  Navigator.push(context, MaterialPageRoute(builder: (context) => Camera(
         orientationEnablePhoto: CameraOrientation.all,
-      imageMask: CameraFocus.rectangle(
+
+      imageMask: CameraFocus.square(
       color: Colors.black.withOpacity(0.5),
     ),))));
 
@@ -405,6 +406,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
           filename: "Skinimage",
         ),
       );
+      try{
       // request.headers.addAll(headers);
       request.send().then((response) async {
         print(response.statusCode);
@@ -415,27 +417,34 @@ class _TheSkinLabState extends State<TheSkinLab> {
           final skinmodel = Skin.fromJson(parsed);
 
           WeatherFactory wf = new WeatherFactory(ApiKey.OPEN_WEATHER_MAP);
-          var state = Provider.of<AuthState>(context, listen: false);
+          var state = Provider.of<AuthState>(context,listen: false);
 
           Position position = await Geolocator()
               .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
           final coordinates =
               new Coordinates(position.latitude, position.longitude);
           var addresses =
-              await Geocoder.local.findAddressesFromCoordinates(coordinates);
+              await Geocoder.local.findAddressesFromCoordinates(coordinates); DateTime now = new DateTime.now();
+          DateTime date = new DateTime(now.year, now.month, now.day);
+          skinmodel.date = date.toString();
+          List months =
+          ['jan', 'feb', 'mar', 'apr', 'may','jun','jul','aug','sep','oct','nov','dec'];
+          // var formatter = new DateFormat('yyyy-MM-dd');
+          // var date=DateTime.parse(state.all_skin_data[i].date);
+          // String formattedDate = formatter.format(date);
+          skinmodel.month=months[now.month-1];
           Weather weather = await wf.currentWeatherByLocation(
               position.latitude, position.longitude);
 
           skinmodel.lat=position.latitude==null?0:position.latitude;
           skinmodel.long=position.longitude==null?0:position.longitude;
           if (state.user != null) {
+
             skinmodel.city = addresses.first.locality;
             skinmodel.temperature = weather.temperature.celsius.toString();
             skinmodel.weather_detail = weather.weatherDescription;
             skinmodel.weathericon = weather.weatherIcon;
-            DateTime now = new DateTime.now();
-            DateTime date = new DateTime(now.year, now.month, now.day);
-            skinmodel.date = date.toString();
+
             skinmodel.time = DateFormat.Hms().format(now);
 
             kDatabase.child('skin').child(state.userModel.userId)
@@ -445,8 +454,9 @@ class _TheSkinLabState extends State<TheSkinLab> {
             setState(() {
               loader = false;
             });
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => SplashPage()));
+        state.addskin(skinmodel);
+            // Navigator.push(
+            //     context, MaterialPageRoute(builder: (context) => SplashPage()));
           } else {
             setState(() {
               loader = false;
@@ -463,7 +473,12 @@ class _TheSkinLabState extends State<TheSkinLab> {
             loader = false;
           });
         }
-      });
+      });}catch(e){
+        setState(() {
+          loader = false;
+        });
+
+      }
     } catch (e) {
       setState(() {
         loader = false;

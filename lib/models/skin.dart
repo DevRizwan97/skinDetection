@@ -14,11 +14,12 @@ class Skin {
   String weather_detail;
   String date;
   String time;
+  String month;
 double lat;
 double long;
 
   Skin(
-      {this.userId, this.reapply, this.recommended_timing, this.spf, this.sun_radiation, this.uv_level, this.skintype,this.city,this.cancer_risk,this.skincolor,this.date,this.time,this.lat,this.long});
+      {this.userId, this.reapply, this.recommended_timing, this.spf, this.sun_radiation, this.month,this.uv_level, this.skintype,this.city,this.cancer_risk,this.skincolor,this.date,this.time,this.lat,this.long});
 
   Skin.fromJson(Map<dynamic, dynamic> map) {
     if (map == null) {
@@ -67,6 +68,7 @@ double long;
     lat=double.parse(map["lat"].toString());
 
     long=double.parse(map["long"].toString());
+    month=map["month"]==null?"":map["month"];
     // password=map["password"];
     // confirm_password=map["confirm_password"];
 
@@ -90,7 +92,8 @@ double long;
       "date":date,
       "time":time,
       "lat":lat,
-      "long":long
+      "long":long,
+      "month":month
 
     };
 

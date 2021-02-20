@@ -11,6 +11,10 @@ final cardColor = Color(0xffFEF9F4);
 final black = Color(0xff0b0b0b);
 final error=Color(0xffff3333);
 
+final chartcolor=Color(0xffe1ab96);
+
+final chartpointcolor=Color(0xfffea832);
+
 final String api_url="http://157.230.179.70/skin-detect";
  const SHARED_PREF_KEY_THEME = "theme_code";
 const SHARED_PREF_KEY_TEMPERATURE_UNIT = "temp_unit";
