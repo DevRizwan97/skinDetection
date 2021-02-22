@@ -120,6 +120,8 @@ class MyApp extends StatelessWidget {
     ],
     child: MaterialApp(
       theme: ThemeData(
+        primaryColor: fontOrange,
+        backgroundColor: fontOrange,
         canvasColor: fontOrange
       ),
       debugShowCheckedModeBanner:false,

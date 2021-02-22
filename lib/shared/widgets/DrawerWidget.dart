@@ -37,7 +37,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   image: DecorationImage(
                       fit: BoxFit.fill,
                       image: AssetImage(
-                        "assets/images/photo.jpg",
+                        "assets/images/Group.jpg",
                       ))),
             ),
             ListTile(

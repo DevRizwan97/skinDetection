@@ -27,6 +27,7 @@ import 'package:my_cities_time/screens/the_protection_shop.dart';
 import 'package:my_cities_time/screens/the_skin_lab.dart';
 import 'package:my_cities_time/screens/weather_screen.dart';
 import 'package:my_cities_time/states/authstate.dart';
+import 'package:my_cities_time/themes.dart';
 import 'package:my_cities_time/utils/WeatherIconMapper.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:my_cities_time/widgets/weather_widget.dart';
@@ -161,11 +162,11 @@ class _LocationState extends State<Location> {
         extendBodyBehindAppBar: true,
         drawer: DrawerWidget(),
         body: Container(
-                width: double.infinity,
+                width: MediaQuery.of(context).size.width,
                 height: double.infinity,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/bggg.png"),
+                    image:AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?AssetImage("assets/images/nightmode.jpg"): AssetImage("assets/images/bggg.png"),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -180,11 +181,11 @@ class _LocationState extends State<Location> {
                   children: [
                     Padding(
                       padding:
-                          const EdgeInsets.only(top: 100, left: 40, right: 8),
+                          const EdgeInsets.only(top: 150, left: 40, right: 8),
                       child: Text(
                         "Location",
                         style: TextStyle(
-                            color: Colors.black,
+                            color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE ? Colors.white : Colors.black,
                             fontSize: 32,
                             fontFamily: "OpenSans",
                             fontWeight: FontWeight.w700),
@@ -237,17 +238,17 @@ class _LocationState extends State<Location> {
                                       child: Padding(
                                         padding: const EdgeInsets.only(
                                             top: 20.0,
-                                            left: 30,
+                                            left: 20,
                                             bottom: 20,
                                             right: 20),
                                         child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
+                                                SizedBox(height: 10,),
                                                 Row(
                                                   children: [
                                                     Text(
@@ -350,11 +351,15 @@ class _LocationState extends State<Location> {
                                                 // ),
                                               ],
                                             ),
-                                            Icon(
-                                              getIconData(weather_icon),
-                                              color: Colors.black,
-                                              size: 70,
-                                            ),
+                                            Column(
+                                              children: [
+                                                Icon(
+                                                  getIconData(weather_icon),
+                                                  color: Colors.black,
+                                                  size: 70,
+                                                ),
+                                              ],
+                                            )
                                             // Image.asset(
                                             //   'assets/images/sun.png',
                                             //   width: 100,
@@ -376,7 +381,7 @@ class _LocationState extends State<Location> {
                               child: Container(
                                 height: MediaQuery.of(context).size.height * 0.24,
                                 child: Card(
-                                    color: cardColor,
+                                    color:cardColor,
                                     elevation: 5,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
@@ -434,8 +439,10 @@ class _LocationState extends State<Location> {
                                           ),
                                           Row(
                                             children: [
+                                              Image.asset("assets/images/sun-protection (1).png",height: 20,width: 20,),
+                                              SizedBox(width: 6,),
                                               Text(
-                                                "💪  Time To Sunburn : ",
+                                                "Time To Sunburn : ",
                                                 style: TextStyle(
                                                     color: fontOrange,
                                                     fontFamily: "OpenSans",
@@ -466,7 +473,7 @@ class _LocationState extends State<Location> {
                                                     fontSize: 17),
                                               ),
                                               Text(
-                                                uvi_index==null?"":double.parse(uvi_index)<=3?"SPF 15+":double.parse(uvi_index)<=8?"SPF 30+":"SPF 50+",
+                                                uvi_index==null?"":double.parse(uvi_index)<=3?"15+":double.parse(uvi_index)<=8?"30+":"50+",
                                                 // (state.skin == null
                                                 //     ? ""
                                                 //     : state.skin.spf),
@@ -568,6 +575,7 @@ class _LocationState extends State<Location> {
                                   Text(
                                     "NOTE : ",
                                     style: TextStyle(
+                                      color:AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE ? Colors.white : Colors.black,
                                         fontFamily: "OpenSans",
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -590,6 +598,7 @@ class _LocationState extends State<Location> {
                                       Text(
                                         "Reapply Every ${(state.skin == null ? "" : state.skin.recommended_timing)} minutes",
                                         style: TextStyle(
+                                          color:AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE ? Colors.white : Colors.black,
                                             fontFamily: "OpenSans",
                                             fontWeight: FontWeight.w400),
                                       ),
@@ -622,6 +631,7 @@ class _LocationState extends State<Location> {
                                       Text(
                                         "Choose Broad Spectrum Sunscream",
                                         style: TextStyle(
+                                          color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE ? Colors.white : Colors.black,
                                             fontFamily: "OpenSans",
                                             fontWeight: FontWeight.w400),
                                       ),
@@ -637,27 +647,6 @@ class _LocationState extends State<Location> {
                                       )),
                                   SizedBox(
                                     height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        height: 10.0,
-                                        width: 10.0,
-                                        decoration: new BoxDecoration(
-                                          color: fontOrange,
-                                          shape: BoxShape.circle,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        "Choose Broad Spectrum Sunscream",
-                                        style: TextStyle(
-                                            fontFamily: "OpenSans",
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
                                   ),
                                   SizedBox(
                                     height: 15,
@@ -742,7 +731,6 @@ class _LocationState extends State<Location> {
     }
   }
   Future _showIntDialog() async {
-
     await showDialog<int>(
       context: context,
       builder: (BuildContext context) {

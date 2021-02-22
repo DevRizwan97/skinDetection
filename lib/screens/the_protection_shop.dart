@@ -1,12 +1,14 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_cities_time/main.dart';
 import 'package:my_cities_time/screens/Travel.dart';
 import 'package:my_cities_time/screens/blog.dart';
 import 'package:my_cities_time/screens/location.dart';
 import 'package:my_cities_time/screens/the_skin_lab.dart';
 import 'package:my_cities_time/shared/widgets/DrawerWidget.dart';
 import 'package:my_cities_time/states/authstate.dart';
+import 'package:my_cities_time/themes.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +39,7 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/bggg.png"),
+            image:AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?AssetImage("assets/images/nightmode.jpg"): AssetImage("assets/images/bggg.png"),
             fit: BoxFit.fill,
           ),
         ),
@@ -46,11 +48,11 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 100, left: 40, right: 8),
+              padding: const EdgeInsets.only(top: 150, left: 25, right: 8),
               child: Text(
                 "The Protection Shop",
                 style: TextStyle(
-                    color: Colors.black,
+                    color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
                     fontSize: 32,
                     fontFamily: "OpenSans",
                     fontWeight: FontWeight.w700),

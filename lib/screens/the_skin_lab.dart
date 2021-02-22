@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:my_cities_time/api/api_keys.dart';
 import 'package:my_cities_time/api/http_exception.dart';
 import 'package:my_cities_time/camera_camera.dart';
+import 'package:my_cities_time/main.dart';
 import 'package:my_cities_time/models/skin.dart';
 import 'package:my_cities_time/screens/Splash.dart';
 import 'package:my_cities_time/screens/Travel.dart';
@@ -19,6 +20,7 @@ import 'package:my_cities_time/screens/signup.dart';
 import 'package:my_cities_time/screens/the_protection_shop.dart';
 import 'package:my_cities_time/shared/widgets/DrawerWidget.dart';
 import 'package:my_cities_time/states/authstate.dart';
+import 'package:my_cities_time/themes.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:my_cities_time/utils/helper.dart';
 import 'package:http/http.dart' as http;
@@ -58,7 +60,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/newbg.jpg"),
+            image:AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?AssetImage("assets/images/nightmode.jpg"): AssetImage("assets/images/bggg.png"),
             fit: BoxFit.fill,
           ),
         ),
@@ -72,7 +74,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 100, left: 40),
+                    padding: const EdgeInsets.only(top: 150, left: 40),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +93,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                         Text(
                           "The Skin Lab",
                           style: TextStyle(
-                              color: Colors.black,
+                              color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
                               fontSize: 32,
                               fontFamily: "OpenSans",
                               fontWeight: FontWeight.w700),
@@ -121,9 +123,8 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-                                        top: 10.0,
+
                                         left: 50,
-                                        bottom: 10,
                                         right: 50),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
@@ -237,6 +238,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                 Text(
                                   "NOTE ",
                                   style: TextStyle(
+                                      color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
                                       fontFamily: "OpenSans",
                                       fontWeight: FontWeight.w700,
                                       fontSize: 25),
@@ -266,6 +268,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                         textAlign: TextAlign.justify,
                                         style: TextStyle(
                                             fontFamily: "OpenSans",
+                                            color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
                                             fontWeight: FontWeight.w400),
                                       ),
                                     ),
@@ -303,6 +306,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                         // textDirection: TextDirection.rtl,
                                         textAlign: TextAlign.justify,
                                         style: TextStyle(
+                                            color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
                                             fontFamily: "OpenSans",
                                             fontWeight: FontWeight.w400),
                                       ),
@@ -341,6 +345,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                         // textDirection: TextDirection.rtl,
                                         textAlign: TextAlign.justify,
                                         style: TextStyle(
+                                            color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
                                             fontFamily: "OpenSans",
                                             fontWeight: FontWeight.w400),
                                       ),

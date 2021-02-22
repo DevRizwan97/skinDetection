@@ -16,6 +16,7 @@ import 'package:my_cities_time/screens/the_protection_shop.dart';
 import 'package:my_cities_time/screens/the_skin_lab.dart';
 import 'package:my_cities_time/shared/widgets/DrawerWidget.dart';
 import 'package:my_cities_time/states/authstate.dart';
+import 'package:my_cities_time/themes.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:my_cities_time/screens/location.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -53,8 +54,8 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
       indicatorColor:Colors.orange.shade300,
 
       tabs: <Widget>[
-        Tab(child: Text("Travel Destination",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w700,fontSize: 15),),),
-        Tab(child: Text("Suntan Roadmap",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w700,fontSize: 15),),),
+        Tab(child: Text("Travel Destination",style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontWeight: FontWeight.w700,fontSize: 15),),),
+        Tab(child: Text("Suntan Roadmap",style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontWeight: FontWeight.w700,fontSize: 15),),),
       ],
       controller: tabController,
     );
@@ -224,7 +225,7 @@ _fetchWeatherWithLocation() async {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/newbg.jpg"),
+            image:AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?AssetImage("assets/images/nightmode.jpg"): AssetImage("assets/images/bggg.png"),
             fit: BoxFit.fill,
           ),
         ),
@@ -239,11 +240,11 @@ _fetchWeatherWithLocation() async {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 100, left: 40),
+                    padding: const EdgeInsets.only(top: 150, left: 40),
                     child: Text(
                       "Travel",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
                           fontSize: 32,
                           fontFamily: "OpenSans",
                           fontWeight: FontWeight.w700),
@@ -254,181 +255,172 @@ _fetchWeatherWithLocation() async {
                     height: MediaQuery.of(context).size.height ,
                     child: _getTabBarView(
                       <Widget>[
-                        loader?SpinKitRipple(color:fontOrange,size:40):Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children:List.generate(weathers==null?0:weathers.length,(index){
-                                return   Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 12.0, right: 12.0, bottom: 5,top: 15),
-                                  child: Container(
-                                    height: MediaQuery.of(context).size.height * 0.24,
-                                    child: Card(
-                                        color: cardColor,
-                                        elevation: 5,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              bottomRight: Radius.circular(15),
-                                              topRight: Radius.circular(15),
-                                              topLeft: Radius.circular(15),
-                                              bottomLeft: Radius.circular(15)),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20.0, left: 30, bottom: 20, right: 20),
-                                          child: Row(
-
+                        loader?SpinKitRipple(color:fontOrange,size:40):SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children:List.generate(weathers==null?0:weathers.length,(index){
+                              return   Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 12.0, right: 12.0, bottom: 5,top: 15),
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height * 0.24,
+                                  child: Card(
+                                      color: cardColor,
+                                      elevation: 5,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(15),
+                                            topRight: Radius.circular(15),
+                                            topLeft: Radius.circular(15),
+                                            bottomLeft: Radius.circular(15)),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
+                                              Center(
+                                                child: Text("${weathers[index].cityName}",style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: "OpenSans",
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 18
+                                                ),),
+                                              ),
+                                              Row(
 
-
-                                              Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Expanded(
-                                                    child: Center(
-                                                      child: Text("${weathers[index].cityName}",style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontFamily: "OpenSans",
-                                                          fontWeight: FontWeight.w700,
-                                                          fontSize: 18
-                                                      ),),
-                                                    ),
+                                                  Text(
+                                                    "UV Index : ",
+                                                    style: TextStyle(
+                                                        color: fontOrange,
+                                                        fontFamily: "OpenSans",
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 16),
                                                   ),
-                                                  Row(
-
-                                                    children: [
-                                                      Text(
-                                                        "UV Index : ",
-                                                        style: TextStyle(
-                                                            color: fontOrange,
-                                                            fontFamily: "OpenSans",
-                                                            fontWeight: FontWeight.w700,
-                                                            fontSize: 16),
-                                                      ),
-                                                      Text("10",style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontFamily: "OpenSans",
-                                                          fontWeight: FontWeight.w700,
-                                                          fontSize: 16),),
-                                                    ],
-                                                  ),
-                                                  SizedBox(height: 5,),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        "Temprature : ",
-                                                        style: TextStyle(
-                                                            color: fontOrange,
-                                                            fontFamily: "OpenSans",
-                                                            fontWeight: FontWeight.w700,
-                                                            fontSize: 16),
-                                                      ),
-                                                      Text("${weathers[index].temperature.celsius.toString()} \u00B0C",style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontFamily: "OpenSans",
-                                                          fontWeight: FontWeight.w700,
-                                                          fontSize: 16),),
-                                                    ],
-                                                  ),
-                                                  SizedBox(height: 5,),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        "Weather : ",
-                                                        style: TextStyle(
-                                                            color: fontOrange,
-                                                            fontFamily: "OpenSans",
-                                                            fontWeight: FontWeight.w700,
-                                                            fontSize: 16),
-                                                      ),
-                                                      Text("${weathers[index].description}",style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontFamily: "OpenSans",
-                                                          fontWeight: FontWeight.w700,
-                                                          fontSize: 16),),
-                                                    ],
-                                                  ),
-                                                  SizedBox(height: 5,),
-                                                  // Row(
-                                                  //   children: [
-                                                  //     Text(
-                                                  //       "Peak UVI Time : ",
-                                                  //       style: TextStyle(
-                                                  //           color: fontOrange,
-                                                  //           fontFamily: "OpenSans",
-                                                  //           fontWeight: FontWeight.w700,
-                                                  //           fontSize: 16),
-                                                  //     ),
-                                                  //     Text("2:10 PM",style: TextStyle(
-                                                  //         color: Colors.black,
-                                                  //         fontFamily: "OpenSans",
-                                                  //         fontWeight: FontWeight.w700,
-                                                  //         fontSize: 16),),
-                                                  //   ],
-                                                  // ),
-
+                                                  Text("10",style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontFamily: "OpenSans",
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 16),),
                                                 ],
                                               ),
-
-                                              Icon(
-                                                getIconData(weathers[index].iconCode),
-                                                color: Colors.black,
-                                                size: 60,
+                                              SizedBox(height: 5,),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "Temprature : ",
+                                                    style: TextStyle(
+                                                        color: fontOrange,
+                                                        fontFamily: "OpenSans",
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 16),
+                                                  ),
+                                                  Text("${weathers[index].temperature.celsius.toString()} \u00B0C",style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontFamily: "OpenSans",
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 16),),
+                                                ],
                                               ),
-                                              // Image.asset(
-                                              //   'assets/images/sun.png',
-                                              //   width: 100,
-                                              //   height: 100,
-                                              //   fit: BoxFit.cover,
+                                              SizedBox(height: 5,),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "Weather : ",
+                                                    style: TextStyle(
+                                                        color: fontOrange,
+                                                        fontFamily: "OpenSans",
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 16),
+                                                  ),
+                                                  Text("${weathers[index].description}",style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontFamily: "OpenSans",
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 16),),
+                                                ],
+                                              ),
+                                              SizedBox(height: 5,),
+                                              // Row(
+                                              //   children: [
+                                              //     Text(
+                                              //       "Peak UVI Time : ",
+                                              //       style: TextStyle(
+                                              //           color: fontOrange,
+                                              //           fontFamily: "OpenSans",
+                                              //           fontWeight: FontWeight.w700,
+                                              //           fontSize: 16),
+                                              //     ),
+                                              //     Text("2:10 PM",style: TextStyle(
+                                              //         color: Colors.black,
+                                              //         fontFamily: "OpenSans",
+                                              //         fontWeight: FontWeight.w700,
+                                              //         fontSize: 16),),
+                                              //   ],
                                               // ),
+
                                             ],
                                           ),
-                                        )),
-                                  ),
-                                );
-                              }),
 
-                            ),
+                                          Icon(
+                                            getIconData(weathers[index].iconCode),
+                                            color: Colors.black,
+                                            size: 60,
+                                          ),
+                                          // Image.asset(
+                                          //   'assets/images/sun.png',
+                                          //   width: 100,
+                                          //   height: 100,
+                                          //   fit: BoxFit.cover,
+                                          // ),
+                                        ],
+                                      )),
+                                ),
+                              );
+                            }),
+
                           ),
                         ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 12.0, right: 12.0, bottom: 5,top: 15),
-                                  child: Container(
-                                    height: MediaQuery.of(context).size.height * 0.24,
-                                    child:
+                        SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 12.0, right: 12.0, bottom: 5,top: 15),
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height * 0.24,
+                                  child:
 
-                                    Card(
-                                        color: cardColor,
-                                        elevation: 5,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              bottomRight: Radius.circular(15),
-                                              topRight: Radius.circular(15),
-                                              topLeft: Radius.circular(15),
-                                              bottomLeft: Radius.circular(15)),
+                                  Card(
+                                      color: cardColor,
+                                      elevation: 5,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(15),
+                                            topRight: Radius.circular(15),
+                                            topLeft: Radius.circular(15),
+                                            bottomLeft: Radius.circular(15)),
+                                      ),
+                                      child: loader?SpinKitRipple(color:fontOrange,size:40):
+                                      mapbox.MapboxMap(
+                                        tiltGesturesEnabled: true,
+                                        accessToken: 'pk.eyJ1IjoiaGFzc2FucmVobWFuMDEzOTgiLCJhIjoiY2tqY25lcnIyMmFhYTJ6bnl2MGthamZiZyJ9.ZImRGisXPJXqjde9Ltu3tg',
+                                        onMapCreated: _onMapCreated,
+                                        onStyleLoadedCallback: () => onStyleLoaded(mapController),
+                                        initialCameraPosition: mapbox.CameraPosition(
+                                          target: center,
+                                          zoom: 0,
                                         ),
-                                        child: loader?SpinKitRipple(color:fontOrange,size:40):
-                                        mapbox.MapboxMap(
-                                          accessToken: 'pk.eyJ1IjoiaGFzc2FucmVobWFuMDEzOTgiLCJhIjoiY2tqY25lcnIyMmFhYTJ6bnl2MGthamZiZyJ9.ZImRGisXPJXqjde9Ltu3tg',
-                                          onMapCreated: _onMapCreated,
-                                          onStyleLoadedCallback: () => onStyleLoaded(mapController),
-                                          initialCameraPosition: mapbox.CameraPosition(
-                                            target: center,
-                                            zoom: 0,
-                                          ),
-                                          annotationOrder: const [
-                                            mapbox.AnnotationType.line,
-                                            mapbox.AnnotationType.symbol,
-                                            mapbox.AnnotationType.circle,
-                                            mapbox.AnnotationType.fill,
-                                          ],
-                                        ),
+                                        annotationOrder: const [
+                                          mapbox.AnnotationType.line,
+                                          mapbox.AnnotationType.symbol,
+                                          mapbox.AnnotationType.circle,
+                                          mapbox.AnnotationType.fill,
+                                        ],
+                                      ),
     //                                     GoogleMap(
     // mapType: MapType.normal,
     // markers:Set.from(
@@ -447,164 +439,162 @@ _fetchWeatherWithLocation() async {
     // // },
     // ),
 
-                                    ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 25.0, right: 12.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "My Training Records ",
-                                        style: TextStyle(
-                                            fontFamily: "OpenSans",
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 24),
-                                      ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 25.0, right: 12.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "My Training Records ",
+                                      style: TextStyle(
+                                          color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
+                                          fontFamily: "OpenSans",
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 24),
+                                    ),
 
-                                      Container(
-                                        width: double.infinity,
-                                        height: MediaQuery.of(context).size.height*0.3,
+                                    Container(
+                                      width: double.infinity,
+                                      height: MediaQuery.of(context).size.height*0.3,
 
 
-                                        child:
+                                      child:
 
 
-                                        Expanded(
-                                          child: SingleChildScrollView(
-                                            child: Column(
-                                              children: List.generate(state.all_skin_data==null?0:state.all_skin_data.length,(index){
+                                      SingleChildScrollView(
+                                        child: Column(
+                                          children: List.generate(state.all_skin_data==null?0:state.all_skin_data.length,(index){
 
-                                                return  Padding(
-                                                  padding: const EdgeInsets.only(right: 8,left: 8,top:30),
-                                                  child: Column(
+                                            return  Padding(
+                                              padding: const EdgeInsets.only(right: 8,left: 8,top:30),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: [
+                                                      Text(state.all_skin_data[index].city,style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontSize: 18,fontFamily: "OpenSans",fontWeight: FontWeight.w700),),
+                                                    ],),
+                                                  SizedBox(height: 10,),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
                                                       Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
-                                                          Text(state.all_skin_data[index].city,style: TextStyle(color: Colors.black,fontSize: 18,fontFamily: "OpenSans",fontWeight: FontWeight.w700),),
-                                                        ],),
-                                                      SizedBox(height: 10,),
+                                                          Text("Date",style: TextStyle(color:fontOrange,fontSize: 16,fontWeight: FontWeight.w700,fontFamily: "OpenSans"),),
+                                                          SizedBox(width: 5,),
+                                                          Text(state.all_skin_data[index].date.substring(0,11),style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontSize: 16,fontFamily: "OpenSans"),),
+                                                        ],
+                                                      ),
+
                                                       Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                         children: [
-                                                          Row(
-                                                            children: [
-                                                              Text("Date",style: TextStyle(color:fontOrange,fontSize: 16,fontWeight: FontWeight.w700,fontFamily: "OpenSans"),),
-                                                              SizedBox(width: 5,),
-                                                              Text(state.all_skin_data[index].date.substring(0,11),style: TextStyle(color: Colors.black,fontSize: 16,fontFamily: "OpenSans"),),
-                                                            ],
-                                                          ),
+                                                          Text("Time",style: TextStyle(color:fontOrange,fontSize: 16,fontWeight: FontWeight.w700,fontFamily: "OpenSans"),),
+                                                          SizedBox(width: 5,),
+                                                          Text(state.all_skin_data[index].time,style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontSize:16,fontFamily: "OpenSans"),),
+                                                        ],
+                                                      ),
+                                                    ],),
+                                                ],
+                                              ),
+                                            );
+                                          }),
 
-                                                          Row(
-                                                            children: [
-                                                              Text("Time",style: TextStyle(color:fontOrange,fontSize: 16,fontWeight: FontWeight.w700,fontFamily: "OpenSans"),),
-                                                              SizedBox(width: 5,),
-                                                              Text(state.all_skin_data[index].time,style: TextStyle(color: Colors.black,fontSize:16,fontFamily: "OpenSans"),),
-                                                            ],
-                                                          ),
-                                                        ],),
-                                                    ],
-                                                  ),
-                                                );
-                                              }),
-
-                                              //
-                                              // [
-                                              //  ,
-                                              //   Card(
-                                              //     elevation: 0,
-                                              //
-                                              //     child: Padding(
-                                              //       padding: const EdgeInsets.all(8.0),
-                                              //       child: Column(
-                                              //         children: [
-                                              //           Row(
-                                              //             mainAxisAlignment: MainAxisAlignment.center,
-                                              //             crossAxisAlignment: CrossAxisAlignment.center,
-                                              //             children: [
-                                              //               Text("Barcelona",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                              //             ],),
-                                              //           SizedBox(height: 10,),
-                                              //           Row(
-                                              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              //             children: [
-                                              //               Row(
-                                              //                 children: [
-                                              //                   Text("Date",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
-                                              //                   SizedBox(width: 10,),
-                                              //                   Text("2019-07-21",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                              //                 ],
-                                              //               ),
-                                              //
-                                              //               Row(
-                                              //                 children: [
-                                              //                   Text("Time",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
-                                              //                   SizedBox(width: 10,),
-                                              //                   Text("3 Hours",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                              //                 ],
-                                              //               ),
-                                              //             ],),
-                                              //         ],
-                                              //       ),
-                                              //     ),
-                                              //   ),
-                                              //   Card(
-                                              //     elevation: 0,
-                                              //
-                                              //     child: Padding(
-                                              //       padding: const EdgeInsets.all(8.0),
-                                              //       child: Column(
-                                              //         children: [
-                                              //           Row(
-                                              //             mainAxisAlignment: MainAxisAlignment.center,
-                                              //             crossAxisAlignment: CrossAxisAlignment.center,
-                                              //             children: [
-                                              //               Text("Barcelona",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                              //             ],),
-                                              //           SizedBox(height: 10,),
-                                              //           Row(
-                                              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              //             children: [
-                                              //               Row(
-                                              //                 children: [
-                                              //                   Text("Date",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
-                                              //                   SizedBox(width: 10,),
-                                              //                   Text("2019-07-21",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                              //                 ],
-                                              //               ),
-                                              //
-                                              //               Row(
-                                              //                 children: [
-                                              //                   Text("Time",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
-                                              //                   SizedBox(width: 10,),
-                                              //                   Text("3 Hours",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                              //                 ],
-                                              //               ),
-                                              //             ],),
-                                              //         ],
-                                              //       ),
-                                              //     ),
-                                              //   ),
-                                              // ],
-                                            ),
-                                          ),
+                                          //
+                                          // [
+                                          //  ,
+                                          //   Card(
+                                          //     elevation: 0,
+                                          //
+                                          //     child: Padding(
+                                          //       padding: const EdgeInsets.all(8.0),
+                                          //       child: Column(
+                                          //         children: [
+                                          //           Row(
+                                          //             mainAxisAlignment: MainAxisAlignment.center,
+                                          //             crossAxisAlignment: CrossAxisAlignment.center,
+                                          //             children: [
+                                          //               Text("Barcelona",style: TextStyle(color: Colors.black,fontSize: 20),),
+                                          //             ],),
+                                          //           SizedBox(height: 10,),
+                                          //           Row(
+                                          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          //             children: [
+                                          //               Row(
+                                          //                 children: [
+                                          //                   Text("Date",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
+                                          //                   SizedBox(width: 10,),
+                                          //                   Text("2019-07-21",style: TextStyle(color: Colors.black,fontSize: 20),),
+                                          //                 ],
+                                          //               ),
+                                          //
+                                          //               Row(
+                                          //                 children: [
+                                          //                   Text("Time",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
+                                          //                   SizedBox(width: 10,),
+                                          //                   Text("3 Hours",style: TextStyle(color: Colors.black,fontSize: 20),),
+                                          //                 ],
+                                          //               ),
+                                          //             ],),
+                                          //         ],
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          //   Card(
+                                          //     elevation: 0,
+                                          //
+                                          //     child: Padding(
+                                          //       padding: const EdgeInsets.all(8.0),
+                                          //       child: Column(
+                                          //         children: [
+                                          //           Row(
+                                          //             mainAxisAlignment: MainAxisAlignment.center,
+                                          //             crossAxisAlignment: CrossAxisAlignment.center,
+                                          //             children: [
+                                          //               Text("Barcelona",style: TextStyle(color: Colors.black,fontSize: 20),),
+                                          //             ],),
+                                          //           SizedBox(height: 10,),
+                                          //           Row(
+                                          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          //             children: [
+                                          //               Row(
+                                          //                 children: [
+                                          //                   Text("Date",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
+                                          //                   SizedBox(width: 10,),
+                                          //                   Text("2019-07-21",style: TextStyle(color: Colors.black,fontSize: 20),),
+                                          //                 ],
+                                          //               ),
+                                          //
+                                          //               Row(
+                                          //                 children: [
+                                          //                   Text("Time",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
+                                          //                   SizedBox(width: 10,),
+                                          //                   Text("3 Hours",style: TextStyle(color: Colors.black,fontSize: 20),),
+                                          //                 ],
+                                          //               ),
+                                          //             ],),
+                                          //         ],
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // ],
                                         ),
                                       ),
+                                    ),
 
-                                    ],
-                                  ),
+                                  ],
                                 ),
-                                SizedBox(width: 10),
-                              ],
-                            ),
+                              ),
+                              SizedBox(width: 10),
+                            ],
                           ),
                         )
                       ],
@@ -631,24 +621,33 @@ _fetchWeatherWithLocation() async {
     //   ),
     // );
     for(int i=0;i<lating.length;i++) {
-      mapController.addLine(
-        mapbox.LineOptions(
+      mapController.addCircle(
+        mapbox.CircleOptions(
           draggable: false,
-          lineColor: "#ff0000",
-          lineWidth: 7.0,
-          lineOpacity: 3,
-          geometry: [
-
-            mapbox.LatLng(
-                lating[i].latitude, lating[i].longitude + 1),
-            mapbox.LatLng(lating[i].latitude, lating[i].longitude),
-            mapbox.LatLng(
-                lating[i].latitude + 1,lating[i].longitude + 1),
-            mapbox.LatLng(
-                lating[i].latitude + 1, lating[i].longitude),
-          ],
-        ),
+          circleColor: "#FF0000",
+          circleRadius: 5.0,
+          circleOpacity: 3,
+          geometry: lating[i]
+        )
       );
+//      mapController.addLine(
+//        mapbox.LineOptions(
+//          draggable: false,
+//          lineColor: "#ff0000",
+//          lineWidth: 7.0,
+//          lineOpacity: 3,
+//          geometry: [
+//
+//            mapbox.LatLng(
+//                lating[i].latitude, lating[i].longitude + 1),
+//            mapbox.LatLng(lating[i].latitude, lating[i].longitude),
+//            mapbox.LatLng(
+//                lating[i].latitude + 1,lating[i].longitude + 1),
+//            mapbox.LatLng(
+//                lating[i].latitude + 1, lating[i].longitude),
+//          ],
+//        ),
+//      );
     }
     // controller.addLine(
     //   mapbox.LineOptions(
