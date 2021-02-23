@@ -30,7 +30,7 @@ class WeatherSwipePager extends StatelessWidget {
             );
           } else if (index == 1) {
             return TemperatureLineChart(
-              weather.forecast,
+              weather.weatheruv,
               animate: true,
             );
           }

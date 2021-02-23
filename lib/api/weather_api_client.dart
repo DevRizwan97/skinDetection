@@ -39,8 +39,12 @@ class WeatherApiClient {
     return Weather.fromJson(weatherJson);
   }
 
-  Future<List<Weather>> getForecast(String cityName) async {
-    final url = '$baseUrl/data/2.5/forecast?q=$cityName&appid=$apiKey';
+  Future<List<Weather>> getForecast(String cityName,double lat,double long) async {
+    //http://api.openweathermap.org/data/2.5/onecall?lat=37.4219927&lon=-122.084035&exclude=minutely,current,daily,alerts&appid=4598e3e8b70d175fd36e3963636ea9e1
+//    final url = '$baseUrl/data/2.5/forecast?q=$cityName&appid=$apiKey';
+
+    final url =
+        '$baseUrl/data/2.5/onecall?lat=$lat&lon=$long&exclude=minutely,current,daily,alerts&appid=$apiKey';
     print('fetching $url');
     final res = await this.httpClient.get(url);
     if (res.statusCode != 200) {
@@ -50,7 +54,22 @@ class WeatherApiClient {
     List<Weather> weathers = Weather.fromForecastJson(forecastJson);
     return weathers;
   }
+  Future<List<Weather>> getUvForecast(String cityName,double lat,double long) async {
+    //http://api.openweathermap.org/data/2.5/onecall?lat=37.4219927&lon=-122.084035&exclude=minutely,current,daily,alerts&appid=4598e3e8b70d175fd36e3963636ea9e1
+//    final url = '$baseUrl/data/2.5/forecast?q=$cityName&appid=$apiKey';
+//http://api.openweathermap.org/data/2.5/uvi/forecast?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
+    final url =
+        '$baseUrl/data/2.5/uvi/forecast?lat=$lat&lon=$long&appid=$apiKey';
+    print('fetching $url');
+    final res = await this.httpClient.get(url);
+    if (res.statusCode != 200) {
+      throw HTTPException(res.statusCode, "unable to fetch weather data");
+    }
+    final forecastJson = json.decode(res.body);
 
+    List<Weather> weathers = Weather.fromForecastUvJson(forecastJson);
+    return weathers;
+  }
   Future<String> onecallweatherdata(
       {double latitude, double longitude}) async {
     final url =

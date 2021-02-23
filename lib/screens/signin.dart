@@ -1,6 +1,12 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_cities_time/screens/weather_screen.dart';
+import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/utils/constants.dart';
+import 'package:provider/provider.dart';
+
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'Splash.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -8,8 +14,13 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  TextEditingController email=TextEditingController(),password=TextEditingController();
+bool loader=false;
+  bool emailchecking=true,passwordchecking=true;
   @override
   Widget build(BuildContext context) {
+
+    var state = Provider.of<AuthState>(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -59,6 +70,13 @@ class _SignInState extends State<SignIn> {
                                 const EdgeInsets.only(top: 10.0, right: 30),
                                 child: TextField(
                                   autofocus: false,
+                                  controller: email,
+                                  onChanged: (value) {
+                                    setState(() {
+
+                                      emailchecking = EmailValidator.validate(email.text);
+                                    });
+                                  },
                                   style: TextStyle(
                                       fontSize: 17.0, color: Colors.black),
                                   decoration: InputDecoration(
@@ -83,7 +101,18 @@ class _SignInState extends State<SignIn> {
                                   ),
                                 ),
                               ),
-
+                              if(emailchecking==false)
+                                Padding(
+                                  padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                  child: Text(
+                                    "Email is not valid",
+                                    style: TextStyle(
+                                        fontFamily: "OpenSans",
+                                        fontSize: 15,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ),
                               SizedBox(
                                 height: 12,
                               ),
@@ -98,6 +127,22 @@ class _SignInState extends State<SignIn> {
                                 padding:
                                 const EdgeInsets.only(top: 10.0, right: 30),
                                 child: TextField(
+                                  controller: password,
+                                  onChanged: (value) {
+                                    if(password.text.length<8){
+                                      setState(() {
+                                        passwordchecking=false;
+
+                                      });
+                                    }
+                                    else{
+
+                                      setState(() {
+                                        passwordchecking=true;
+
+                                      });
+                                    }
+                                  },
                                   autofocus: false,
                                   style: TextStyle(
                                       fontSize: 17.0, color: Colors.black),
@@ -123,12 +168,24 @@ class _SignInState extends State<SignIn> {
                                   ),
                                 ),
                               ),
+                              if(passwordchecking==false)
+                                Padding(
 
+                                  padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                  child: Text(
+                                    "Password is not valid",
+                                    style: TextStyle(
+                                        fontFamily: "OpenSans",
+                                        fontSize: 15,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Padding(
+                                 loader?SpinKitRipple(color:fontOrange,size:40): Padding(
                                     padding: const EdgeInsets.only(
                                         top: 12.0,
                                         bottom: 12.0,
@@ -140,10 +197,29 @@ class _SignInState extends State<SignIn> {
                                         BorderRadius.circular(9.0),
                                       ),
                                       onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(builder: (context) => WeatherScreen()));
 
+    if(email.text!=null&&password.text!=null){
+      setState(() {
+        loader=true;
+      });
+    state.signIn(email.text, password.text).then((status) {
+
+
+    if (state.user != null) {
+      setState(() {
+        loader=false;
+      });
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          SplashPage()), (Route<dynamic> route) => false);
+
+    }
+    else{
+      setState(() {
+        loader=false;
+      });
+    }
+    });
+    }
                                       },
                                       color: fontOrange,
                                       textColor: Colors.white,
@@ -227,4 +303,5 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
+
 }

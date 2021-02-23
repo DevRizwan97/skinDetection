@@ -4,6 +4,7 @@ class Users{
    String email;
    String password;
    String confirm_password;
+   String imageurl;
 
 
   Users({this.userId,this.username,this.email,this.password,this.confirm_password});
@@ -14,6 +15,7 @@ class Users{
     userId=map["userId"];
     username=map["username"];
     email=map["email"];
+    imageurl=map["imageurl"]==null?null:map["imageurl"];
     // password=map["password"];
     // confirm_password=map["confirm_password"];
 
@@ -25,7 +27,8 @@ return {
   'username':username,
   'email':email,
   'password':password,
-  'confirm_password':password
+  'confirm_password':password,
+  "image_url":imageurl==null?"":imageurl
 
 };
 

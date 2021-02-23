@@ -15,7 +15,10 @@ class WeatherRepository {
           latitude: latitude, longitude: longitude);
     }
     var weather = await weatherApiClient.getWeatherData(cityName);
-    var weathers = await weatherApiClient.getForecast(cityName);
+    var weathers = await weatherApiClient.getForecast(cityName,latitude,longitude);
+
+    var uv_weathers = await weatherApiClient.getUvForecast(cityName,latitude,longitude);
+    weather.weatheruv=uv_weathers;
     weather.forecast = weathers;
     return weather;
   }

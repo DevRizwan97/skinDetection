@@ -248,6 +248,8 @@ List<Skin> _all_skin_data=List<Skin>();
           email: email, password: password);
       user = result.user;
       userId = user.uid;
+     await getallUserSkin(userProfileId: userId);
+      await getProfileUser(userProfileId: userId);
       return user.uid;
     } catch (error) {
       loading = false;
@@ -256,7 +258,17 @@ List<Skin> _all_skin_data=List<Skin>();
       return null;
     }
   }
+  void logoutCallback() {
 
+    userId = '';
+    _userModel = null;
+    user = null;
+    _profileUserModelList = null;
+
+    _firebaseAuth.signOut();
+
+    notifyListeners();
+  }
   /// Create user from `google login`
   /// If user is new then it create a new user
   /// If user is old then it just `authenticate` user and return firebase user data
@@ -328,6 +340,20 @@ List<Skin> _all_skin_data=List<Skin>();
 
     loading = false;
   }
+
+  createAnonymousUser(Users user, {bool newUser = false}) async {
+
+    UserCredential firebaseuser = await FirebaseAuth.instance
+        .signInAnonymously();
+    user.userId=firebaseuser.user.uid;
+    await kDatabase.child('profile').child(user.userId).set(
+        user.toJson()
+    );
+    _userModel = user;
+
+
+    loading = false;
+  }
   void changeuser(User user){
     this.user=user;
     notifyListeners();
@@ -337,7 +363,11 @@ List<Skin> _all_skin_data=List<Skin>();
   Future<void> updateUserProfile(Users userModel, {File image}) async {
     try {
       if (image == null) {
-        createUser(userModel);
+        await kDatabase.child('profile').child(_userModel.userId).set(
+            _userModel.toJson()
+        );
+        _userModel = userModel;
+        notifyListeners();
       } else {
 
     FirebaseStorage storage = FirebaseStorage.instance;
@@ -350,8 +380,12 @@ List<Skin> _all_skin_data=List<Skin>();
           storageReference.getDownloadURL().then((fileURL) async {
             print(fileURL);
 
-              //_userModel.image = fileURL;
-              createUser(_userModel);
+              _userModel.imageurl = fileURL;
+            await kDatabase.child('profile').child(_userModel.userId).set(
+                _userModel.toJson()
+            );
+            _userModel = userModel;
+            notifyListeners();
 
           });
         });

@@ -18,8 +18,10 @@ class Weather {
   Temperature temperature;
   Temperature maxTemperature;
   Temperature minTemperature;
-
+double uv_value;
+int uv_date;
   List<Weather> forecast;
+  List<Weather> weatheruv;
 
   Weather(
       {this.id,
@@ -35,6 +37,9 @@ class Weather {
       this.temperature,
       this.maxTemperature,
       this.minTemperature,
+        this.uv_date,
+        this.uv_value,
+        this.weatheruv,
       this.forecast});
 
   static Weather fromJson(Map<String, dynamic> json) {
@@ -58,18 +63,35 @@ class Weather {
 
   static List<Weather> fromForecastJson(Map<String, dynamic> json) {
     final weathers = List<Weather>();
-    for (final item in json['list']) {
+    for (final item in json['hourly']) {
       weathers.add(Weather(
           time: item['dt'],
           temperature: Temperature(intToDouble(
-            item['main']['temp'],
+            item['temp'],
           )),
           iconCode: item['weather'][0]['icon']
       ));
+    print("hsan");
+    print(item['dt']);
     }
+    print(weathers);
     return weathers;
   }
+  static List<Weather> fromForecastUvJson(Map<String, dynamic> json) {
 
+    final weathers = List<Weather>();
+//    myModels=(json.decode(json) as List).map((i) =>
+//        Weather.fromJson(i)).toList();
+    for (final item in json["list"]) {
+      weathers.add(Weather(
+       uv_value: double.parse(item["uvi"].toString()),
+        uv_date: int.parse(item["dt"].toString())
+      ));
+
+    }
+    print(weathers);
+    return weathers;
+  }
   IconData getIconData(){
     switch(this.iconCode){
       case '01d': return WeatherIcons.clear_day;

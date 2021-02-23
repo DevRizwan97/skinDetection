@@ -7,6 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:my_cities_time/screens/Splash.dart';
 import 'package:my_cities_time/screens/blog.dart';
 import 'package:my_cities_time/screens/location.dart';
+import 'package:my_cities_time/screens/profile_page.dart';
 import 'package:my_cities_time/screens/settings_screen.dart';
 import 'package:my_cities_time/screens/signin.dart';
 import 'package:my_cities_time/screens/signup.dart';

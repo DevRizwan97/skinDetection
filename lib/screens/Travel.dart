@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:charcode/charcode.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
+import 'package:geocoder/geocoder.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
@@ -22,6 +24,8 @@ import 'package:my_cities_time/screens/location.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
+import 'package:my_cities_time/api/api_keys.dart';
+import 'package:my_cities_time/models/weather.dart';
 import 'package:http/http.dart' as http;
 class Travel extends StatefulWidget {
   @override
@@ -31,17 +35,21 @@ class Travel extends StatefulWidget {
 class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
   TabController tabController;bool loader=false;
   List<mapbox.LatLng> lating=new List<mapbox.LatLng>();
-
-
+TextEditingController searchcontroller=TextEditingController();
+  var uuid= new Uuid();
   List<List<mapbox.LatLng>> final_lating=new  List<List<mapbox.LatLng>>();
   Iterable markers = [];
   final mapbox.LatLng center = const mapbox.LatLng(24.580664, 67.5563837);
+
+  _TravelState();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     tabController = TabController(length: 2, vsync: this);
+
+    searchcontroller.addListener(() {        _onChanged();    });
     _fetchWeatherWithLocation().catchError((error) {
       // _fetchWeatherWithCity();
     });
@@ -60,6 +68,20 @@ class _TravelState extends State<Travel> with SingleTickerProviderStateMixin  {
       controller: tabController,
     );
   }    List<CityWeather> weathers=List<CityWeather>();
+
+  List<Weather> searchweather=List<Weather>();
+  Future<Weather> getWeatherData(String cityName) async {
+     const baseUrl = 'http://api.openweathermap.org';
+    final url = '$baseUrl/data/2.5/weather?q=$cityName&appid=4598e3e8b70d175fd36e3963636ea9e1';
+    print('fetching $url');
+    final res = await http.get(url);
+    if (res.statusCode != 200) {
+
+      throw HTTPException(res.statusCode, "unable to fetch weather data");
+    }
+    final weatherJson = json.decode(res.body);
+    return Weather.fromJson(weatherJson);
+  }
   Future getallweatherdata({double latitude, double longitude}) async {
 
     setState(() {
@@ -121,6 +143,8 @@ lating.add(latLngMarker);
 // );
 }
 
+  String _sessionToken ;
+  List<dynamic>_placeList = [];
 _fetchWeatherWithLocation() async {
 
     var permissionHandler = PermissionHandler();
@@ -209,6 +233,73 @@ _fetchWeatherWithLocation() async {
   //     // });
   //  // }
   // }
+
+  void _onChanged() {
+    if (_sessionToken == null) {
+      setState(() {
+        _sessionToken = uuid.v4();
+      });
+    }
+    getSuggestion(searchcontroller.text);
+  }
+  void getSuggestion(String input) async {
+    setState(() {
+      loader=true;
+    });
+    String kPLACES_API_KEY = "AIzaSyCj4FDxRHoIy91uBXhz_NqGpksKDB-cECw";
+    String type = '(regions)';
+    String baseURL =
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+    String request =
+        '$baseURL?input=$input&key=$kPLACES_API_KEY&sessiontoken=$_sessionToken';
+    print(request);
+    var response = await http.get(request);
+    if (response.statusCode == 200) {
+
+      setState(() {
+        searchweather.clear();
+        _placeList = json.decode(response.body)['predictions'];
+
+        print(_placeList);
+      });
+await getplaces();
+    } else {
+      setState(() {
+        loader=false;
+      });
+      throw Exception('Failed to load predictions');
+    }
+  }
+getplaces() async{
+    searchweather.clear();
+for(int i=0;i<_placeList.length;i++){
+  print(_placeList[i]);
+  Weather w;
+  try {
+    print(_placeList[i]['structured_formatting']['main_text']);
+   w = await (getWeatherData(_placeList[i]['structured_formatting']['main_text'].toString().replaceAll(' ', '')));
+//   if(w==null){
+//
+//     i++;
+//     w = await (getWeatherData(_placeList[i]["description"]));
+//
+//   }
+    setState(() {
+
+      searchweather.add(w);
+    });
+  }catch(Exception){
+    i++;
+
+
+  }
+
+}
+setState(() {
+  loader=false;
+});
+
+}
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<AuthState>(context, listen: false);
@@ -251,135 +342,293 @@ _fetchWeatherWithLocation() async {
                     ),
                   ),
                   _getTabBar(),
+                  Center(
+                    child: Container(
+                        height: 80,
+                        width: MediaQuery.of(context).size.width*0.7,
+                        padding: EdgeInsets.only(top:20),
+                        child: TextField(
+                          onChanged: (value) {
+if(searchcontroller.text==null||searchcontroller.text.contains("")){
+
+//  setState(() {
+//    _placeList.clear();
+//    searchweather.clear();
+//  });
+}
+                          },
+                          controller: searchcontroller,
+                          style: TextStyle(color:Colors.black),
+                          decoration: InputDecoration(
+
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(width: 0, style: BorderStyle.none),
+                              borderRadius: const BorderRadius.all(
+                                const Radius.circular(25.0),
+                              ),
+                            ),
+                            hintText: 'Search..',
+                            fillColor: Colors.white,
+                            filled: true,
+
+                            focusColor: Colors.white,
+                            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                          ),
+                        )
+                    ),
+                  ),
+
+
                   Container(
                     height: MediaQuery.of(context).size.height ,
                     child: _getTabBarView(
                       <Widget>[
-                        loader?SpinKitRipple(color:fontOrange,size:40):SingleChildScrollView(
+
+                        loader?SpinKitRipple(color:Colors.black,size:40):
+
+                        SingleChildScrollView(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children:List.generate(weathers==null?0:weathers.length,(index){
-                              return   Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 12.0, right: 12.0, bottom: 5,top: 15),
-                                child: Container(
-                                  height: MediaQuery.of(context).size.height * 0.24,
-                                  child: Card(
-                                      color: cardColor,
-                                      elevation: 5,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(15),
-                                            topRight: Radius.circular(15),
-                                            topLeft: Radius.circular(15),
-                                            bottomLeft: Radius.circular(15)),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Center(
-                                                child: Text("${weathers[index].cityName}",style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontFamily: "OpenSans",
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 18
-                                                ),),
-                                              ),
-                                              Row(
+                            children:List.generate(searchcontroller.text!=null||searchcontroller.text.contains("")?(weathers==null?0:weathers.length):(searchweather==null?0:searchweather.length<=0?0:searchweather.length),(index){
+                              if(searchweather.length>0)
+                                return GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            searchcontroller.text=_placeList[index]["description"];
+//              _placeList.clear();
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 12.0, right: 12.0, bottom: 5,top: 15),
+                                          child: Container(
+                                            height: MediaQuery.of(context).size.height * 0.24,
+                                            child: Card(
+                                                color: cardColor,
+                                                elevation: 5,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.only(
+                                                      bottomRight: Radius.circular(15),
+                                                      topRight: Radius.circular(15),
+                                                      topLeft: Radius.circular(15),
+                                                      bottomLeft: Radius.circular(15)),
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Center(
+                                                          child: Text("${searchweather[index].cityName}",style: TextStyle(
+                                                              color: Colors.black,
+                                                              fontFamily: "OpenSans",
+                                                              fontWeight: FontWeight.w700,
+                                                              fontSize: 18
+                                                          ),),
+                                                        ),
 
-                                                children: [
-                                                  Text(
-                                                    "UV Index : ",
-                                                    style: TextStyle(
-                                                        color: fontOrange,
-                                                        fontFamily: "OpenSans",
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 16),
-                                                  ),
-                                                  Text("10",style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontFamily: "OpenSans",
-                                                      fontWeight: FontWeight.w700,
-                                                      fontSize: 16),),
-                                                ],
-                                              ),
-                                              SizedBox(height: 5,),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    "Temprature : ",
-                                                    style: TextStyle(
-                                                        color: fontOrange,
-                                                        fontFamily: "OpenSans",
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 16),
-                                                  ),
-                                                  Text("${weathers[index].temperature.celsius.toString()} \u00B0C",style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontFamily: "OpenSans",
-                                                      fontWeight: FontWeight.w700,
-                                                      fontSize: 16),),
-                                                ],
-                                              ),
-                                              SizedBox(height: 5,),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    "Weather : ",
-                                                    style: TextStyle(
-                                                        color: fontOrange,
-                                                        fontFamily: "OpenSans",
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 16),
-                                                  ),
-                                                  Text("${weathers[index].description}",style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontFamily: "OpenSans",
-                                                      fontWeight: FontWeight.w700,
-                                                      fontSize: 16),),
-                                                ],
-                                              ),
-                                              SizedBox(height: 5,),
-                                              // Row(
-                                              //   children: [
-                                              //     Text(
-                                              //       "Peak UVI Time : ",
-                                              //       style: TextStyle(
-                                              //           color: fontOrange,
-                                              //           fontFamily: "OpenSans",
-                                              //           fontWeight: FontWeight.w700,
-                                              //           fontSize: 16),
-                                              //     ),
-                                              //     Text("2:10 PM",style: TextStyle(
-                                              //         color: Colors.black,
-                                              //         fontFamily: "OpenSans",
-                                              //         fontWeight: FontWeight.w700,
-                                              //         fontSize: 16),),
-                                              //   ],
-                                              // ),
+                                                        SizedBox(height: 5,),
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              "Temprature : ",
+                                                              style: TextStyle(
+                                                                  color: fontOrange,
+                                                                  fontFamily: "OpenSans",
+                                                                  fontWeight: FontWeight.w700,
+                                                                  fontSize: 16),
+                                                            ),
+                                                            Text("${
+                                                                double.parse(searchweather[index].temperature.celsius.toString()).floorToDouble().toString()} \u00B0C",style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontFamily: "OpenSans",
+                                                                fontWeight: FontWeight.w700,
+                                                                fontSize: 16),),
+                                                          ],
+                                                        ),
+                                                        SizedBox(height: 5,),
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              "Weather : ",
+                                                              style: TextStyle(
+                                                                  color: fontOrange,
+                                                                  fontFamily: "OpenSans",
+                                                                  fontWeight: FontWeight.w700,
+                                                                  fontSize: 16),
+                                                            ),
+                                                            Text("${searchweather[index].description}",style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontFamily: "OpenSans",
+                                                                fontWeight: FontWeight.w700,
+                                                                fontSize: 16),),
+                                                          ],
+                                                        ),
+                                                        SizedBox(height: 5,),
+                                                        // Row(
+                                                        //   children: [
+                                                        //     Text(
+                                                        //       "Peak UVI Time : ",
+                                                        //       style: TextStyle(
+                                                        //           color: fontOrange,
+                                                        //           fontFamily: "OpenSans",
+                                                        //           fontWeight: FontWeight.w700,
+                                                        //           fontSize: 16),
+                                                        //     ),
+                                                        //     Text("2:10 PM",style: TextStyle(
+                                                        //         color: Colors.black,
+                                                        //         fontFamily: "OpenSans",
+                                                        //         fontWeight: FontWeight.w700,
+                                                        //         fontSize: 16),),
+                                                        //   ],
+                                                        // ),
 
-                                            ],
+                                                      ],
+                                                    ),
+
+                                                    Icon(
+                                                      getIconData(searchweather[index].iconCode),
+                                                      color: Colors.black,
+                                                      size: 60,
+                                                    ),
+                                                    // Image.asset(
+                                                    //   'assets/images/sun.png',
+                                                    //   width: 100,
+                                                    //   height: 100,
+                                                    //   fit: BoxFit.cover,
+                                                    // ),
+                                                  ],
+                                                )),
                                           ),
+                                        )
+                                    );
 
-                                          Icon(
-                                            getIconData(weathers[index].iconCode),
-                                            color: Colors.black,
-                                            size: 60,
-                                          ),
-                                          // Image.asset(
-                                          //   'assets/images/sun.png',
-                                          //   width: 100,
-                                          //   height: 100,
-                                          //   fit: BoxFit.cover,
-                                          // ),
-                                        ],
-                                      )),
-                                ),
-                              );
+                              else
+                                return   Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 12.0, right: 12.0, bottom: 5,top: 15),
+                                  child: Container(
+                                    height: MediaQuery.of(context).size.height * 0.24,
+                                    child: Card(
+                                        color: cardColor,
+                                        elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              bottomRight: Radius.circular(15),
+                                              topRight: Radius.circular(15),
+                                              topLeft: Radius.circular(15),
+                                              bottomLeft: Radius.circular(15)),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Center(
+                                                  child: Text("${weathers[index].cityName}",style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontFamily: "OpenSans",
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 18
+                                                  ),),
+                                                ),
+                                                Row(
+
+                                                  children: [
+                                                    Text(
+                                                      "UV Index : ",
+                                                      style: TextStyle(
+                                                          color: fontOrange,
+                                                          fontFamily: "OpenSans",
+                                                          fontWeight: FontWeight.w700,
+                                                          fontSize: 16),
+                                                    ),
+                                                    Text("10",style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily: "OpenSans",
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 16),),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 5,),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      "Temprature : ",
+                                                      style: TextStyle(
+                                                          color: fontOrange,
+                                                          fontFamily: "OpenSans",
+                                                          fontWeight: FontWeight.w700,
+                                                          fontSize: 16),
+                                                    ),
+                                                    Text("${
+                                                        double.parse(weathers[index].temperature.celsius.toString()).floorToDouble().toString()} \u00B0C",style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily: "OpenSans",
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 16),),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 5,),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      "Weather : ",
+                                                      style: TextStyle(
+                                                          color: fontOrange,
+                                                          fontFamily: "OpenSans",
+                                                          fontWeight: FontWeight.w700,
+                                                          fontSize: 16),
+                                                    ),
+                                                    Text("${weathers[index].description}",style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily: "OpenSans",
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 16),),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 5,),
+                                                // Row(
+                                                //   children: [
+                                                //     Text(
+                                                //       "Peak UVI Time : ",
+                                                //       style: TextStyle(
+                                                //           color: fontOrange,
+                                                //           fontFamily: "OpenSans",
+                                                //           fontWeight: FontWeight.w700,
+                                                //           fontSize: 16),
+                                                //     ),
+                                                //     Text("2:10 PM",style: TextStyle(
+                                                //         color: Colors.black,
+                                                //         fontFamily: "OpenSans",
+                                                //         fontWeight: FontWeight.w700,
+                                                //         fontSize: 16),),
+                                                //   ],
+                                                // ),
+
+                                              ],
+                                            ),
+
+                                            Icon(
+                                              getIconData(weathers[index].iconCode),
+                                              color: Colors.black,
+                                              size: 60,
+                                            ),
+                                            // Image.asset(
+                                            //   'assets/images/sun.png',
+                                            //   width: 100,
+                                            //   height: 100,
+                                            //   fit: BoxFit.cover,
+                                            // ),
+                                          ],
+                                        )),
+                                  ),
+                                );
+
                             }),
 
                           ),
@@ -387,14 +636,14 @@ _fetchWeatherWithLocation() async {
                         SingleChildScrollView(
                           child: Column(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 12.0, right: 12.0, bottom: 5,top: 15),
-                                child: Container(
-                                  height: MediaQuery.of(context).size.height * 0.24,
-                                  child:
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 12.0, right: 12.0, bottom: 5,top: 15),
+                                  child: Container(
+                                    height: MediaQuery.of(context).size.height * 0.24,
+                                    child:
 
-                                  Card(
+                                    Card(
                                       color: cardColor,
                                       elevation: 5,
                                       shape: RoundedRectangleBorder(
@@ -404,7 +653,7 @@ _fetchWeatherWithLocation() async {
                                             topLeft: Radius.circular(15),
                                             bottomLeft: Radius.circular(15)),
                                       ),
-                                      child: loader?SpinKitRipple(color:fontOrange,size:40):
+                                      child: loader?SpinKitRipple(color:Colors.black,size:40):
                                       mapbox.MapboxMap(
                                         tiltGesturesEnabled: true,
                                         accessToken: 'pk.eyJ1IjoiaGFzc2FucmVobWFuMDEzOTgiLCJhIjoiY2tqY25lcnIyMmFhYTJ6bnl2MGthamZiZyJ9.ZImRGisXPJXqjde9Ltu3tg',
@@ -421,27 +670,28 @@ _fetchWeatherWithLocation() async {
                                           mapbox.AnnotationType.fill,
                                         ],
                                       ),
-    //                                     GoogleMap(
-    // mapType: MapType.normal,
-    // markers:Set.from(
-    //   markers,
-    // ),
-    //
-    //                                       initialCameraPosition:
-    //                                       CameraPosition(target: lating,  zoom: 0.0),
-    //
-    // // initialZoom: 20,
-    //
-    //
-    // // onMapCreated: (GoogleMapController controller) {
-    // // controller.setMapStyle(MapStyle.retro);
-    // // _controller.complete(controller);
-    // // },
-    // ),
+                                      //                                     GoogleMap(
+                                      // mapType: MapType.normal,
+                                      // markers:Set.from(
+                                      //   markers,
+                                      // ),
+                                      //
+                                      //                                       initialCameraPosition:
+                                      //                                       CameraPosition(target: lating,  zoom: 0.0),
+                                      //
+                                      // // initialZoom: 20,
+                                      //
+                                      //
+                                      // // onMapCreated: (GoogleMapController controller) {
+                                      // // controller.setMapStyle(MapStyle.retro);
+                                      // // _controller.complete(controller);
+                                      // // },
+                                      // ),
 
+                                    ),
                                   ),
                                 ),
-                              ),
+
                               SizedBox(
                                 height: 5,
                               ),

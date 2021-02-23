@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geocoder/geocoder.dart';
@@ -29,6 +30,8 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
 bool loader=false;
+
+bool emailchecking=true,passwordchecking=true,confirmpasswordchecking=true;
   TextEditingController email=TextEditingController(),username=TextEditingController(),password=TextEditingController(),confirm_password=TextEditingController();
   loc.Location location = loc.Location();//explicit reference to the Location class
   Future _checkGps() async {
@@ -99,6 +102,12 @@ bool loader=false;
                                   child: TextField(
                                     keyboardType: TextInputType.emailAddress,
                                     controller: email,
+                                    onChanged: (value) {
+setState(() {
+
+  emailchecking = EmailValidator.validate(email.text);
+});
+                                    },
                                     autofocus: false,
                                     style: TextStyle(
                                         fontSize: 15.0, color: Colors.black),
@@ -113,7 +122,7 @@ bool loader=false;
                                           left: 20.0, bottom: 7.0, top: 7.0),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.white),
+                                            BorderSide(color: emailchecking?Colors.white:Colors.red),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       enabledBorder: UnderlineInputBorder(
@@ -124,6 +133,18 @@ bool loader=false;
                                     ),
                                   ),
                                 ),
+                                if(emailchecking==false)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                    child: Text(
+                                      "Email is not valid",
+                                      style: TextStyle(
+                                          fontFamily: "OpenSans",
+                                          fontSize: 15,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ),
                                 SizedBox(
                                   height: 12,
                                 ),
@@ -182,10 +203,25 @@ bool loader=false;
                                 ),
                                 Padding(
                                   padding:
-                                      const EdgeInsets.only(top:8.0,left: 10,right: 10),
+                                  const EdgeInsets.only(top:8.0,left: 10,right: 10),
                                   child: TextField(
                                     autofocus: false,
                                     controller: password,
+                                    onChanged: (value) {
+                                      if(password.text.length<8){
+                                        setState(() {
+                                          passwordchecking=false;
+
+                                        });
+
+                                      }
+                                      else{
+                                        setState(() {
+                                          passwordchecking=true;
+
+                                        });
+                                      }
+                                    },
                                     obscureText: true,
                                     style: TextStyle(
                                         fontSize: 15.0, color: Colors.black),
@@ -205,12 +241,25 @@ bool loader=false;
                                       ),
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.white),
+                                            BorderSide(color: passwordchecking?Colors.white:Colors.red),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                     ),
                                   ),
                                 ),
+                                if(passwordchecking==false)
+                                  Padding(
+
+                                    padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                    child: Text(
+                                      "Password is not valid",
+                                      style: TextStyle(
+                                          fontFamily: "OpenSans",
+                                          fontSize: 15,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ),
                                 SizedBox(
                                   height: 12,
                                 ),
@@ -232,6 +281,23 @@ bool loader=false;
                                     autofocus: false,
                                     controller: confirm_password,
                                     obscureText: true,
+                                      onChanged: (value) {
+                                        if(confirm_password.text.length<8||!(password.text.contains(confirm_password.text))){
+                                          setState(() {
+                                            confirmpasswordchecking=false;
+
+                                          }
+                                          );
+                                        }
+                                        else{
+                                          setState(() {
+                                            confirmpasswordchecking=true;
+
+                                          });
+
+                                        }
+                                      },
+
                                     style: TextStyle(
                                         fontSize: 15.0, color: Colors.black),
                                     decoration: InputDecoration(
@@ -250,13 +316,25 @@ bool loader=false;
                                       ),
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide:
-                                            BorderSide(color: Colors.white),
+                                            BorderSide(color: confirmpasswordchecking?Colors.white:Colors.red),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                     ),
                                   ),
                                 ),
+                                if(confirmpasswordchecking==false)
+                                  Padding(
 
+                                    padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                    child: Text(
+                                      "Password are not same",
+                                      style: TextStyle(
+                                          fontFamily: "OpenSans",
+                                          fontSize: 15,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ),
                                 SizedBox(height: 10,),
 
                                 Row(
@@ -363,13 +441,19 @@ bool loader=false;
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      "Sign Up later",
-                                      style: TextStyle(
-                                        fontFamily: "OpenSans",
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                        color: fontOrange,
+                                    GestureDetector(
+                                     onTap: () {
+                                      signup_anonymous();
+                                     },
+                                      child: Text(
+                                        "Sign-up later",
+                                        style: TextStyle(
+
+                                          fontFamily: "OpenSans",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          color: fontOrange,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -390,6 +474,86 @@ bool loader=false;
       ),
     );
   }
+
+signup_anonymous() async {
+  setState(() {
+    loader=true;
+  });
+
+  WeatherFactory wf = new WeatherFactory(ApiKey.OPEN_WEATHER_MAP);
+  var state = Provider.of<AuthState>(context, listen: false);
+
+  Position position = await Geolocator()
+      .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+  final coordinates = new Coordinates(
+      position.latitude,  position.longitude);
+  var addresses = await Geocoder.local.findAddressesFromCoordinates(
+      coordinates);
+  Weather weather = await wf.currentWeatherByLocation(position.latitude, position.longitude);
+
+  // if(check()==true){
+  //   print(check());
+  //   showsnackbartop("Signup Error", "Field missing", 4,error, error, error, context);
+  //
+  // }
+
+  Users users=Users(
+    username: "Anonymous",
+    confirm_password: "anonymous",
+    email:  "anonymous@gmail.com",
+    password: "anonymous",
+
+  );
+  try {
+    await state.createAnonymousUser(users);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Skin skinmodel = widget.skinmodel;
+    skinmodel.city = addresses.first.locality;
+    skinmodel.temperature = weather.temperature.celsius.toString();
+    skinmodel.weather_detail = weather.weatherDescription;
+    skinmodel.weathericon = weather.weatherIcon;
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(now.year, now.month, now.day);
+    skinmodel.date = date.toString();
+    skinmodel.time = DateFormat.Hms().format(now);
+    setState(() {
+      loader = false;
+    });
+
+    kDatabase.child('skin').child(state.userModel.userId)
+      ..child(addresses.first.locality).child(DateTime
+          .now()
+          .millisecondsSinceEpoch
+          .toString()).set(
+          skinmodel.toJson()
+      ).then((value) => {
+        prefs.setString("location", addresses.first.locality).then((
+            bool success) {
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+              SplashPage()), (Route<dynamic> route) => false);
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => SplashPage()),
+          // );
+        })
+      });
+
+
+  }catch(e){
+
+    showsnackbartop("Registration Error", "Error registering this user", 4, Colors.red,Colors.red, Colors.red, context);
+  }
+  setState(() {
+    loader = false;
+  });
+
+
+
+
+
+
+}
   signup() async {
     setState(() {
       loader=true;
@@ -411,6 +575,22 @@ bool loader=false;
     //   showsnackbartop("Signup Error", "Field missing", 4,error, error, error, context);
     //
     // }
+    if(email==null){
+      setState(() {
+        loader=false;
+      });
+      showsnackbartop("Fields Missing", "Email is missing", 4,error, error, error, context);
+      return;
+
+    }
+    if(password.text==null||confirm_password.text==null){
+      setState(() {
+        loader=false;
+      });
+      showsnackbartop("Fields Missing", "Password field missing", 4,error, error, error, context);
+      return;
+
+    }
     if(!(password.text.contains(confirm_password.text))){
       setState(() {
         loader=false;
@@ -476,12 +656,12 @@ return;
 
 
   }
-  bool check(){
-    if(email.text==null||email.text==""||username.text==null||username.text==""||password.text==null||password.text==""||confirm_password.text==""||confirm_password.text!=null){
-      return true;
-
-    }
-    return false;
-
-  }
+//  bool check(){
+//    if(email.text==null||email.text==""||username.text==null||username.text==""||password.text==null||password.text==""||confirm_password.text==""||confirm_password.text!=null){
+//      return true;
+//
+//    }
+//    return false;
+//
+//  }
 }

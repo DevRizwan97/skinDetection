@@ -450,7 +450,7 @@ class _LocationState extends State<Location> {
                                                     fontSize: 17),
                                               ),
                                               Text(
-                                                "${state.skin == null ? "" : state.skin.recommended_timing}",
+                                                "${state.skin == null ? "" : state.skin.spf}",
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontFamily: "OpenSans",
@@ -737,6 +737,7 @@ class _LocationState extends State<Location> {
 
         return new NumberPickerDialog.integer(
           minValue: 1,
+          title: Text("Setup UV Alarm"),
           maxValue: 10,
           step: 1,
           initialIntegerValue: 1,
@@ -759,9 +760,12 @@ class _LocationState extends State<Location> {
   }
 
   void _showDialog1() {
-    DatePicker.showTime12hPicker(context, showTitleActions: true, onChanged: (date) {
+    DatePicker.showTime12hPicker(context, showTitleActions: true,
+
+        onChanged: (date) {
       print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
     }, onConfirm: (date) {
+
       Time notificationtime=Time(date.hour,date.minute,0);
       const AndroidNotificationDetails androidPlatformChannelSpecifics =
       AndroidNotificationDetails(

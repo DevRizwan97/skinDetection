@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:my_cities_time/screens/Travel.dart';
 import 'package:my_cities_time/screens/blog.dart';
 import 'package:my_cities_time/screens/location.dart';
+import 'package:my_cities_time/screens/profile_page.dart';
+import 'package:my_cities_time/screens/signin.dart';
 import 'package:my_cities_time/screens/skintracker.dart';
 import 'package:my_cities_time/screens/the_protection_shop.dart';
 import 'package:my_cities_time/screens/the_skin_lab.dart';
@@ -42,6 +44,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             ListTile(
               onTap: () {
+
                 // _navigateTo("ProfilePage");
               },
               title: Row(
@@ -70,7 +73,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<AuthState>(context, listen: false);
+    var state = Provider.of<AuthState>(context);
     return Container(
       width: 250,
       child: ClipRRect(
@@ -130,17 +133,29 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        height: 120,
-                        width: 120,
-                        margin: EdgeInsets.only(left: 40, top: 60,right: 50),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: AssetImage(
-                                  "assets/images/profile.jpeg",
-                                ))),
+                      GestureDetector(
+                       onTap:(){
+                         Navigator.push(
+                             context,
+                             MaterialPageRoute(
+                               builder: (context) => ProfilePage(),
+                             ));
+            },
+                        child: Container(
+                          height: 120,
+                          width: 120,
+                          margin: EdgeInsets.only(left: 40, top: 60,right: 50),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: state.userModel.imageurl==null?AssetImage(
+                                    "assets/images/profile.jpeg",
+                                  ):NetworkImage(
+                                    state.userModel.imageurl
+
+                                  ))),
+                        ),
                       ),
                       SizedBox(height: 15,),
                       Text(
@@ -317,7 +332,36 @@ mainAxisAlignment: MainAxisAlignment.center,
                   color: white,
                   thickness: 0.5,
                 ),
+                GestureDetector(
+                  onTap: () {
+                    state.logoutCallback();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignIn(),
+                        ));
+                  },
+                  child: ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Text(
+                        'Logout',
+                        style: TextStyle(
+                            fontFamily: "OpenSans",
+                            fontSize: 20,
+                            color: white,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ),
+                ),
+                Divider(
+                  color: white,
+                  thickness: 0.5,
+                ),
               ]),
+
+
             ),
           ),
 

@@ -25,9 +25,9 @@ class TemperatureLineChart extends StatelessWidget {
             charts.MaterialPalette.blue.shadeDefault,
             domainFn: (Weather weather, _) =>
                 DateTime.fromMillisecondsSinceEpoch(
-                    weather.time * 1000),
+                    weather.uv_date * 1000),
             measureFn: (Weather weather, _) =>
-                weather.temperature.as(AppStateContainer.of(context).temperatureUnit),
+                weather.uv_value,
             data: weathers,
           )
         ],
@@ -35,6 +35,10 @@ class TemperatureLineChart extends StatelessWidget {
             animationDuration: Duration(milliseconds: 500),
             primaryMeasureAxis: new charts.NumericAxisSpec(
                 tickProviderSpec: new charts.BasicNumericTickProviderSpec(
-                    zeroBound: false))));
+                    zeroBound: false)
+            )
+
+        )
+    );
   }
 }
