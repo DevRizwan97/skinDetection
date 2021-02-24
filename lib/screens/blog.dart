@@ -22,6 +22,7 @@ class _BlogState extends State<Blog> {
   Widget build(BuildContext context) {
 
     var state = Provider.of<AuthState>(context, listen: false);
+    print(state.all_blogs);
     return Scaffold(
 
       appBar: AppBar(
@@ -59,68 +60,75 @@ class _BlogState extends State<Blog> {
             ),
             SizedBox(height: 10,),
 
-
-            Padding(
-              padding: const EdgeInsets.only(left:12.0,right: 12.0,bottom: 5),
-              child: GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => BlogDetail(
-                    title: "Sun Protection Guidelines",
-                    body: "Lorem ipsum dolor sit amet,consetetur sadipscing elitr, sed diam nonumy Lorem ipsum dolor sit amet,consetetur sadipscing elitr, sed diam nonumy Lorem ipsum dolor sit amet,consetetur sadipscing elitr, sed diam nonumy Lorem ipsum dolor sit amet,consetetur sadipscing elitr, sed diam nonumy Lorem ipsum dolor sit amet,consetetur sadipscing elitr, sed diam nonumy",
-                  )));
-                },
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.18,
-                  child: Card(
-                    color: cardColor,
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(15),
-                            topRight: Radius.circular(15),
-                            topLeft: Radius.circular(15),
-                            bottomLeft: Radius.circular(15)),
-                      ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left:6.0,top: 6.0,bottom: 6.0),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(15.0),
-                                child: Image.asset("assets/images/photo.jpg",width: 125,)),
+            Container(
+            height: MediaQuery.of(context).size.height,
+              child: ListView.builder(
+                itemCount: state.all_blogs==null?0:state.all_blogs.length,
+                itemBuilder: (context, index) {
+                return  Padding(
+                  padding: const EdgeInsets.only(left:12.0,right: 12.0,bottom: 5),
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => BlogDetail(
+                        title: state.all_blogs[index].title,
+                        body: state.all_blogs[index].description,
+                      )));
+                    },
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.18,
+                      child: Card(
+                          color: cardColor,
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(15),
+                                topRight: Radius.circular(15),
+                                topLeft: Radius.circular(15),
+                                bottomLeft: Radius.circular(15)),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Row(
                             children: [
-                              SizedBox(height: 10,),
                               Padding(
-                                padding: const EdgeInsets.only(top:8.0,left: 8.9,right: 8.0,bottom: 5),
-                                child: AutoSizeText(
-                                    'Sun Protection Guidelines',
-                                    style: TextStyle(fontSize: 14.0,fontFamily: "OpenSans",fontWeight: FontWeight.w700),
-                                    maxLines: 3
-                                ),
+                                padding: const EdgeInsets.only(left:6.0,top: 6.0,bottom: 6.0),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    child: Image.asset("assets/images/photo.jpg",width: 125,)),
                               ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left:8.0,bottom: 8.0),
-                                  child: AutoSizeText(
-                                      'Lorem ipsum dolor sit amet,consetetur sadipscing elitr, sed diam nonumy',
-                                      style: TextStyle(fontSize: 12.0,fontFamily: "OpenSans"),
-                                      maxLines: 3
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: 10,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:8.0,left: 8.9,right: 8.0,bottom: 5),
+                                    child: AutoSizeText(
+                                        state.all_blogs[index].title==null?"":  state.all_blogs[index].title,
+                                        style: TextStyle(fontSize: 14.0,fontFamily: "OpenSans",fontWeight: FontWeight.w700),
+                                        maxLines: 3
+                                    ),
                                   ),
-                                ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width * 0.5,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left:8.0,bottom: 8.0),
+                                      child: AutoSizeText(
+                                          state.all_blogs[index].sub_description==null?"":  state.all_blogs[index].sub_description,
+                                          style: TextStyle(fontSize: 12.0,fontFamily: "OpenSans"),
+                                          maxLines: 3
+                                      ),
+                                    ),
+                                  )
+                                ],
                               )
                             ],
                           )
-                        ],
-                      )
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-          ],
+                );
+              }
+
+                  ),
+            )],
         ),
       ),
     );

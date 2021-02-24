@@ -273,7 +273,6 @@ await getplaces();
 getplaces() async{
     searchweather.clear();
 for(int i=0;i<_placeList.length;i++){
-  print(_placeList[i]);
   Weather w;
   try {
     print(_placeList[i]['structured_formatting']['main_text']);
@@ -390,7 +389,7 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children:List.generate(searchcontroller.text!=null||searchcontroller.text.contains("")?(weathers==null?0:weathers.length):(searchweather==null?0:searchweather.length<=0?0:searchweather.length),(index){
-                              if(searchweather.length>0)
+                              if(index<searchweather.length)
                                 return GestureDetector(
                                         onTap: () {
                                           setState(() {

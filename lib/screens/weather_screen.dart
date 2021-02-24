@@ -75,10 +75,10 @@ class _WeatherScreenState extends State<WeatherScreen>
                 ),
                 onSelected: this._onOptionMenuItemSelected,
                 itemBuilder: (context) => <PopupMenuEntry<OptionsMenu>>[
-                      PopupMenuItem<OptionsMenu>(
-                        value: OptionsMenu.changeCity,
-                        child: Text("change city"),
-                      ),
+//                      PopupMenuItem<OptionsMenu>(
+//                        value: OptionsMenu.changeCity,
+//                        child: Text("change city"),
+//                      ),
                       PopupMenuItem<OptionsMenu>(
                         value: OptionsMenu.settings,
                         child: Text("settings"),

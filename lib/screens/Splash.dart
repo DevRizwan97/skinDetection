@@ -29,6 +29,7 @@ class _SplashPageState extends State<SplashPage> {
       // state.authStatus = AuthStatus.NOT_DETERMINED;
       state.getCurrentUser();
       state.getallSkins();
+      state.getallBlogs();
     });
   }
 
