@@ -58,10 +58,10 @@ class _BlogState extends State<Blog> {
                   fontWeight: FontWeight.w700
               ),),
             ),
-            SizedBox(height: 10,),
+            // SizedBox(height: 10,),
 
             Container(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height * 0.7 ,
               child: ListView.builder(
                 itemCount: state.all_blogs==null?0:state.all_blogs.length,
                 itemBuilder: (context, index) {
@@ -100,10 +100,15 @@ class _BlogState extends State<Blog> {
                                   SizedBox(height: 10,),
                                   Padding(
                                     padding: const EdgeInsets.only(top:8.0,left: 8.9,right: 8.0,bottom: 5),
-                                    child: AutoSizeText(
-                                        state.all_blogs[index].title==null?"":  state.all_blogs[index].title,
-                                        style: TextStyle(fontSize: 14.0,fontFamily: "OpenSans",fontWeight: FontWeight.w700),
-                                        maxLines: 3
+                                    child: Container(
+                                      width: 100,
+
+                                      child: Text(
+                                          state.all_blogs[index].title==null?"":  state.all_blogs[index].title,
+                                          style: TextStyle(fontSize: 14.0,fontFamily: "OpenSans",fontWeight: FontWeight.w700),
+                                          maxLines: 4,
+
+                                      ),
                                     ),
                                   ),
                                   Container(
@@ -112,7 +117,7 @@ class _BlogState extends State<Blog> {
                                       padding: const EdgeInsets.only(left:8.0,bottom: 8.0),
                                       child: AutoSizeText(
                                           state.all_blogs[index].sub_description==null?"":  state.all_blogs[index].sub_description,
-                                          style: TextStyle(fontSize: 12.0,fontFamily: "OpenSans"),
+                                          style: TextStyle(fontSize: 10.0,fontFamily: "OpenSans"),
                                           maxLines: 3
                                       ),
                                     ),

@@ -55,6 +55,7 @@ String selectedNotificationPayload;
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+
   final NotificationAppLaunchDetails notificationAppLaunchDetails =
   await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
 
@@ -95,7 +96,11 @@ void main() async {
   await AndroidAlarmManager.initialize();
   BlocSupervisor().delegate = SimpleBlocDelegate();
   await Firebase.initializeApp();
-  runApp(AppStateContainer(child: MyApp()));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(AppStateContainer(child: MyApp()));
+  });
+
 
 }
 

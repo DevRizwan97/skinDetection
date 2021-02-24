@@ -379,7 +379,7 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
 
 
                   Container(
-                    height: MediaQuery.of(context).size.height ,
+                    height: MediaQuery.of(context).size.height * 0.56 ,
                     child: _getTabBarView(
                       <Widget>[
 

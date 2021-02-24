@@ -69,35 +69,47 @@ class _BlogDetailState extends State<BlogDetail> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))
                     ),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 20,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            AutoSizeText(
-                                widget.title,
-                                style: TextStyle(fontSize: 20.0,fontFamily: "OpenSans",fontWeight: FontWeight.w700),
-                                maxLines: 3
-                            )
-                          ],
-                        ),
-                        SizedBox(height: 40,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              child: AutoSizeText(
-                                  widget.body,
-                                  style: TextStyle(fontSize: 20.0,fontFamily: "OpenSans",fontWeight: FontWeight.w700),
-                                  maxLines: 10
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(height: 50,)
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 20,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Center(
+                                  child: Text(
+                                      widget.title,
+                                      style: TextStyle(fontSize: 20.0,fontFamily: "OpenSans",fontWeight: FontWeight.w700),
+
+                                      overflow: TextOverflow.clip,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: 20,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                child: AutoSizeText(
+                                    widget.body,
+                                    style: TextStyle(fontSize: 20.0,fontFamily: "OpenSans",fontWeight: FontWeight.w700),
+                                    maxLines: 10
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: 50,)
+                        ],
+                      ),
                     ),
                   ),
                 ),
