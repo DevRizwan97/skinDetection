@@ -15,7 +15,7 @@ final chartcolor=Color(0xffe1ab96);
 
 final chartpointcolor=Color(0xfffea832);
 
-final String api_url="http://157.230.179.70/skin-detect";
+final String api_url="http://165.22.230.126/skin-detect";
  const SHARED_PREF_KEY_THEME = "theme_code";
 const SHARED_PREF_KEY_TEMPERATURE_UNIT = "temp_unit";
 
