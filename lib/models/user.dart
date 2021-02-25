@@ -15,7 +15,7 @@ class Users{
     userId=map["userId"];
     username=map["username"];
     email=map["email"];
-    imageurl=map["imageurl"]==null?null:map["imageurl"];
+    imageurl=map["image_url"]==null?null:map["image_url"];
     // password=map["password"];
     // confirm_password=map["confirm_password"];
 

@@ -1,11 +1,14 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:my_cities_time/screens/the_skin_lab.dart';
 import 'package:my_cities_time/screens/weather_screen.dart';
 import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import '../main.dart';
+import '../themes.dart';
 import 'Splash.dart';
 
 class SignIn extends StatefulWidget {
@@ -14,12 +17,12 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  TextEditingController email=TextEditingController(),password=TextEditingController();
-bool loader=false;
-  bool emailchecking=true,passwordchecking=true;
+  TextEditingController email = TextEditingController(),
+      password = TextEditingController();
+  bool loader = false;
+  bool emailchecking = true, passwordchecking = true;
   @override
   Widget build(BuildContext context) {
-
     var state = Provider.of<AuthState>(context);
     return Scaffold(
       body: Container(
@@ -27,13 +30,13 @@ bool loader=false;
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/bggg.png"),
+            image:AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?AssetImage("assets/images/nightback2.jpg"): AssetImage("assets/images/back2.jpg"),
             fit: BoxFit.fill,
           ),
         ),
         child: ListView(
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height / 4.6),
+            SizedBox(height: MediaQuery.of(context).size.height / 3),
             Align(
               alignment: Alignment.bottomCenter,
               child: Column(
@@ -67,14 +70,14 @@ bool loader=false;
                               ),
                               Padding(
                                 padding:
-                                const EdgeInsets.only(top: 10.0, right: 30),
+                                    const EdgeInsets.only(top: 10.0, right: 30),
                                 child: TextField(
                                   autofocus: false,
                                   controller: email,
                                   onChanged: (value) {
                                     setState(() {
-
-                                      emailchecking = EmailValidator.validate(email.text);
+                                      emailchecking =
+                                          EmailValidator.validate(email.text);
                                     });
                                   },
                                   style: TextStyle(
@@ -90,20 +93,21 @@ bool loader=false;
                                         left: 20.0, bottom: 7.0, top: 7.0),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide:
-                                      BorderSide(color: Colors.white),
+                                          BorderSide(color: Colors.white),
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     enabledBorder: UnderlineInputBorder(
                                       borderSide:
-                                      BorderSide(color: Colors.white),
+                                          BorderSide(color: Colors.white),
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                   ),
                                 ),
                               ),
-                              if(emailchecking==false)
+                              if (emailchecking == false)
                                 Padding(
-                                  padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                  padding: const EdgeInsets.only(
+                                      top: 8.0, left: 25, right: 25),
                                   child: Text(
                                     "Email is not valid",
                                     style: TextStyle(
@@ -125,21 +129,17 @@ bool loader=false;
                               ),
                               Padding(
                                 padding:
-                                const EdgeInsets.only(top: 10.0, right: 30),
+                                    const EdgeInsets.only(top: 10.0, right: 30),
                                 child: TextField(
                                   controller: password,
                                   onChanged: (value) {
-                                    if(password.text.length<8){
+                                    if (password.text.length < 8) {
                                       setState(() {
-                                        passwordchecking=false;
-
+                                        passwordchecking = false;
                                       });
-                                    }
-                                    else{
-
+                                    } else {
                                       setState(() {
-                                        passwordchecking=true;
-
+                                        passwordchecking = true;
                                       });
                                     }
                                   },
@@ -157,21 +157,21 @@ bool loader=false;
                                         left: 20.0, bottom: 7.0, top: 7.0),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide:
-                                      BorderSide(color: Colors.white),
+                                          BorderSide(color: Colors.white),
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     enabledBorder: UnderlineInputBorder(
                                       borderSide:
-                                      BorderSide(color: Colors.white),
+                                          BorderSide(color: Colors.white),
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                   ),
                                 ),
                               ),
-                              if(passwordchecking==false)
+                              if (passwordchecking == false)
                                 Padding(
-
-                                  padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                  padding: const EdgeInsets.only(
+                                      top: 8.0, left: 25, right: 25),
                                   child: Text(
                                     "Password is not valid",
                                     style: TextStyle(
@@ -181,62 +181,95 @@ bool loader=false;
                                         fontWeight: FontWeight.w400),
                                   ),
                                 ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 10, right: 30),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    GestureDetector(
+                                      onTap:(){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => TheSkinLab(),));
+                                      },
+                                        child: Text(
+                                      "Create an account",
+                                      style: TextStyle(
+                                          color: fontOrange,
+                                          fontFamily: "OpenSans",
+                                          fontSize: 15),
+                                    ))
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                 loader?SpinKitRipple(color:fontOrange,size:40): Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 12.0,
-                                        bottom: 12.0,
-                                        right: 40,
-                                        left: 40),
-                                    child: RaisedButton(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(9.0),
-                                      ),
-                                      onPressed: () {
-
-    if(email.text!=null&&password.text!=null){
-      setState(() {
-        loader=true;
-      });
-    state.signIn(email.text, password.text).then((status) {
-
-
-    if (state.user != null) {
-      setState(() {
-        loader=false;
-      });
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-          SplashPage()), (Route<dynamic> route) => false);
-
-    }
-    else{
-      setState(() {
-        loader=false;
-      });
-    }
-    });
-    }
-                                      },
-                                      color: fontOrange,
-                                      textColor: Colors.white,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 30.0,
-                                            left: 30.0,
-                                            bottom: 10,
-                                            top: 10),
-                                        child: Text("Sign in",
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w700,
-                                                fontFamily: "OpenSans")),
-                                      ),
-                                    ),
-                                  ),
+                                  loader
+                                      ? SpinKitRipple(
+                                          color: fontOrange, size: 40)
+                                      : Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 12.0,
+                                              bottom: 12.0,
+                                              right: 40,
+                                              left: 40),
+                                          child: RaisedButton(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(9.0),
+                                            ),
+                                            onPressed: () {
+                                              if (email.text != null &&
+                                                  password.text != null) {
+                                                setState(() {
+                                                  loader = true;
+                                                });
+                                                state
+                                                    .signIn(email.text,
+                                                        password.text)
+                                                    .then((status) {
+                                                  if (state.user != null) {
+                                                    setState(() {
+                                                      loader = false;
+                                                    });
+                                                    Navigator.of(context)
+                                                        .pushAndRemoveUntil(
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        SplashPage()),
+                                                            (Route<dynamic>
+                                                                    route) =>
+                                                                false);
+                                                  } else {
+                                                    setState(() {
+                                                      loader = false;
+                                                    });
+                                                  }
+                                                });
+                                              }
+                                            },
+                                            color: fontOrange,
+                                            textColor: Colors.white,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 30.0,
+                                                  left: 30.0,
+                                                  bottom: 10,
+                                                  top: 10),
+                                              child: Text("Sign in",
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontFamily: "OpenSans")),
+                                            ),
+                                          ),
+                                        ),
                                 ],
                               ),
                               Row(
@@ -274,17 +307,16 @@ bool loader=false;
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-
                                 children: [
                                   Image.asset(
                                     'assets/images/one.PNG',
-
                                     fit: BoxFit.cover,
                                   ),
-                                  SizedBox(width: 50,),
+                                  SizedBox(
+                                    width: 50,
+                                  ),
                                   Image.asset(
                                     'assets/images/two.PNG',
-
                                     fit: BoxFit.cover,
                                   ),
                                 ],
@@ -303,5 +335,6 @@ bool loader=false;
       ),
     );
   }
+
 
 }

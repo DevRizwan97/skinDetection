@@ -118,6 +118,7 @@ class _LocationState extends State<Location> {
       weather_temp = weather.temperature.celsius.toString();
       weather_desc = weather.weatherDescription;
       weather_icon = weather.weatherIcon;
+      _cityName=weather.areaName;
       loader = false;
     });
   }
@@ -152,7 +153,7 @@ class _LocationState extends State<Location> {
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<AuthState>(context, listen: false);
-    _cityName = state.skin == null ? "karachi" : state.skin.city;
+    // _cityName = state.skin == null ? "karachi" : state.skin.city;
     return Scaffold(
 
         appBar: AppBar(
@@ -183,7 +184,7 @@ class _LocationState extends State<Location> {
                       padding:
                           const EdgeInsets.only(top: 150, left: 40, right: 8),
                       child: Text(
-                        "Location",
+                       "Location",
                         style: TextStyle(
                             color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE ? Colors.white : Colors.black,
                             fontSize: 32,
@@ -196,7 +197,7 @@ class _LocationState extends State<Location> {
                     ),
                     Center(
                       child: Text(
-                        state.skin == null ? "" : state.skin.city,
+                        _cityName,
                         style: TextStyle(
                             color: fontOrange,
                             fontSize: 32,
@@ -264,7 +265,7 @@ class _LocationState extends State<Location> {
                                                     Text(
                                                       uvi_index == null
                                                           ? ""
-                                                          : uvi_index,
+                                                          : int.parse(double.parse(uvi_index).floor().toString()).toString(),
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontFamily: "OpenSans",
@@ -289,7 +290,7 @@ class _LocationState extends State<Location> {
                                                           fontSize: 16),
                                                     ),
                                                     Text(
-                                                      weather_temp==null?"":double.parse(weather_temp).floorToDouble().toString() + "",
+                                                      weather_temp==null?"":double.parse(weather_temp).round().toString() ,
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontFamily: "OpenSans",
@@ -565,121 +566,7 @@ class _LocationState extends State<Location> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 25.0, right: 12.0, bottom: 5, top: 10),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "NOTE : ",
-                                    style: TextStyle(
-                                      color:AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE ? Colors.white : Colors.black,
-                                        fontFamily: "OpenSans",
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        height: 10.0,
-                                        width: 10.0,
-                                        decoration: new BoxDecoration(
-                                          color: fontOrange,
-                                          shape: BoxShape.circle,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        "Reapply Every ${(state.skin == null ? "" : state.skin.recommended_timing)} minutes",
-                                        style: TextStyle(
-                                          color:AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE ? Colors.white : Colors.black,
-                                            fontFamily: "OpenSans",
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 20.0, right: 10.0),
-                                      child: Divider(
-                                        color: fontOrange,
-                                        height: 10,
-                                        thickness: 1.5,
-                                      )),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        height: 10.0,
-                                        width: 10.0,
-                                        decoration: new BoxDecoration(
-                                          color: fontOrange,
-                                          shape: BoxShape.circle,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        "Choose Broad Spectrum Sunscream",
-                                        style: TextStyle(
-                                          color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE ? Colors.white : Colors.black,
-                                            fontFamily: "OpenSans",
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 20.0, right: 10.0),
-                                      child: Divider(
-                                        color: fontOrange,
-                                        height: 10,
-                                        thickness: 1.5,
-                                      )),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
 
-                                  // Row(
-                                  //   children: [
-                                  //     Text(
-                                  //       "Risk For Skin Cancer",
-                                  //       style: TextStyle(
-                                  //         fontFamily: "OpenSans",
-                                  //         fontWeight: FontWeight.w700,
-                                  //         color: fontOrange,
-                                  //         fontSize: 20,
-                                  //       ),
-                                  //     ),
-                                  //     SizedBox(
-                                  //       width: 10,
-                                  //     ),
-                                  //     Text(
-                                  //       ": ${state.skin == null ? "" : state.skin.cancer_risk}",
-                                  //       style: TextStyle(
-                                  //         fontFamily: "OpenSans",
-                                  //         fontWeight: FontWeight.w700,
-                                  //         color: Colors.black,
-                                  //         fontSize: 20,
-                                  //       ),
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                ],
-                              ),
-                            ),
                             SizedBox(width: 10),
                           ],
                         ),

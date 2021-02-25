@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_cities_time/models/blogs.dart';
+import 'package:my_cities_time/models/products.dart';
 import 'package:my_cities_time/models/skin.dart';
 import 'package:my_cities_time/models/user.dart';
 import 'package:my_cities_time/states/appState.dart';
@@ -25,6 +26,8 @@ class AuthState extends AppState {
   Users get userModel => _userModel;
   Users _userModel;
   List<Blog> _blogs=List<Blog>();
+
+  List<Product> _products=List<Product>();
 List<Skin> _all_skin_data=List<Skin>();
   Skin _skin;
   String userId;
@@ -47,6 +50,13 @@ List<Skin> _all_skin_data=List<Skin>();
   List<Blog> get all_blogs {
     if (_blogs != null && _blogs.length > 0) {
       return _blogs;
+    } else {
+      return null;
+    }
+  }
+  List<Product> get all_products {
+    if (_products != null && _products.length > 0) {
+      return _products;
     } else {
       return null;
     }
@@ -148,6 +158,41 @@ List<Skin> _all_skin_data=List<Skin>();
                 Blog g=Blog.fromJson(map);
                 g.userId=snapshot.key;
                 _blogs.add(g);
+            }
+            else {
+              i=-1;
+              loading = false;
+            }
+          });
+
+          loading = false;
+        }catch(e){
+
+          break;}
+      }
+    } catch (error) {
+
+      print("afnan hassan");
+      print(error);
+      loading = false;
+    }
+  }
+
+  Future<List<Product>> getallProducts() async {
+    try {
+      loading = true;
+      for(int i=1;i>0;i++) {
+        try {
+          print(i.toString());
+          await kDatabase
+              .child("products").child(i.toString())
+              .once()
+              .then((DataSnapshot snapshot) {
+            if (snapshot.value != null) {
+              var map = snapshot.value;
+              Product g=Product.fromJson(map);
+              g.userId=snapshot.key;
+              _products.add(g);
             }
             else {
               i=-1;

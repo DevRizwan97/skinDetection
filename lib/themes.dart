@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Themes {
-  static const DARK_THEME_CODE = 0;
-  static const LIGHT_THEME_CODE = 1;
+  static const DARK_THEME_CODE = 1;
+  static const LIGHT_THEME_CODE = 0;
 
   static final _dark = ThemeData(
     primarySwatch: MaterialColor(

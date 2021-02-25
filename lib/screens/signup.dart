@@ -260,81 +260,81 @@ setState(() {
                                           fontWeight: FontWeight.w400),
                                     ),
                                   ),
-                                SizedBox(
-                                  height: 12,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
-                                  child: Text(
-                                    "Confirm Password",
-                                    style: TextStyle(
-                                        fontFamily: "OpenSans",
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(top:8.0,left: 10,right: 10),
-                                  child: TextField(
-                                    autofocus: false,
-                                    controller: confirm_password,
-                                    obscureText: true,
-                                      onChanged: (value) {
-                                        if(confirm_password.text.length<8||!(password.text.contains(confirm_password.text))){
-                                          setState(() {
-                                            confirmpasswordchecking=false;
-
-                                          }
-                                          );
-                                        }
-                                        else{
-                                          setState(() {
-                                            confirmpasswordchecking=true;
-
-                                          });
-
-                                        }
-                                      },
-
-                                    style: TextStyle(
-                                        fontSize: 15.0, color: Colors.black),
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: Color(0xfff3f3f3),
-                                      hintText: 'Confirm Password',
-                                      hintStyle: TextStyle(
-                                          fontFamily: "OpenSans",
-                                          color: Colors.grey.shade600),
-                                      contentPadding: const EdgeInsets.only(
-                                          left: 20.0, bottom: 7.0, top: 7.0),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.white),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: confirmpasswordchecking?Colors.white:Colors.red),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                if(confirmpasswordchecking==false)
-                                  Padding(
-
-                                    padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
-                                    child: Text(
-                                      "Password are not same",
-                                      style: TextStyle(
-                                          fontFamily: "OpenSans",
-                                          fontSize: 15,
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ),
+                                // SizedBox(
+                                //   height: 12,
+                                // ),
+                                // Padding(
+                                //   padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                //   child: Text(
+                                //     "Confirm Password",
+                                //     style: TextStyle(
+                                //         fontFamily: "OpenSans",
+                                //         fontSize: 15,
+                                //         fontWeight: FontWeight.w400),
+                                //   ),
+                                // ),
+                                //
+                                // Padding(
+                                //   padding:
+                                //       const EdgeInsets.only(top:8.0,left: 10,right: 10),
+                                //   child: TextField(
+                                //     autofocus: false,
+                                //     controller: confirm_password,
+                                //     obscureText: true,
+                                //       onChanged: (value) {
+                                //         if(confirm_password.text.length<8||!(password.text.contains(confirm_password.text))){
+                                //           setState(() {
+                                //             confirmpasswordchecking=false;
+                                //
+                                //           }
+                                //           );
+                                //         }
+                                //         else{
+                                //           setState(() {
+                                //             confirmpasswordchecking=true;
+                                //
+                                //           });
+                                //
+                                //         }
+                                //       },
+                                //
+                                //     style: TextStyle(
+                                //         fontSize: 15.0, color: Colors.black),
+                                //     decoration: InputDecoration(
+                                //       filled: true,
+                                //       fillColor: Color(0xfff3f3f3),
+                                //       hintText: 'Confirm Password',
+                                //       hintStyle: TextStyle(
+                                //           fontFamily: "OpenSans",
+                                //           color: Colors.grey.shade600),
+                                //       contentPadding: const EdgeInsets.only(
+                                //           left: 20.0, bottom: 7.0, top: 7.0),
+                                //       focusedBorder: OutlineInputBorder(
+                                //         borderSide:
+                                //             BorderSide(color: Colors.white),
+                                //         borderRadius: BorderRadius.circular(5),
+                                //       ),
+                                //       enabledBorder: UnderlineInputBorder(
+                                //         borderSide:
+                                //             BorderSide(color: confirmpasswordchecking?Colors.white:Colors.red),
+                                //         borderRadius: BorderRadius.circular(5),
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+                                // if(confirmpasswordchecking==false)
+                                //   Padding(
+                                //
+                                //     padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                //     child: Text(
+                                //       "Password are not same",
+                                //       style: TextStyle(
+                                //           fontFamily: "OpenSans",
+                                //           fontSize: 15,
+                                //           color: Colors.red,
+                                //           fontWeight: FontWeight.w400),
+                                //     ),
+                                //   ),
                                 SizedBox(height: 10,),
 
                                 Row(

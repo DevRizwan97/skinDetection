@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_cities_time/screens/location.dart';
+import 'package:my_cities_time/screens/signin.dart';
 import 'package:my_cities_time/screens/the_skin_lab.dart';
 import 'package:my_cities_time/states/authstate.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,7 @@ class _SplashPageState extends State<SplashPage> {
       state.getCurrentUser();
       state.getallSkins();
       state.getallBlogs();
+      state.getallProducts();
     });
   }
 
@@ -69,7 +71,9 @@ class _SplashPageState extends State<SplashPage> {
     var state = Provider.of<AuthState>(context);
     return Scaffold(
       body:state.isbusy?_body(): state.user!=null?
-         Location() : TheSkinLab(),
+         Location() :
+
+      SignIn(),
     );
   }
 }

@@ -22,7 +22,6 @@ class _BlogState extends State<Blog> {
   Widget build(BuildContext context) {
 
     var state = Provider.of<AuthState>(context, listen: false);
-    print(state.all_blogs);
     return Scaffold(
 
       appBar: AppBar(
@@ -101,7 +100,7 @@ class _BlogState extends State<Blog> {
                                   Padding(
                                     padding: const EdgeInsets.only(top:8.0,left: 8.9,right: 8.0,bottom: 5),
                                     child: Container(
-                                      width: 100,
+                                      width: 150,
 
                                       child: Text(
                                           state.all_blogs[index].title==null?"":  state.all_blogs[index].title,

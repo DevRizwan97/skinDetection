@@ -149,10 +149,12 @@ mainAxisAlignment: MainAxisAlignment.center,
                               shape: BoxShape.circle,
                               image: DecorationImage(
                                   fit: BoxFit.fill,
-                                  image: state.userModel.imageurl==null?AssetImage(
+                                  image: state.userModel==null?AssetImage(
+                                    "assets/images/profile.jpeg",
+                                  ):state.userModel.imageurl==null?AssetImage(
                                     "assets/images/profile.jpeg",
                                   ):NetworkImage(
-                                    state.userModel.imageurl
+                                      state.userModel.imageurl==null?"": state.userModel.imageurl
 
                                   ))),
                         ),

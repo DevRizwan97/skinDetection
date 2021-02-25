@@ -63,7 +63,7 @@ TextEditingController searchcontroller=TextEditingController();
 
       tabs: <Widget>[
         Tab(child: Text("Travel Destination",style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontWeight: FontWeight.w700,fontSize: 15),),),
-        Tab(child: Text("Suntan Roadmap",style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontWeight: FontWeight.w700,fontSize: 15),),),
+       // Tab(child: Text("Suntan Roadmap",style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontWeight: FontWeight.w700,fontSize: 15),),),
       ],
       controller: tabController,
     );
@@ -632,220 +632,220 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
 
                           ),
                         ),
-                        SingleChildScrollView(
-                          child: Column(
-                            children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 12.0, right: 12.0, bottom: 5,top: 15),
-                                  child: Container(
-                                    height: MediaQuery.of(context).size.height * 0.24,
-                                    child:
-
-                                    Card(
-                                      color: cardColor,
-                                      elevation: 5,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(15),
-                                            topRight: Radius.circular(15),
-                                            topLeft: Radius.circular(15),
-                                            bottomLeft: Radius.circular(15)),
-                                      ),
-                                      child: loader?SpinKitRipple(color:Colors.black,size:40):
-                                      mapbox.MapboxMap(
-                                        tiltGesturesEnabled: true,
-                                        accessToken: 'pk.eyJ1IjoiaGFzc2FucmVobWFuMDEzOTgiLCJhIjoiY2tqY25lcnIyMmFhYTJ6bnl2MGthamZiZyJ9.ZImRGisXPJXqjde9Ltu3tg',
-                                        onMapCreated: _onMapCreated,
-                                        onStyleLoadedCallback: () => onStyleLoaded(mapController),
-                                        initialCameraPosition: mapbox.CameraPosition(
-                                          target: center,
-                                          zoom: 0,
-                                        ),
-                                        annotationOrder: const [
-                                          mapbox.AnnotationType.line,
-                                          mapbox.AnnotationType.symbol,
-                                          mapbox.AnnotationType.circle,
-                                          mapbox.AnnotationType.fill,
-                                        ],
-                                      ),
-                                      //                                     GoogleMap(
-                                      // mapType: MapType.normal,
-                                      // markers:Set.from(
-                                      //   markers,
-                                      // ),
-                                      //
-                                      //                                       initialCameraPosition:
-                                      //                                       CameraPosition(target: lating,  zoom: 0.0),
-                                      //
-                                      // // initialZoom: 20,
-                                      //
-                                      //
-                                      // // onMapCreated: (GoogleMapController controller) {
-                                      // // controller.setMapStyle(MapStyle.retro);
-                                      // // _controller.complete(controller);
-                                      // // },
-                                      // ),
-
-                                    ),
-                                  ),
-                                ),
-
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 25.0, right: 12.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "My Training Records ",
-                                      style: TextStyle(
-                                          color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
-                                          fontFamily: "OpenSans",
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 24),
-                                    ),
-
-                                    Container(
-                                      width: double.infinity,
-                                      height: MediaQuery.of(context).size.height*0.3,
-
-
-                                      child:
-
-
-                                      SingleChildScrollView(
-                                        child: Column(
-                                          children: List.generate(state.all_skin_data==null?0:state.all_skin_data.length,(index){
-
-                                            return  Padding(
-                                              padding: const EdgeInsets.only(right: 8,left: 8,top:30),
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: [
-                                                      Text(state.all_skin_data[index].city,style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontSize: 18,fontFamily: "OpenSans",fontWeight: FontWeight.w700),),
-                                                    ],),
-                                                  SizedBox(height: 10,),
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Text("Date",style: TextStyle(color:fontOrange,fontSize: 16,fontWeight: FontWeight.w700,fontFamily: "OpenSans"),),
-                                                          SizedBox(width: 5,),
-                                                          Text(state.all_skin_data[index].date.substring(0,11),style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontSize: 16,fontFamily: "OpenSans"),),
-                                                        ],
-                                                      ),
-
-                                                      Row(
-                                                        children: [
-                                                          Text("Time",style: TextStyle(color:fontOrange,fontSize: 16,fontWeight: FontWeight.w700,fontFamily: "OpenSans"),),
-                                                          SizedBox(width: 5,),
-                                                          Text(state.all_skin_data[index].time,style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontSize:16,fontFamily: "OpenSans"),),
-                                                        ],
-                                                      ),
-                                                    ],),
-                                                ],
-                                              ),
-                                            );
-                                          }),
-
-                                          //
-                                          // [
-                                          //  ,
-                                          //   Card(
-                                          //     elevation: 0,
-                                          //
-                                          //     child: Padding(
-                                          //       padding: const EdgeInsets.all(8.0),
-                                          //       child: Column(
-                                          //         children: [
-                                          //           Row(
-                                          //             mainAxisAlignment: MainAxisAlignment.center,
-                                          //             crossAxisAlignment: CrossAxisAlignment.center,
-                                          //             children: [
-                                          //               Text("Barcelona",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                          //             ],),
-                                          //           SizedBox(height: 10,),
-                                          //           Row(
-                                          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          //             children: [
-                                          //               Row(
-                                          //                 children: [
-                                          //                   Text("Date",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
-                                          //                   SizedBox(width: 10,),
-                                          //                   Text("2019-07-21",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                          //                 ],
-                                          //               ),
-                                          //
-                                          //               Row(
-                                          //                 children: [
-                                          //                   Text("Time",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
-                                          //                   SizedBox(width: 10,),
-                                          //                   Text("3 Hours",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                          //                 ],
-                                          //               ),
-                                          //             ],),
-                                          //         ],
-                                          //       ),
-                                          //     ),
-                                          //   ),
-                                          //   Card(
-                                          //     elevation: 0,
-                                          //
-                                          //     child: Padding(
-                                          //       padding: const EdgeInsets.all(8.0),
-                                          //       child: Column(
-                                          //         children: [
-                                          //           Row(
-                                          //             mainAxisAlignment: MainAxisAlignment.center,
-                                          //             crossAxisAlignment: CrossAxisAlignment.center,
-                                          //             children: [
-                                          //               Text("Barcelona",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                          //             ],),
-                                          //           SizedBox(height: 10,),
-                                          //           Row(
-                                          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          //             children: [
-                                          //               Row(
-                                          //                 children: [
-                                          //                   Text("Date",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
-                                          //                   SizedBox(width: 10,),
-                                          //                   Text("2019-07-21",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                          //                 ],
-                                          //               ),
-                                          //
-                                          //               Row(
-                                          //                 children: [
-                                          //                   Text("Time",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
-                                          //                   SizedBox(width: 10,),
-                                          //                   Text("3 Hours",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                          //                 ],
-                                          //               ),
-                                          //             ],),
-                                          //         ],
-                                          //       ),
-                                          //     ),
-                                          //   ),
-                                          // ],
-                                        ),
-                                      ),
-                                    ),
-
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                            ],
-                          ),
-                        )
+                        // SingleChildScrollView(
+                        //   child: Column(
+                        //     children: [
+                        //         Padding(
+                        //           padding: const EdgeInsets.only(
+                        //               left: 12.0, right: 12.0, bottom: 5,top: 15),
+                        //           child: Container(
+                        //             height: MediaQuery.of(context).size.height * 0.24,
+                        //             child:
+                        //
+                        //             Card(
+                        //               color: cardColor,
+                        //               elevation: 5,
+                        //               shape: RoundedRectangleBorder(
+                        //                 borderRadius: BorderRadius.only(
+                        //                     bottomRight: Radius.circular(15),
+                        //                     topRight: Radius.circular(15),
+                        //                     topLeft: Radius.circular(15),
+                        //                     bottomLeft: Radius.circular(15)),
+                        //               ),
+                        //               child: loader?SpinKitRipple(color:Colors.black,size:40):
+                        //               mapbox.MapboxMap(
+                        //                 tiltGesturesEnabled: true,
+                        //                 accessToken: 'pk.eyJ1IjoiaGFzc2FucmVobWFuMDEzOTgiLCJhIjoiY2tqY25lcnIyMmFhYTJ6bnl2MGthamZiZyJ9.ZImRGisXPJXqjde9Ltu3tg',
+                        //                 onMapCreated: _onMapCreated,
+                        //                 onStyleLoadedCallback: () => onStyleLoaded(mapController),
+                        //                 initialCameraPosition: mapbox.CameraPosition(
+                        //                   target: center,
+                        //                   zoom: 0,
+                        //                 ),
+                        //                 annotationOrder: const [
+                        //                   mapbox.AnnotationType.line,
+                        //                   mapbox.AnnotationType.symbol,
+                        //                   mapbox.AnnotationType.circle,
+                        //                   mapbox.AnnotationType.fill,
+                        //                 ],
+                        //               ),
+                        //               //                                     GoogleMap(
+                        //               // mapType: MapType.normal,
+                        //               // markers:Set.from(
+                        //               //   markers,
+                        //               // ),
+                        //               //
+                        //               //                                       initialCameraPosition:
+                        //               //                                       CameraPosition(target: lating,  zoom: 0.0),
+                        //               //
+                        //               // // initialZoom: 20,
+                        //               //
+                        //               //
+                        //               // // onMapCreated: (GoogleMapController controller) {
+                        //               // // controller.setMapStyle(MapStyle.retro);
+                        //               // // _controller.complete(controller);
+                        //               // // },
+                        //               // ),
+                        //
+                        //             ),
+                        //           ),
+                        //         ),
+                        //
+                        //       SizedBox(
+                        //         height: 5,
+                        //       ),
+                        //       Padding(
+                        //         padding: const EdgeInsets.only(
+                        //             left: 25.0, right: 12.0),
+                        //         child: Column(
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           crossAxisAlignment: CrossAxisAlignment.start,
+                        //           children: [
+                        //             Text(
+                        //               "My Training Records ",
+                        //               style: TextStyle(
+                        //                   color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
+                        //                   fontFamily: "OpenSans",
+                        //                   fontWeight: FontWeight.w700,
+                        //                   fontSize: 24),
+                        //             ),
+                        //
+                        //             Container(
+                        //               width: double.infinity,
+                        //               height: MediaQuery.of(context).size.height*0.3,
+                        //
+                        //
+                        //               child:
+                        //
+                        //
+                        //               SingleChildScrollView(
+                        //                 child: Column(
+                        //                   children: List.generate(state.all_skin_data==null?0:state.all_skin_data.length,(index){
+                        //
+                        //                     return  Padding(
+                        //                       padding: const EdgeInsets.only(right: 8,left: 8,top:30),
+                        //                       child: Column(
+                        //                         children: [
+                        //                           Row(
+                        //                             mainAxisAlignment: MainAxisAlignment.center,
+                        //                             crossAxisAlignment: CrossAxisAlignment.center,
+                        //                             children: [
+                        //                               Text(state.all_skin_data[index].city,style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontSize: 18,fontFamily: "OpenSans",fontWeight: FontWeight.w700),),
+                        //                             ],),
+                        //                           SizedBox(height: 10,),
+                        //                           Row(
+                        //                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //                             children: [
+                        //                               Row(
+                        //                                 children: [
+                        //                                   Text("Date",style: TextStyle(color:fontOrange,fontSize: 16,fontWeight: FontWeight.w700,fontFamily: "OpenSans"),),
+                        //                                   SizedBox(width: 5,),
+                        //                                   Text(state.all_skin_data[index].date.substring(0,11),style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontSize: 16,fontFamily: "OpenSans"),),
+                        //                                 ],
+                        //                               ),
+                        //
+                        //                               Row(
+                        //                                 children: [
+                        //                                   Text("Time",style: TextStyle(color:fontOrange,fontSize: 16,fontWeight: FontWeight.w700,fontFamily: "OpenSans"),),
+                        //                                   SizedBox(width: 5,),
+                        //                                   Text(state.all_skin_data[index].time,style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontSize:16,fontFamily: "OpenSans"),),
+                        //                                 ],
+                        //                               ),
+                        //                             ],),
+                        //                         ],
+                        //                       ),
+                        //                     );
+                        //                   }),
+                        //
+                        //                   //
+                        //                   // [
+                        //                   //  ,
+                        //                   //   Card(
+                        //                   //     elevation: 0,
+                        //                   //
+                        //                   //     child: Padding(
+                        //                   //       padding: const EdgeInsets.all(8.0),
+                        //                   //       child: Column(
+                        //                   //         children: [
+                        //                   //           Row(
+                        //                   //             mainAxisAlignment: MainAxisAlignment.center,
+                        //                   //             crossAxisAlignment: CrossAxisAlignment.center,
+                        //                   //             children: [
+                        //                   //               Text("Barcelona",style: TextStyle(color: Colors.black,fontSize: 20),),
+                        //                   //             ],),
+                        //                   //           SizedBox(height: 10,),
+                        //                   //           Row(
+                        //                   //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //                   //             children: [
+                        //                   //               Row(
+                        //                   //                 children: [
+                        //                   //                   Text("Date",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
+                        //                   //                   SizedBox(width: 10,),
+                        //                   //                   Text("2019-07-21",style: TextStyle(color: Colors.black,fontSize: 20),),
+                        //                   //                 ],
+                        //                   //               ),
+                        //                   //
+                        //                   //               Row(
+                        //                   //                 children: [
+                        //                   //                   Text("Time",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
+                        //                   //                   SizedBox(width: 10,),
+                        //                   //                   Text("3 Hours",style: TextStyle(color: Colors.black,fontSize: 20),),
+                        //                   //                 ],
+                        //                   //               ),
+                        //                   //             ],),
+                        //                   //         ],
+                        //                   //       ),
+                        //                   //     ),
+                        //                   //   ),
+                        //                   //   Card(
+                        //                   //     elevation: 0,
+                        //                   //
+                        //                   //     child: Padding(
+                        //                   //       padding: const EdgeInsets.all(8.0),
+                        //                   //       child: Column(
+                        //                   //         children: [
+                        //                   //           Row(
+                        //                   //             mainAxisAlignment: MainAxisAlignment.center,
+                        //                   //             crossAxisAlignment: CrossAxisAlignment.center,
+                        //                   //             children: [
+                        //                   //               Text("Barcelona",style: TextStyle(color: Colors.black,fontSize: 20),),
+                        //                   //             ],),
+                        //                   //           SizedBox(height: 10,),
+                        //                   //           Row(
+                        //                   //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //                   //             children: [
+                        //                   //               Row(
+                        //                   //                 children: [
+                        //                   //                   Text("Date",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
+                        //                   //                   SizedBox(width: 10,),
+                        //                   //                   Text("2019-07-21",style: TextStyle(color: Colors.black,fontSize: 20),),
+                        //                   //                 ],
+                        //                   //               ),
+                        //                   //
+                        //                   //               Row(
+                        //                   //                 children: [
+                        //                   //                   Text("Time",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
+                        //                   //                   SizedBox(width: 10,),
+                        //                   //                   Text("3 Hours",style: TextStyle(color: Colors.black,fontSize: 20),),
+                        //                   //                 ],
+                        //                   //               ),
+                        //                   //             ],),
+                        //                   //         ],
+                        //                   //       ),
+                        //                   //     ),
+                        //                   //   ),
+                        //                   // ],
+                        //                 ),
+                        //               ),
+                        //             ),
+                        //
+                        //           ],
+                        //         ),
+                        //       ),
+                        //       SizedBox(width: 10),
+                        //     ],
+                        //   ),
+                        // )
                       ],
                     ),
                   )

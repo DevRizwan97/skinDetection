@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart' as picker;
 import 'package:intl/intl.dart';
 import 'package:my_cities_time/api/api_keys.dart';
@@ -377,6 +378,27 @@ class _TheSkinLabState extends State<TheSkinLab> {
       color: Colors.black.withOpacity(0.5),
     ),))));
 
+    // File image = (await picker.ImagePicker.pickImage(
+    //     source: picker.ImageSource.camera, imageQuality: 50));
+    // File croppedFile = await ImageCropper.cropImage(
+    //     sourcePath: image.path,
+    //     aspectRatioPresets: [
+    //       CropAspectRatioPreset.square,
+    //       CropAspectRatioPreset.ratio3x2,
+    //       CropAspectRatioPreset.original,
+    //       CropAspectRatioPreset.ratio4x3,
+    //       CropAspectRatioPreset.ratio16x9
+    //     ],
+    //     androidUiSettings: AndroidUiSettings(
+    //         toolbarTitle: 'Crop Image',
+    //         toolbarColor: fontOrange,
+    //         toolbarWidgetColor: Colors.white,
+    //         initAspectRatio: CropAspectRatioPreset.original,
+    //         lockAspectRatio: false),
+    //     iosUiSettings: IOSUiSettings(
+    //       minimumAspectRatio: 1.0,
+    //     )
+    // );
     setState(() {
       _image = image;
       sendimagefile(_image);
