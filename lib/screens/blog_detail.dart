@@ -1,4 +1,3 @@
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:my_cities_time/main.dart';
@@ -14,7 +13,7 @@ import 'package:my_cities_time/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 class BlogDetail extends StatefulWidget {
-final Blog blog;
+  final Blog blog;
 
   const BlogDetail({Key key, this.blog}) : super(key: key);
   @override
@@ -174,13 +173,21 @@ class _BlogDetailState extends State<BlogDetail> {
           padding:
               const EdgeInsets.only(left: 20, right: 20, top: 200, bottom: 100),
           child: Card(
+            shape: RoundedRectangleBorder(
+               // side: BorderSide(color:fontOrange, width: 1.5),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            semanticContainer: true,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Stack(
                   children: <Widget>[
-                    widget.blog.imageurl==null?AssetImage("assets/images/photo.jpg"): Image.network(widget.blog.imageurl),
+                    widget.blog.imageurl == null
+                        ? AssetImage("assets/images/photo.jpg")
+                        : Image.network(widget.blog.imageurl),
                     // Image(
                     //   image:AssetImage("assets/images/photo.jpg"),
                     //   fit: BoxFit.cover,
@@ -190,14 +197,27 @@ class _BlogDetailState extends State<BlogDetail> {
                       left: 10,
 
                       bottom: 20,
-                      child: Text(widget.blog.title,style: TextStyle(color: white,fontSize: 20,fontFamily: "OpenSans"),),
+                      child: Container(
+                        width:300,
+
+                        child: Text(
+                          widget.blog.title,
+maxLines: 3,
+                          style: TextStyle(
+                              color: white, fontSize: 18, fontFamily: "OpenSans"),
+                        ),
+                      ),
                     )
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.blog. description),
-                ),
+                Expanded(
+                    flex: 1,
+                    child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(widget.blog.description,style: TextStyle(fontFamily: "OpenSans",fontSize: 15),),
+                        ))),
               ],
             ),
           ),

@@ -37,7 +37,7 @@ class _BlogState extends State<Blog> {
 
       body: Container(
         width: double.infinity,
-        height: double.infinity,
+        // height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
             image:AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?AssetImage("assets/images/nightmode.jpg"): AssetImage("assets/images/bggg.png"),
@@ -60,7 +60,7 @@ class _BlogState extends State<Blog> {
             // SizedBox(height: 10,),
 
             Container(
-            height: MediaQuery.of(context).size.height * 0.7 ,
+            height: MediaQuery.of(context).size.height * 0.65 ,
               child: ListView.builder(
                 itemCount: state.all_blogs==null?0:state.all_blogs.length,
                 itemBuilder: (context, index) {
@@ -94,7 +94,8 @@ class _BlogState extends State<Blog> {
                                     Image.network(state.all_blogs[index].imageurl,width: 125,))
                               ),
                               Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SizedBox(height: 10,),
                                   Padding(
@@ -102,11 +103,13 @@ class _BlogState extends State<Blog> {
                                     child: Container(
                                       width: 150,
 
-                                      child: Text(
-                                          state.all_blogs[index].title==null?"":  state.all_blogs[index].title,
-                                          style: TextStyle(fontSize: 14.0,fontFamily: "OpenSans",fontWeight: FontWeight.w700),
-                                          maxLines: 4,
+                                      child: Center(
+                                        child: Text(
+                                            state.all_blogs[index].title==null?"":  state.all_blogs[index].title,
+                                            style: TextStyle(fontSize: 14.0,fontFamily: "OpenSans",fontWeight: FontWeight.w700),
+                                            maxLines: 4,
 
+                                        ),
                                       ),
                                     ),
                                   ),
