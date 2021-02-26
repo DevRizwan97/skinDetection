@@ -19,6 +19,12 @@ class WeatherRepository {
 
     var uv_weathers = await weatherApiClient.getUvForecast(cityName,latitude,longitude);
     weather.weatheruv=uv_weathers;
+    for(int i=0;i<weather.weatheruv.length;i++) {
+      print("hassan");
+      print(  DateTime.fromMillisecondsSinceEpoch(
+          weather.weatheruv[i].uv_date * 1000));
+      print( weather.weatheruv[i].uv_value);
+    }
     weather.forecast = weathers;
     return weather;
   }

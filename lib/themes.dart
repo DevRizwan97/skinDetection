@@ -49,7 +49,7 @@ class Themes {
     if(code == LIGHT_THEME_CODE){
       return _light;
     }
-    return _dark;
+    return _light;
   }
 
 }

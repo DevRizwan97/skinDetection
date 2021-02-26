@@ -96,6 +96,7 @@ void main() async {
   await AndroidAlarmManager.initialize();
   BlocSupervisor().delegate = SimpleBlocDelegate();
   await Firebase.initializeApp();
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(AppStateContainer(child: MyApp()));
@@ -119,6 +120,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MultiProvider(
         providers: [
         ChangeNotifierProvider<AppState>(create: (_) => AppState()),

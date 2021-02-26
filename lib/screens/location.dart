@@ -418,10 +418,9 @@ class _LocationState extends State<Location> {
                                                 height: 20.0,
                                                 child: Container(
                                                   decoration: new BoxDecoration(
-                                                    color: state.skin == null
+                                                    color:state.all_skin_data == null
                                                         ? Colors.transparent
-                                                        : Color(int.parse(state
-                                                            .skin.skincolor
+                                                        : Color(int.parse(state.all_skin_data[0].skincolor
                                                             .replaceAll(
                                                                 '#', '0xff'))),
                                                     shape: BoxShape.rectangle,
@@ -451,7 +450,9 @@ class _LocationState extends State<Location> {
                                                     fontSize: 17),
                                               ),
                                               Text(
-                                                "${state.skin == null ? "" : state.skin.spf}",
+                                                uvi_index == null
+                                                    ? ""
+                                                    : int.parse(double.parse(uvi_index).floor().toString())<2?"":int.parse(double.parse(uvi_index).floor().toString())>11?"":"${state.all_skin_data == null ? "" : state.all_skin_data[0].spf}",
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontFamily: "OpenSans",

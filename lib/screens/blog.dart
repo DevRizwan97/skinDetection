@@ -69,8 +69,7 @@ class _BlogState extends State<Blog> {
                   child: GestureDetector(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => BlogDetail(
-                        title: state.all_blogs[index].title,
-                        body: state.all_blogs[index].description,
+                      blog: state.all_blogs[index],
                       )));
                     },
                     child: Container(
@@ -91,7 +90,8 @@ class _BlogState extends State<Blog> {
                                 padding: const EdgeInsets.only(left:6.0,top: 6.0,bottom: 6.0),
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(15.0),
-                                    child: Image.asset("assets/images/photo.jpg",width: 125,)),
+                                    child: state.all_blogs[index].imageurl==null?(Image.asset("assets/images/photo.jpg",width: 125,)):
+                                    Image.network(state.all_blogs[index].imageurl,width: 125,))
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

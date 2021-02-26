@@ -3,10 +3,10 @@ class Blog {
  String title;
  String sub_description;
  String description;
- List<String> imageurls;
+ String imageurl;
 
   Blog(
-      {this.userId, this.title,this.description,this.sub_description,this.imageurls});
+      {this.userId, this.title,this.description,this.sub_description,this.imageurl});
 
   Blog.fromJson(Map<dynamic, dynamic> map) {
     if (map == null) {
@@ -16,7 +16,7 @@ class Blog {
    title=map["title"];
    description=map["description"];
    sub_description=map["sub_description"]==null?null:map["sub_description"];
-   imageurls=map["imageurls"]==null?null:map["imageurls"];
+   imageurl=map["image_url"]==null?null:map["image_url"];
     // date=map["date"];
     // time=map["time"];
     // password=map["password"];

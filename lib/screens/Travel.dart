@@ -47,7 +47,7 @@ TextEditingController searchcontroller=TextEditingController();
     // TODO: implement initState
     super.initState();
 
-    tabController = TabController(length: 2, vsync: this);
+    tabController = TabController(length: 1, vsync: this);
 
     searchcontroller.addListener(() {        _onChanged();    });
     _fetchWeatherWithLocation().catchError((error) {
@@ -252,14 +252,12 @@ _fetchWeatherWithLocation() async {
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     String request =
         '$baseURL?input=$input&key=$kPLACES_API_KEY&sessiontoken=$_sessionToken';
-    print(request);
     var response = await http.get(request);
     if (response.statusCode == 200) {
 
       setState(() {
-        searchweather.clear();
         _placeList = json.decode(response.body)['predictions'];
-
+print("hassan");
         print(_placeList);
       });
 await getplaces();
@@ -272,11 +270,12 @@ await getplaces();
   }
 getplaces() async{
     searchweather.clear();
-for(int i=0;i<_placeList.length;i++){
+    List result = _placeList.toSet().toList();
+for(int i=0;i<result.length;i++){
   Weather w;
   try {
-    print(_placeList[i]['structured_formatting']['main_text']);
-   w = await (getWeatherData(_placeList[i]['structured_formatting']['main_text'].toString().replaceAll(' ', '')));
+    print(result[i]['structured_formatting']['main_text']);
+   w = await (getWeatherData(result[i]['structured_formatting']['main_text'].toString()));
 //   if(w==null){
 //
 //     i++;

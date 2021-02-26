@@ -2,6 +2,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:my_cities_time/main.dart';
+import 'package:my_cities_time/models/blogs.dart';
 import 'package:my_cities_time/screens/Travel.dart';
 import 'package:my_cities_time/screens/location.dart';
 import 'package:my_cities_time/screens/the_protection_shop.dart';
@@ -13,10 +14,9 @@ import 'package:my_cities_time/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 class BlogDetail extends StatefulWidget {
-  final String title;
-  final String body;
+final Blog blog;
 
-  const BlogDetail({Key key, this.title, this.body}) : super(key: key);
+  const BlogDetail({Key key, this.blog}) : super(key: key);
   @override
   _BlogDetailState createState() => _BlogDetailState();
 }
@@ -180,22 +180,23 @@ class _BlogDetailState extends State<BlogDetail> {
               children: [
                 Stack(
                   children: <Widget>[
-                    Image(
-                      image: AssetImage("assets/images/photo.jpg"),
-                      fit: BoxFit.cover,
-                    ),
+                    widget.blog.imageurl==null?AssetImage("assets/images/photo.jpg"): Image.network(widget.blog.imageurl),
+                    // Image(
+                    //   image:AssetImage("assets/images/photo.jpg"),
+                    //   fit: BoxFit.cover,
+                    // ),
                     Positioned(
                       // top:30,
                       left: 10,
 
                       bottom: 20,
-                      child: Text("Title",style: TextStyle(color: white,fontSize: 20,fontFamily: "OpenSans"),),
+                      child: Text(widget.blog.title,style: TextStyle(color: white,fontSize: 20,fontFamily: "OpenSans"),),
                     )
                   ],
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text("lorem epsome hcchajdajf asdakjf"),
+                  child: Text(widget.blog. description),
                 ),
               ],
             ),

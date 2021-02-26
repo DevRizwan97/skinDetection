@@ -67,24 +67,24 @@ class _WeatherScreenState extends State<WeatherScreen>
               )
             ],
           ),
-          actions: <Widget>[
-            PopupMenuButton<OptionsMenu>(
-                child: Icon(
-                  Icons.more_vert,
-                  color: AppStateContainer.of(context).theme.accentColor,
-                ),
-                onSelected: this._onOptionMenuItemSelected,
-                itemBuilder: (context) => <PopupMenuEntry<OptionsMenu>>[
-//                      PopupMenuItem<OptionsMenu>(
-//                        value: OptionsMenu.changeCity,
-//                        child: Text("change city"),
-//                      ),
-                      PopupMenuItem<OptionsMenu>(
-                        value: OptionsMenu.settings,
-                        child: Text("settings"),
-                      ),
-                    ])
-          ],
+//           actions: <Widget>[
+//             PopupMenuButton<OptionsMenu>(
+//                 child: Icon(
+//                   Icons.more_vert,
+//                   color: AppStateContainer.of(context).theme.accentColor,
+//                 ),
+//                 onSelected: this._onOptionMenuItemSelected,
+//                 itemBuilder: (context) => <PopupMenuEntry<OptionsMenu>>[
+// //                      PopupMenuItem<OptionsMenu>(
+// //                        value: OptionsMenu.changeCity,
+// //                        child: Text("change city"),
+// //                      ),
+//                       PopupMenuItem<OptionsMenu>(
+//                         value: OptionsMenu.settings,
+//                         child: Text("settings"),
+//                       ),
+//                     ])
+//           ],
         ),
         backgroundColor: Colors.white,
         body: Material(

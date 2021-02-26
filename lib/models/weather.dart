@@ -18,7 +18,7 @@ class Weather {
   Temperature temperature;
   Temperature maxTemperature;
   Temperature minTemperature;
-double uv_value;
+int uv_value;
 int uv_date;
   List<Weather> forecast;
   List<Weather> weatheruv;
@@ -69,11 +69,14 @@ int uv_date;
           temperature: Temperature(intToDouble(
             item['temp'],
           )),
+          uv_value: int.parse(double.parse(item['uvi'].toString()).floor().toString()),
           iconCode: item['weather'][0]['icon']
       ));
     print("hsan");
     print(item['dt']);
+    print( int.parse(double.parse(item['uvi'].toString()).floor().toString()));
     }
+
     print(weathers);
     return weathers;
   }
@@ -82,9 +85,9 @@ int uv_date;
     final weathers = List<Weather>();
 //    myModels=(json.decode(json) as List).map((i) =>
 //        Weather.fromJson(i)).toList();
-    for (final item in json["list"]) {
+    for (final item in json["daily"]) {
       weathers.add(Weather(
-       uv_value: double.parse(item["uvi"].toString()),
+       uv_value:int.parse(double.parse(item['uvi'].toString()).floor().toString()),
         uv_date: int.parse(item["dt"].toString())
       ));
 

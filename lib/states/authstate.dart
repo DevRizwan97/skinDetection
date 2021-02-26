@@ -109,6 +109,7 @@ List<Skin> _all_skin_data=List<Skin>();
       user = await _firebaseAuth.currentUser;
       if (user != null) {
         userId = user.uid;
+        print(city);
         getProfileUserSkin(userProfileId: userId,city: city);
       } else {
       }
@@ -341,10 +342,11 @@ List<Skin> _all_skin_data=List<Skin>();
       await getProfileUser(userProfileId: userId);
       return user.uid;
     } catch (error) {
+      print(error);
       loading = false;
 
       // logoutCallback();
-      return null;
+      return "There is no user record corresponding to this identifier. The user may have been deleted." ;
     }
   }
   void logoutCallback() {

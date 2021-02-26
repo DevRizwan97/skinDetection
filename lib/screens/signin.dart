@@ -4,6 +4,7 @@ import 'package:my_cities_time/screens/the_skin_lab.dart';
 import 'package:my_cities_time/screens/weather_screen.dart';
 import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/utils/constants.dart';
+import 'package:my_cities_time/utils/helper.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -21,10 +22,13 @@ class _SignInState extends State<SignIn> {
       password = TextEditingController();
   bool loader = false;
   bool emailchecking = true, passwordchecking = true;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<AuthState>(context);
     return Scaffold(
+
+      key: _scaffoldKey,
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -131,6 +135,7 @@ class _SignInState extends State<SignIn> {
                                 padding:
                                     const EdgeInsets.only(top: 10.0, right: 30),
                                 child: TextField(
+                                  obscureText: true,
                                   controller: password,
                                   onChanged: (value) {
                                     if (password.text.length < 8) {
@@ -145,6 +150,7 @@ class _SignInState extends State<SignIn> {
                                   },
                                   autofocus: false,
                                   style: TextStyle(
+
                                       fontSize: 17.0, color: Colors.black),
                                   decoration: InputDecoration(
                                     filled: true,
@@ -208,10 +214,7 @@ class _SignInState extends State<SignIn> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  loader
-                                      ? SpinKitRipple(
-                                          color: fontOrange, size: 40)
-                                      : Padding(
+                                   Padding(
                                           padding: const EdgeInsets.only(
                                               top: 12.0,
                                               bottom: 12.0,
@@ -225,17 +228,15 @@ class _SignInState extends State<SignIn> {
                                             onPressed: () {
                                               if (email.text != null &&
                                                   password.text != null) {
-                                                setState(() {
-                                                  loader = true;
-                                                });
+                                                // setState(() {
+                                                //   loader = true;
+                                                // });
                                                 state
                                                     .signIn(email.text,
                                                         password.text)
                                                     .then((status) {
                                                   if (state.user != null) {
-                                                    setState(() {
-                                                      loader = false;
-                                                    });
+
                                                     Navigator.of(context)
                                                         .pushAndRemoveUntil(
                                                             MaterialPageRoute(
@@ -246,11 +247,14 @@ class _SignInState extends State<SignIn> {
                                                                     route) =>
                                                                 false);
                                                   } else {
-                                                    setState(() {
-                                                      loader = false;
-                                                    });
+
+                                                    showsnackbartop("Signin Error", "There is no user record corresponding to this identifier. The user may have been deleted.", 4, Colors.red,Colors.red, Colors.red,  _scaffoldKey.currentContext);
+
                                                   }
                                                 });
+                                                // setState(() {
+                                                //   loader = false;
+                                                // });
                                               }
                                             },
                                             color: fontOrange,

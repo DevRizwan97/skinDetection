@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_cities_time/models/weather.dart';
 
 import '../main.dart';
 import 'empty_widget.dart';
@@ -11,12 +12,14 @@ class ValueTile extends StatelessWidget {
   final String label;
   final String value;
   final IconData iconData;
-
-  ValueTile(this.label, this.value, {this.iconData});
+final Weather weather;
+  ValueTile(this.label, this.value, {this.iconData,this.weather});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+
+    return
+      Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
@@ -38,14 +41,33 @@ class ValueTile extends StatelessWidget {
               )
             : EmptyWidget(),
         SizedBox(
-          height: 10,
+          height: 5,
         ),
         Text(
           this.value,
           style:
               TextStyle(color: AppStateContainer.of(context).theme.accentColor),
         ),
+
+
+        if(weather!=null)
+          Text(
+            "UV: "+(weather.uv_value!=null?weather.uv_value.toString():""),
+            style:
+            TextStyle(color: AppStateContainer.of(context).theme.accentColor),
+          ),
+
+
+
+        // if(weather!=null)
+        //   Text(
+        //     "Sunburn Time: ",
+        //     style:
+        //     TextStyle(color: AppStateContainer.of(context).theme.accentColor),
+        //   ),
+
       ],
+
     );
   }
 }

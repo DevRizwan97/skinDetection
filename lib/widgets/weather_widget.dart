@@ -45,7 +45,9 @@ class WeatherWidget extends StatelessWidget {
             ),
             padding: EdgeInsets.all(10),
           ),
-          ForecastHorizontal(weathers: weather.forecast),
+          Flexible(
+
+              child: ForecastHorizontal(weathers: weather.forecast)),
           Padding(
             child: Divider(
               color:

@@ -59,7 +59,7 @@ class WeatherApiClient {
 //    final url = '$baseUrl/data/2.5/forecast?q=$cityName&appid=$apiKey';
 //http://api.openweathermap.org/data/2.5/uvi/forecast?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
     final url =
-        '$baseUrl/data/2.5/uvi/forecast?lat=$lat&lon=$long&appid=$apiKey';
+          '$baseUrl/data/2.5/onecall?lat=$lat&lon=$long&appid=$apiKey&exclude=hourly,alerts,minutely,current';
     print('fetching $url');
     final res = await this.httpClient.get(url);
     if (res.statusCode != 200) {
