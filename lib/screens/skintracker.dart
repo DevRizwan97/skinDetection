@@ -393,7 +393,7 @@ for(int i=0;i<state.all_skin_data.length;i++){
           height: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image:AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?AssetImage("assets/images/nightmode.jpg"): AssetImage("assets/images/bggg.png"),
+              image: AssetImage("assets/images/bggg.png"),
               fit: BoxFit.fill,
             ),
           ),
@@ -409,7 +409,7 @@ for(int i=0;i<state.all_skin_data.length;i++){
                       child: Text(
                         "Skin Tracker",
                         style: TextStyle(
-                            color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
+                            color:  Colors.black,
                             fontFamily: "OpenSans",
                             fontWeight: FontWeight.w700,
                             fontSize: 24),
@@ -456,13 +456,13 @@ for(int i=0;i<state.all_skin_data.length;i++){
                                           showTitle: true,
                                           titleText: "Month",
                                           textStyle: TextStyle(
-                                              color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
+                                              color:  Colors.black,
                                               fontWeight: FontWeight.bold)),
                                       leftTitle: AxisTitle(
                                           showTitle: true,
                                           titleText: "Skin type",
                                           textStyle: TextStyle(
-                                              color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
+                                              color:  Colors.black,
                                               fontWeight: FontWeight.bold)),
                                     ),
                                     gridData: FlGridData(
@@ -617,7 +617,7 @@ for(int i=0;i<state.all_skin_data.length;i++){
                           Text(
                             "Track your tanning process",
                             style: TextStyle(
-                                color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
+                                color:  Colors.black,
                                 fontFamily: "OpenSans",
                                 fontWeight: FontWeight.w700,
                                 fontSize: 24),
@@ -646,7 +646,7 @@ for(int i=0;i<state.all_skin_data.length;i++){
                                             Text(
                                               "Date",
                                               style: TextStyle(
-                                                  color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
+                                                  color:  Colors.black,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                   fontFamily: "OpenSans"),
@@ -663,7 +663,7 @@ for(int i=0;i<state.all_skin_data.length;i++){
                                             Text(
                                               "Location",
                                               style: TextStyle(
-                                                  color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
+                                                  color:  Colors.black,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                   fontFamily: "OpenSans"),
@@ -677,7 +677,7 @@ for(int i=0;i<state.all_skin_data.length;i++){
                                             Text(
                                               "Skin Color",
                                               style: TextStyle(
-                                                  color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
+                                                  color:  Colors.black,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                   fontFamily: "OpenSans"),
@@ -806,7 +806,7 @@ for(int i=0;i<state.all_skin_data.length;i++){
                                                       .all_skin_data[index].date
                                                       .substring(0, 11),
                                                   style: TextStyle(
-                                                      color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
+                                                      color:  Colors.black,
                                                       fontSize: 16,
                                                       fontFamily: "OpenSans"),
                                                 ),
@@ -821,7 +821,7 @@ for(int i=0;i<state.all_skin_data.length;i++){
                                                   state.all_skin_data[index]
                                                       .city,
                                                   style: TextStyle(
-                                                      color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
+                                                      color:  Colors.black,
                                                       fontSize: 16,
                                                       fontFamily: "OpenSans"),
                                                 ),

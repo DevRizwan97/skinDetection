@@ -122,8 +122,8 @@ class _LocationState extends State<Location> {
       loader = false;
     });
   }
-
-  Future<String> onecallweatherdata({double latitude, double longitude}) async {
+String suntime="0";
+  Future onecallweatherdata({double latitude, double longitude}) async {
     final url =
         '${ApiKey.baseUrl}/data/2.5/onecall?lat=$latitude&lon=$longitude&appid=${ApiKey.OPEN_WEATHER_MAP}';
     print('fetching $url');
@@ -136,7 +136,28 @@ class _LocationState extends State<Location> {
       uvi_index=weatherJson['current']['uvi'].toString();
       prefs.setString("uvi_index",uvi_index);
     });
-    return weatherJson['current']['uvi'].toString();
+
+    var state = Provider.of<AuthState>(context, listen: false);
+    List<Map> all_data=state.all_excel_data;
+    // print(state.all_excel_data);
+    for(int i=0;i<state.all_excel_data.length;i++){
+      String uv=all_data[i]['uv'].toString();
+   String uv_index=(int.parse(double.parse(uvi_index).floor().toString()).toString());
+//print(uv==uv_index);
+// print(state.all_excel_data[i]['uv'].contains(uvi_index));
+// print(state.all_excel_data[i]['skintype'].contains(state.all_skin_data[0].skintype));
+//
+      if(uv==uv_index&&all_data[i]['skintype'].toString()==state.all_skin_data[0].skintype){
+        setState(() {
+
+          suntime=state.all_excel_data[i]['time'].toString();
+          print("rafay");
+        print(suntime);
+        });
+       // break;
+      }
+    }
+   // return weatherJson['current']['uvi'].toString();
   }
 
   @override
@@ -167,7 +188,7 @@ class _LocationState extends State<Location> {
                 height: double.infinity,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image:AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?AssetImage("assets/images/nightmode.jpg"): AssetImage("assets/images/bggg.png"),
+                    image:AssetImage("assets/images/bggg.png"),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -186,7 +207,7 @@ class _LocationState extends State<Location> {
                       child: Text(
                        "Location",
                         style: TextStyle(
-                            color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE ? Colors.white : Colors.black,
+                            color:  Colors.black,
                             fontSize: 32,
                             fontFamily: "OpenSans",
                             fontWeight: FontWeight.w700),
@@ -450,9 +471,9 @@ class _LocationState extends State<Location> {
                                                     fontSize: 17),
                                               ),
                                               Text(
-                                                uvi_index == null
+                                                suntime == null
                                                     ? ""
-                                                    : int.parse(double.parse(uvi_index).floor().toString())<2?"":int.parse(double.parse(uvi_index).floor().toString())>11?"":"${state.all_skin_data == null ? "" : state.all_skin_data[0].spf}",
+                                                    : int.parse(double.parse(suntime).floor().toString()).toString()+" minutes",
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontFamily: "OpenSans",

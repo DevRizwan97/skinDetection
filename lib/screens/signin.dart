@@ -34,7 +34,7 @@ class _SignInState extends State<SignIn> {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image:AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?AssetImage("assets/images/nightback2.jpg"): AssetImage("assets/images/back2.jpg"),
+            image: AssetImage("assets/images/back2.jpg"),
             fit: BoxFit.fill,
           ),
         ),

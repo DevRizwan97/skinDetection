@@ -23,7 +23,6 @@ import 'package:my_cities_time/utils/constants.dart';
 import 'package:my_cities_time/screens/location.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-
 import 'package:my_cities_time/api/api_keys.dart';
 import 'package:my_cities_time/models/weather.dart';
 import 'package:http/http.dart' as http;
@@ -62,8 +61,8 @@ TextEditingController searchcontroller=TextEditingController();
       indicatorColor:Colors.orange.shade300,
 
       tabs: <Widget>[
-        Tab(child: Text("Travel Destination",style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontWeight: FontWeight.w700,fontSize: 15),),),
-       // Tab(child: Text("Suntan Roadmap",style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontWeight: FontWeight.w700,fontSize: 15),),),
+        Tab(child: Text("Travel Destination",style: TextStyle(color:  Colors.black,fontWeight: FontWeight.w700,fontSize: 15),),),
+       // Tab(child: Text("Suntan Roadmap",style: TextStyle(color:  Colors.black,fontWeight: FontWeight.w700,fontSize: 15),),),
       ],
       controller: tabController,
     );
@@ -245,6 +244,8 @@ _fetchWeatherWithLocation() async {
   void getSuggestion(String input) async {
     setState(() {
       loader=true;
+      _placeList.clear();
+      searchweather.clear();
     });
     String kPLACES_API_KEY = "AIzaSyCj4FDxRHoIy91uBXhz_NqGpksKDB-cECw";
     String type = '(regions)';
@@ -283,8 +284,14 @@ for(int i=0;i<result.length;i++){
 //
 //   }
     setState(() {
-
-      searchweather.add(w);
+      print("rizwan");
+if(contains(searchweather, w.cityName)){
+  i++;
+}
+else {
+  searchweather.add(w);
+}
+ //
     });
   }catch(Exception){
     i++;
@@ -298,6 +305,12 @@ setState(() {
 });
 
 }
+  bool contains(List<Weather> element,String cityname) {
+    for (Weather e in element) {
+      if (e.cityName == cityname) return true;
+    }
+    return false;
+  }
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<AuthState>(context, listen: false);
@@ -314,7 +327,7 @@ setState(() {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image:AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?AssetImage("assets/images/nightmode.jpg"): AssetImage("assets/images/bggg.png"),
+            image: AssetImage("assets/images/bggg.png"),
             fit: BoxFit.fill,
           ),
         ),
@@ -333,7 +346,7 @@ setState(() {
                     child: Text(
                       "Travel",
                       style: TextStyle(
-                          color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
+                          color:  Colors.black,
                           fontSize: 32,
                           fontFamily: "OpenSans",
                           fontWeight: FontWeight.w700),
@@ -360,7 +373,9 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
                           decoration: InputDecoration(
 
                             border: OutlineInputBorder(
-                              borderSide: BorderSide(width: 0, style: BorderStyle.none),
+
+                              borderSide: BorderSide(width: 0, style: BorderStyle.solid,color: fontOrange),
+
                               borderRadius: const BorderRadius.all(
                                 const Radius.circular(25.0),
                               ),
@@ -703,7 +718,7 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
                         //             Text(
                         //               "My Training Records ",
                         //               style: TextStyle(
-                        //                   color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
+                        //                   color:  Colors.black,
                         //                   fontFamily: "OpenSans",
                         //                   fontWeight: FontWeight.w700,
                         //                   fontSize: 24),
@@ -729,7 +744,7 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
                         //                             mainAxisAlignment: MainAxisAlignment.center,
                         //                             crossAxisAlignment: CrossAxisAlignment.center,
                         //                             children: [
-                        //                               Text(state.all_skin_data[index].city,style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontSize: 18,fontFamily: "OpenSans",fontWeight: FontWeight.w700),),
+                        //                               Text(state.all_skin_data[index].city,style: TextStyle(color:  Colors.black,fontSize: 18,fontFamily: "OpenSans",fontWeight: FontWeight.w700),),
                         //                             ],),
                         //                           SizedBox(height: 10,),
                         //                           Row(
@@ -739,7 +754,7 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
                         //                                 children: [
                         //                                   Text("Date",style: TextStyle(color:fontOrange,fontSize: 16,fontWeight: FontWeight.w700,fontFamily: "OpenSans"),),
                         //                                   SizedBox(width: 5,),
-                        //                                   Text(state.all_skin_data[index].date.substring(0,11),style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontSize: 16,fontFamily: "OpenSans"),),
+                        //                                   Text(state.all_skin_data[index].date.substring(0,11),style: TextStyle(color:  Colors.black,fontSize: 16,fontFamily: "OpenSans"),),
                         //                                 ],
                         //                               ),
                         //
@@ -747,7 +762,7 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
                         //                                 children: [
                         //                                   Text("Time",style: TextStyle(color:fontOrange,fontSize: 16,fontWeight: FontWeight.w700,fontFamily: "OpenSans"),),
                         //                                   SizedBox(width: 5,),
-                        //                                   Text(state.all_skin_data[index].time,style: TextStyle(color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,fontSize:16,fontFamily: "OpenSans"),),
+                        //                                   Text(state.all_skin_data[index].time,style: TextStyle(color:  Colors.black,fontSize:16,fontFamily: "OpenSans"),),
                         //                                 ],
                         //                               ),
                         //                             ],),

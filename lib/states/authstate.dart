@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:excel/excel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -26,6 +27,7 @@ class AuthState extends AppState {
   Users get userModel => _userModel;
   Users _userModel;
   List<Blog> _blogs=List<Blog>();
+  List<Map> _excel=List<Map>();
 
   List<Product> _products=List<Product>();
 List<Skin> _all_skin_data=List<Skin>();
@@ -43,6 +45,13 @@ List<Skin> _all_skin_data=List<Skin>();
   List<Skin> get all_skin_data {
     if (_all_skin_data != null && _all_skin_data.length > 0) {
       return _all_skin_data;
+    } else {
+      return null;
+    }
+  }
+  List<Map> get all_excel_data {
+    if (_excel!= null && _excel.length > 0) {
+      return _excel;
     } else {
       return null;
     }
@@ -184,7 +193,7 @@ List<Skin> _all_skin_data=List<Skin>();
       loading = true;
       for(int i=1;i>0;i++) {
         try {
-          print(i.toString());
+
           await kDatabase
               .child("products").child(i.toString())
               .once()
@@ -244,6 +253,35 @@ List<Skin> _all_skin_data=List<Skin>();
       print(error);
       loading = false;
     }
+  }
+  fillexcel() async {
+
+    ByteData data = await rootBundle.load("assets/images/18_skin_types.xlsx");
+    var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    var excel = Excel.decodeBytes(bytes);
+
+    for (var table in excel.tables.keys) {
+      // print(table); //sheet Name
+      // print(excel.tables[table].maxCols);
+      // print(excel.tables[table].maxRows);
+
+int i=0;
+      for (var row in excel.tables[table].rows) {
+       // print("$row");
+
+        var details = new Map();
+       if(i!=0) {
+         details['skintype'] = row[0];
+         details['uv'] = row[1];
+         details['time'] = row[4] / row[3];
+         print(details);
+         _excel.add(details);
+       }
+      i++;
+      }
+    }
+
+
   }
   getProfileUserSkin({String userProfileId,String city}) {
     try {

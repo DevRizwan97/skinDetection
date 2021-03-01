@@ -42,7 +42,7 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image:AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?AssetImage("assets/images/nightmode.jpg"): AssetImage("assets/images/bggg.png"),
+            image: AssetImage("assets/images/bggg.png"),
             fit: BoxFit.fill,
           ),
         ),
@@ -55,7 +55,7 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
               child: Text(
                 "The Protection Shop",
                 style: TextStyle(
-                    color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
+                    color:  Colors.black,
                     fontSize: 32,
                     fontFamily: "OpenSans",
                     fontWeight: FontWeight.w700),

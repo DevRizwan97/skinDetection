@@ -32,6 +32,7 @@ class _SplashPageState extends State<SplashPage> {
       state.getallSkins();
       state.getallBlogs();
       state.getallProducts();
+      state.fillexcel();
     });
   }
 
@@ -72,7 +73,6 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(
       body:state.isbusy?_body(): state.user!=null?
          Location() :
-
       SignIn(),
     );
   }

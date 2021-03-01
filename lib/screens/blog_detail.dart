@@ -36,10 +36,7 @@ class _BlogDetailState extends State<BlogDetail> {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AppStateContainer.of(context).themeCode ==
-                    Themes.DARK_THEME_CODE
-                ? AssetImage("assets/images/nightmode.jpg")
-                : AssetImage("assets/images/bggg.png"),
+            image:  AssetImage("assets/images/bggg.png"),
             fit: BoxFit.fill,
           ),
         ),
@@ -51,7 +48,7 @@ class _BlogDetailState extends State<BlogDetail> {
 //               Padding(
 //                 padding: const EdgeInsets.only(top:150,left: 30,right: 8),
 //                 child: Text("Blog Detail",style: TextStyle(
-//                     color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE? Colors.white : Colors.black,
+//                     color:  Colors.black,
 //                     fontSize: 32,
 //                     fontFamily: "OpenSans",
 //                     fontWeight: FontWeight.w700
