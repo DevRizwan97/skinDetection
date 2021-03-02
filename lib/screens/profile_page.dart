@@ -126,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?Color(0xff3b3b3b): Colors.white,
+          backgroundColor: Colors.white,
           elevation: 0.0,
 
           leading: GestureDetector(
@@ -139,7 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
           )),
         ),
         body: new Container(
-          color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?Color(0xff3b3b3b): Colors.white,
+          color:  Colors.white,
           child: new ListView(
             children: <Widget>[
               Column(
@@ -166,11 +166,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ],
                                       shape: BoxShape.circle,
                                       image: new DecorationImage(
-                                        image: state.userModel.imageurl != null
-                                            ? new NetworkImage(
-                                                state.userModel.imageurl)
-                                            : new NetworkImage(
-                                                "https://firebasestorage.googleapis.com/v0/b/learning-management-syst-1145b.appspot.com/o/DummyPicture%2Fas.png?alt=media&token=d21d753b-f24c-4e62-8f9f-464a7aa80279"),
+                                          image: state.userModel==null?AssetImage(
+                                            "assets/images/profile.jpeg",
+                                          ):state.userModel.imageurl==null||state.userModel.imageurl==""?AssetImage(
+                                            "assets/images/profile.jpeg",
+                                          ):NetworkImage( state.userModel.imageurl
+
+                                          ),
                                         // _image==null?
                                         //
                                         // new NetworkImage( "https://firebasestorage.googleapis.com/v0/b/learning-management-syst-1145b.appspot.com/o/DummyPicture%2Fas.png?alt=media&token=d21d753b-f24c-4e62-8f9f-464a7aa80279" ,
@@ -212,7 +214,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   new Container(
-                    color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?Color(0xff3b3b3b): Colors.white,
+                    color:  Colors.white,
                     child: Padding(
                       padding: EdgeInsets.only(
                         bottom: 25.0,
@@ -231,7 +233,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     fontSize: 25.0,
                                     fontWeight: FontWeight.w700,
                                     fontFamily: "OpenSans",
-                                    color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?white: Color(0xff3b3b3b),
+                                    color: Color(0xff3b3b3b),
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -255,7 +257,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             fontSize: 16.0,
                                             fontWeight: FontWeight.w700,
                                             fontFamily: "OpenSans",
-                                        color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?white: Color(0xff3b3b3b),),
+                                        color: Color(0xff3b3b3b),),
                                       ),
                                     ],
                                   ),
@@ -269,13 +271,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                 children: <Widget>[
                                   new Flexible(
                                     child: new TextField(
-                                      style: TextStyle(color:  AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?white: Color(0xff3b3b3b),),
+                                      style: TextStyle(color:  Color(0xff3b3b3b),),
 
                                       enabled: true,
                                       controller: nameController,
                                       decoration:  InputDecoration(
                                         enabledBorder:  UnderlineInputBorder(
-                                          borderSide:  BorderSide(color:  AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?white: Color(0xff3b3b3b), width: 0.0),
+                                          borderSide:  BorderSide(color:  Color(0xff3b3b3b), width: 0.0),
                                         ),
 
                                       ),
@@ -302,7 +304,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             fontSize: 16.0,
                                             fontWeight: FontWeight.w700,
                                             fontFamily: "OpenSans",
-                                          color: AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?white: Color(0xff3b3b3b),),
+                                          color: Color(0xff3b3b3b),),
                                       ),
                                     ],
                                   ),
@@ -316,13 +318,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                 children: <Widget>[
                                   new Flexible(
                                     child: new TextField(
-                                      style: TextStyle(color:  AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?white: Color(0xff3b3b3b),),
+                                      style: TextStyle(color:  Color(0xff3b3b3b),),
 
                                       enabled: true,
                                       controller: emailController,
                                       decoration:  InputDecoration(
                                         enabledBorder:  UnderlineInputBorder(
-                                          borderSide:  BorderSide(color:  AppStateContainer.of(context).themeCode==Themes.DARK_THEME_CODE?white: Color(0xff3b3b3b), width: 0.0),
+                                          borderSide:  BorderSide(color:  Color(0xff3b3b3b), width: 0.0),
                                         ),
 
                                       ),

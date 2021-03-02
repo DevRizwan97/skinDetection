@@ -9,6 +9,7 @@ import 'package:my_cities_time/screens/blog.dart';
 import 'package:my_cities_time/screens/location.dart';
 import 'package:my_cities_time/screens/profile_page.dart';
 import 'package:my_cities_time/screens/settings_screen.dart';
+import 'package:my_cities_time/screens/shop_detail_page.dart';
 import 'package:my_cities_time/screens/signin.dart';
 import 'package:my_cities_time/screens/signup.dart';
 import 'package:my_cities_time/screens/the_skin_lab.dart';
@@ -133,7 +134,7 @@ class MyApp extends StatelessWidget {
         canvasColor: fontOrange
       ),
       debugShowCheckedModeBanner:false,
-      home:SplashPage(),
+      home:ShopDetailPage(),
     ));
   }
 }

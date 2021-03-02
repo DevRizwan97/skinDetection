@@ -358,8 +358,13 @@ setState(() {
                         height: 80,
                         width: MediaQuery.of(context).size.width*0.7,
                         padding: EdgeInsets.only(top:20),
-                        child: TextField(
-                          onChanged: (value) {
+                        child: Theme(
+                          data: new ThemeData(
+                            primaryColor: fontOrange,
+
+                          ),
+                          child: TextField(
+                            onChanged: (value) {
 if(searchcontroller.text==null||searchcontroller.text.contains("")){
 
 //  setState(() {
@@ -367,25 +372,26 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
 //    searchweather.clear();
 //  });
 }
-                          },
-                          controller: searchcontroller,
-                          style: TextStyle(color:Colors.black),
-                          decoration: InputDecoration(
+                            },
+                            controller: searchcontroller,
+                            style: TextStyle(color:Colors.black),
+                            decoration: InputDecoration(
 
-                            border: OutlineInputBorder(
+                              border: OutlineInputBorder(
 
-                              borderSide: BorderSide(width: 0, style: BorderStyle.solid,color: fontOrange),
+                                borderSide: BorderSide(width: 0, style: BorderStyle.solid,color: fontOrange),
 
-                              borderRadius: const BorderRadius.all(
-                                const Radius.circular(25.0),
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(25.0),
+                                ),
                               ),
-                            ),
-                            hintText: 'Search..',
-                            fillColor: Colors.white,
-                            filled: true,
+                              hintText: 'Search..',
+                              fillColor: Colors.white,
+                              filled: true,
 
-                            focusColor: Colors.white,
-                            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                              focusColor: Colors.white,
+                              contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                            ),
                           ),
                         )
                     ),

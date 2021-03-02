@@ -306,6 +306,7 @@ import 'dart:collection';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:my_cities_time/main.dart';
@@ -400,6 +401,7 @@ for(int i=0;i<state.all_skin_data.length;i++){
           child: Padding(
             padding: const EdgeInsets.only(top: 150),
             child: SingleChildScrollView(
+              physics: NeverScrollableScrollPhysics(),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -657,16 +659,18 @@ for(int i=0;i<state.all_skin_data.length;i++){
                                           ],
                                         ),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
-                                            Text(
-                                              "Location",
-                                              style: TextStyle(
-                                                  color:  Colors.black,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontFamily: "OpenSans"),
+                                            Center(
+                                              child: Text(
+                                                "Location",
+                                                style: TextStyle(
+                                                    color:  Colors.black,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontFamily: "OpenSans"),
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -774,9 +778,10 @@ for(int i=0;i<state.all_skin_data.length;i++){
                             // ],
                           ),
                           Container(
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height * 0.3,
+                            // width: double.infinity,
+                            height: MediaQuery.of(context).size.height * 0.4,
                             child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,

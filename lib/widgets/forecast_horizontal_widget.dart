@@ -1,7 +1,11 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_cities_time/models/weather.dart';
+import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/widgets/value_tile.dart';
+import 'package:provider/provider.dart';
 
 import '../main.dart';
 

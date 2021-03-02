@@ -168,7 +168,7 @@ class _BlogDetailState extends State<BlogDetail> {
 
         child: Padding(
           padding:
-              const EdgeInsets.only(left: 20, right: 20, top: 200, bottom: 100),
+              const EdgeInsets.only(left: 20, right: 20, top: 160, bottom: 50),
           child: Card(
             shape: RoundedRectangleBorder(
                // side: BorderSide(color:fontOrange, width: 1.5),
