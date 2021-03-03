@@ -58,6 +58,7 @@ class _LocationState extends State<Location> {
   SharedPreferences prefs;
 
   _fetchWeatherWithLocation() async {
+
    prefs = await SharedPreferences.getInstance();
     var permissionHandler = PermissionHandler();
     var permissionResult = await permissionHandler
@@ -145,9 +146,9 @@ String suntime="0";
    String uv_index=(int.parse(double.parse(uvi_index).floor().toString()).toString());
 //print(uv==uv_index);
 // print(state.all_excel_data[i]['uv'].contains(uvi_index));
-// print(state.all_excel_data[i]['skintype'].contains(state.all_skin_data[0].skintype));
+// print(state.all_excel_data[i]['skintype'].contains(state.all_skin_data[state.all_skin_data.length-1].skintype));
 //
-      if(uv==uv_index&&all_data[i]['skintype'].toString()==state.all_skin_data[0].skintype){
+      if(uv==uv_index&&all_data[i]['skintype'].toString()==state.all_skin_data[state.all_skin_data.length-1].skintype){
         setState(() {
 
           suntime=state.all_excel_data[i]['time'].toString();
@@ -441,7 +442,7 @@ String suntime="0";
                                                   decoration: new BoxDecoration(
                                                     color:state.all_skin_data == null
                                                         ? Colors.transparent
-                                                        : Color(int.parse(state.all_skin_data[0].skincolor
+                                                        : Color(int.parse(state.all_skin_data[state.all_skin_data.length-1].skincolor
                                                             .replaceAll(
                                                                 '#', '0xff'))),
                                                     shape: BoxShape.rectangle,
@@ -654,6 +655,7 @@ String suntime="0";
       },
     ).then((num value) {
       prefs.setString("uv", value.toString());
+      print(value.toString());
 
                                      AndroidAlarmManager.periodic(
       const Duration(seconds: 5),

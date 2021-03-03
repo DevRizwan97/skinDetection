@@ -146,22 +146,24 @@ mainAxisAlignment: MainAxisAlignment.center,
                           width: 120,
                           margin: EdgeInsets.only(left: 40, top: 60,right: 50),
                           decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(color: white, spreadRadius: 0.5)
+                              ],
                               shape: BoxShape.circle,
                               image: DecorationImage(
                                   fit: BoxFit.fill,
                                   image: state.userModel==null?AssetImage(
                                     "assets/images/profile.jpeg",
-                                  ):state.userModel.imageurl==null?AssetImage(
+                                  ):state.userModel.imageurl==null||state.userModel.imageurl==""?AssetImage(
                                     "assets/images/profile.jpeg",
-                                  ):NetworkImage(
-                                      state.userModel.imageurl==null?"": state.userModel.imageurl
+                                  ):NetworkImage( state.userModel.imageurl
 
                                   ))),
                         ),
                       ),
                       SizedBox(height: 15,),
                       Text(
-                        state.userModel.username,
+                        state.userModel==null?"":state.userModel.username,
                         style: TextStyle(
                             fontFamily: "OpenSans",
                             fontWeight: FontWeight.w700,
