@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_cities_time/main.dart';
+import 'package:my_cities_time/models/products.dart';
 import 'package:my_cities_time/screens/Travel.dart';
 import 'package:my_cities_time/screens/blog.dart';
 import 'package:my_cities_time/screens/location.dart';
@@ -14,6 +15,7 @@ import 'package:my_cities_time/themes.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:my_cities_time/utils/helper.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class Favourites extends StatefulWidget {
@@ -130,11 +132,16 @@ class _FavouritesState extends State<Favourites> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.sync,color: fontOrange,size: 30,),
+                            GestureDetector(
+                                onTap: () {
+                                  _onShare(context,state.all_favourites[index]);
+                                },
+                                child: Icon(Icons.sync,color: fontOrange,size: 30,)),
                             SizedBox(height: 20,),
                             GestureDetector(
                                 onTap: () {
                                   if(state.all_favourites.contains(state.all_favourites[index])){
+                                    print(state.userModel.userId);
                                     kDatabase.child('favourites').child(
                                         state.userModel.userId).child(state.all_favourites[index].productId)
                                         .remove();
@@ -193,4 +200,31 @@ class _FavouritesState extends State<Favourites> {
       ),
     );
   }
+  _onShare(BuildContext context,Product product) async {
+    // A builder is used to retrieve the context immediately
+    // surrounding the RaisedButton.
+    //
+    // The context's `findRenderObject` returns the first
+    // RenderObject in its descendent tree when it's not
+    // a RenderObjectWidget. The RaisedButton's RenderObject
+    // has its position and size after it's built.
+    final RenderBox box = context.findRenderObject();
+List<String> imageurls=List<String>();
+imageurls.add(product.imageurl);
+    // if (imageurls.isNotEmpty) {
+    //   await Share.shareFiles(imageurls,
+    //       text: product.name,
+    //       subject: product.quantity,
+    //       sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+    // } else {
+      await Share.share(product.name,
+          subject: product.quantity,
+          sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+    //}
+  }
+
+  _onShareWithEmptyOrigin(BuildContext context) async {
+    await Share.share("text");
+  }
+
 }

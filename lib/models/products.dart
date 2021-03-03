@@ -20,6 +20,7 @@ class Product {
    imageurl=map["imageurl"]==null?null:map["imageurl"];
     producturl=map["producturl"]==null?null:map["producturl"];
     price=map["price"]==null?"":map["price"].toString();
+    productId=map["productId"];
 
     // date=map["date"];
     // time=map["time"];

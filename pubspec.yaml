@@ -49,6 +49,7 @@ dependencies:
   provider: ^4.3.3
   flushbar: ^1.10.4
 
+  share: ^0.6.5+4
   darq: ^0.5.1
   excel: ^1.1.5
   email_validator: ^1.0.6

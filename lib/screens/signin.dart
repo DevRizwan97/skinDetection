@@ -76,6 +76,7 @@ class _SignInState extends State<SignIn> {
                                 padding:
                                     const EdgeInsets.only(top: 10.0, right: 30),
                                 child: TextField(
+                                  keyboardType: TextInputType.emailAddress,
                                   autofocus: false,
                                   controller: email,
                                   onChanged: (value) {

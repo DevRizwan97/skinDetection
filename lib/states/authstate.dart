@@ -115,6 +115,7 @@ List<Skin> _all_skin_data=List<Skin>();
       if (user != null) {
         userId = user.uid;
         getProfileUser();
+        get_all_favourites();
       } else {
 
         loading = false;
@@ -341,7 +342,7 @@ int i=0;
       loading = false;
     }
   }
-Future<Product> get_all_favourites(){
+ get_all_favourites(){
     try{
       loading=true;
       kDatabase
@@ -349,6 +350,7 @@ Future<Product> get_all_favourites(){
           .child(userId)
           .once()
           .then((DataSnapshot snapshot) {
+            print((snapshot.value));
         if (snapshot.value != null) {
           var map = snapshot.value;
           if (map != null) {
