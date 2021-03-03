@@ -30,6 +30,8 @@ class AuthState extends AppState {
   List<Map> _excel=List<Map>();
 
   List<Product> _products=List<Product>();
+
+  List<Product> _favourites=List<Product>();
 List<Skin> _all_skin_data=List<Skin>();
   Skin _skin;
   String userId;
@@ -69,6 +71,23 @@ List<Skin> _all_skin_data=List<Skin>();
     } else {
       return null;
     }
+  }
+  List<Product> get all_favourites {
+    if (_favourites != null && _favourites.length > 0) {
+      return _favourites;
+    } else {
+      return _favourites;
+    }
+  }
+  void addfavourite(Product p){
+    _favourites.add(p);
+        notifyListeners();
+
+  }
+  void remotefavourite(int index){
+    _favourites.removeAt(index);
+    notifyListeners();
+
   }
   Skin get skin{
 
@@ -201,7 +220,7 @@ List<Skin> _all_skin_data=List<Skin>();
             if (snapshot.value != null) {
               var map = snapshot.value;
               Product g=Product.fromJson(map);
-              g.userId=snapshot.key;
+              g.productId=snapshot.key;
               _products.add(g);
             }
             else {
@@ -322,7 +341,43 @@ int i=0;
       loading = false;
     }
   }
+Future<Product> get_all_favourites(){
+    try{
+      loading=true;
+      kDatabase
+          .child("favourites")
+          .child(userId)
+          .once()
+          .then((DataSnapshot snapshot) {
+        if (snapshot.value != null) {
+          var map = snapshot.value;
+          if (map != null) {
+            map.values.forEach((k) => {
 
+                _favourites.add(Product.fromJson(k)),
+                notifyListeners(),
+
+
+
+            });
+
+          }
+          loading=false;
+
+        }
+
+      });
+   loading=false;
+    }
+    catch(e){
+
+      loading=false;
+      print(e);
+    }
+
+
+
+}
   getallUserSkin({String userProfileId}) {
     try {
       loading = true;

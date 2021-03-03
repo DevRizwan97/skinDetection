@@ -1,14 +1,13 @@
 class Product {
-  String userId;
+  String productId;
  String name;
  String subtitle;
  String quantity;
  String imageurl;
   String producturl;
   String price;
-
   Product(
-      {this.userId, this.name,this.subtitle,this.imageurl,this.producturl,this.quantity});
+      {this.productId, this.name,this.subtitle,this.imageurl,this.producturl,this.quantity});
 
   Product.fromJson(Map<dynamic, dynamic> map) {
     if (map == null) {
@@ -27,6 +26,20 @@ class Product {
     // password=map["password"];
     // confirm_password=map["confirm_password"];
 
+
+  }
+  toJson(){
+    return {
+      'productId':productId,
+      'name':name,
+      'subtitle':subtitle,
+      'quantity':quantity,
+      'imageurl':imageurl,
+      'producturl':producturl,
+      'price':price,
+
+
+    };
 
   }
 

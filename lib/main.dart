@@ -134,7 +134,8 @@ class MyApp extends StatelessWidget {
         canvasColor: fontOrange
       ),
       debugShowCheckedModeBanner:false,
-      home:ShopDetailPage(),
+      home:SplashPage(),
+      //ShopDetailPage(),
     ));
   }
 }

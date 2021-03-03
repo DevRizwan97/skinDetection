@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:my_cities_time/screens/Travel.dart';
 import 'package:my_cities_time/screens/blog.dart';
+import 'package:my_cities_time/screens/favourites.dart';
 import 'package:my_cities_time/screens/location.dart';
 import 'package:my_cities_time/screens/profile_page.dart';
 import 'package:my_cities_time/screens/signin.dart';
@@ -323,6 +324,31 @@ mainAxisAlignment: MainAxisAlignment.center,
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
                         'Blog Section',
+                        style: TextStyle(
+                            fontFamily: "OpenSans",
+                            fontSize: 20,
+                            color: white,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ),
+                ),  Divider(
+                  color: white,
+                  thickness: 0.5,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Favourites(),
+                        ));
+                  },
+                  child: ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Text(
+                        'Favourites',
                         style: TextStyle(
                             fontFamily: "OpenSans",
                             fontSize: 20,

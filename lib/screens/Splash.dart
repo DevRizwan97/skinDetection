@@ -32,6 +32,7 @@ class _SplashPageState extends State<SplashPage> {
       state.getallSkins();
       state.getallBlogs();
       state.getallProducts();
+      state.get_all_favourites();
       state.fillexcel();
     });
   }

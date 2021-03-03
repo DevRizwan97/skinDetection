@@ -16,12 +16,12 @@ import 'package:my_cities_time/utils/helper.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class TheProtectionShop extends StatefulWidget {
+class Favourites extends StatefulWidget {
   @override
-  _TheProtectionShopState createState() => _TheProtectionShopState();
+  _FavouritesState createState() => _FavouritesState();
 }
 
-class _TheProtectionShopState extends State<TheProtectionShop> {
+class _FavouritesState extends State<Favourites> {
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
             Padding(
               padding: const EdgeInsets.only(top: 150, left: 25, right: 8),
               child: Text(
-                "The Protection Shop",
+                "Favourites",
                 style: TextStyle(
                     color:  Colors.black,
                     fontSize: 32,
@@ -73,7 +73,7 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
 
                   children:
 
-    List.generate(state.all_products==null?0:state.all_products.length,(index){
+    List.generate(state.all_favourites==null?0:state.all_favourites.length,(index){
 
       return
         GestureDetector(
@@ -86,7 +86,7 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
             // Navigator.push(
             //     context,
             //     MaterialPageRoute(
-            //       builder: (context) => WebViewExample(url: state.all_products[index].producturl,),
+            //       builder: (context) => WebViewExample(url: state.all_favourites[index].producturl,),
             //     ));
           },
           child: Padding(
@@ -115,15 +115,15 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(state.all_products[index].name,style: TextStyle(fontWeight: FontWeight.w700,fontFamily: "OpenSans",fontSize: 15),),
+                                Text(state.all_favourites[index].name,style: TextStyle(fontWeight: FontWeight.w700,fontFamily: "OpenSans",fontSize: 15),),
                                 SizedBox(width: 50,),
-                                Text("\$${state.all_products[index].price}",style: TextStyle(color: fontOrange,fontFamily: "OpenSans",fontSize: 15),),
+                                Text("\$${state.all_favourites[index].price}",style: TextStyle(color: fontOrange,fontFamily: "OpenSans",fontSize: 15),),
                               ],
                             ),
                             SizedBox(height: 30,),
-                            Text(state.all_products[index].subtitle,style: TextStyle(fontSize: 13,fontFamily: "OpenSans"),),
+                            Text(state.all_favourites[index].subtitle,style: TextStyle(fontSize: 13,fontFamily: "OpenSans"),),
                             SizedBox(height: 8,),
-                            Text(state.all_products[index].quantity,style: TextStyle(fontSize: 13,fontFamily: "OpenSans"),),
+                            Text(state.all_favourites[index].quantity,style: TextStyle(fontSize: 13,fontFamily: "OpenSans"),),
                           ],
                         ),
                         Spacer(),
@@ -134,33 +134,34 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
                             SizedBox(height: 20,),
                             GestureDetector(
                                 onTap: () {
-                                  if(state.all_favourites.contains(state.all_products[index])){
-
+                                  if(state.all_favourites.contains(state.all_favourites[index])){
+                                    kDatabase.child('favourites').child(
+                                        state.userModel.userId).child(state.all_favourites[index].productId)
+                                        .remove();
+                                    state.remotefavourite(index);
 
                                   }
 
                                   else {
-                                    String uid=DateTime.now().millisecondsSinceEpoch.toString();
-                                    state.all_products[index].productId=uid;
                                     kDatabase.child('favourites').child(
-                                        state.userModel.userId).child(uid)
+                                        state.userModel.userId).child(DateTime.now().millisecondsSinceEpoch.toString())
                                         .set(
-                                        state.all_products[index].toJson());
+                                        state.all_favourites[index].toJson());
 
-                                  state.addfavourite(state.all_products[index]);
+                                  state.addfavourite(state.all_favourites[index]);
                                   }
                                   // setState(() {
                                   //   loader = false;
                                   // });
                                 },
-                                child: Icon(state.all_favourites==null?Icons.favorite_border:state.all_favourites.contains(state.all_products[index])?Icons.favorite:Icons.favorite_border,color: Colors.red,size: 30)),
+                                child: Icon(state.all_favourites==null?Icons.favorite_border:state.all_favourites.contains(state.all_favourites[index])?Icons.favorite:Icons.favorite_border,color: Colors.red,size: 30)),
 
 
                           ],
                         ),
                         Spacer(),
                         Image.network(
-                          state.all_products[index].imageurl,
+                          state.all_favourites[index].imageurl,
                           width: 100.0,
                           height: 100.0,
                           fit: BoxFit.cover,
