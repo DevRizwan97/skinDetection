@@ -678,7 +678,7 @@ String suntime="0";
       Time notificationtime=Time(date.hour,date.minute,0);
       const AndroidNotificationDetails androidPlatformChannelSpecifics =
       AndroidNotificationDetails(
-          'your channel id', 'your channel name', 'your channel description',
+          'your chairvnnel id', 'your channel name', 'your channel description',
           importance: Importance.max,
           priority: Priority.high,
           playSound: true,
