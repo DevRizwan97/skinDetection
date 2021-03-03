@@ -10,9 +10,23 @@ class _ShopDetailPageState extends State<ShopDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+
+        leading: GestureDetector(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: fontOrange,
+            )),
+      ),
       backgroundColor: white,
       body: Padding(
-        padding: const EdgeInsets.only(top: 50.0, left: 20,right: 20),
+        padding: const EdgeInsets.only(top: 10.0, left: 20,right: 20),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
