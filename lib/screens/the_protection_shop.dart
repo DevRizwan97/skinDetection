@@ -17,6 +17,8 @@ import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import 'favourites.dart';
+
 class TheProtectionShop extends StatefulWidget {
   @override
   _TheProtectionShopState createState() => _TheProtectionShopState();
@@ -51,14 +53,41 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 150, left: 40, right: 8,),
-              child: Text(
-                "The Protection Shop",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 32,
-                    fontFamily: "OpenSans",
-                    fontWeight: FontWeight.w700),
+              padding: const EdgeInsets.only(
+                top: 150,
+                left: 40,
+                right: 8,
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    "The Protection Shop",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 26,
+                        fontFamily: "OpenSans",
+                        fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(
+                    width: 25,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: GestureDetector(
+                    onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Favourites(),
+            ));
+      },
+                        child: Icon(
+                      Icons.favorite_rounded,
+                      color: Colors.red,
+                      size: 35,
+                    )),
+                  ),
+                ],
               ),
             ),
             // SizedBox(
@@ -89,7 +118,7 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
                       padding: const EdgeInsets.only(
                           left: 12.0, right: 12.0, top: 15, bottom: 15),
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.16,
+                        height: MediaQuery.of(context).size.height * 0.18,
                         child: Card(
                             color: cardColor,
                             elevation: 5,
@@ -159,72 +188,81 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       GestureDetector(
-                                          onTap: () {
-                                            _onShare(context,
-                                                state.all_products[index]);
-                                          },
-                                          // child: Icon(
-                                          //   Icons.sync,
-                                          //   color: fontOrange,
-                                          //   size: 30,
-                                          // )
-                                        child:Image.asset("assets/images/share.png",height: 30,width: 30,),
+                                        onTap: () {
+                                          _onShare(context,
+                                              state.all_products[index]);
+                                        },
+                                        // child: Icon(
+                                        //   Icons.sync,
+                                        //   color: fontOrange,
+                                        //   size: 30,
+                                        // )
+                                        child: Image.asset(
+                                          "assets/images/share.png",
+                                          height: 30,
+                                          width: 30,
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 8,
                                       ),
                                       GestureDetector(
-                                          onTap: () {
-                                            if (state.all_favourites.contains(
-                                                state.all_products[index])) {
-                                              kDatabase
-                                                  .child('favourites')
-                                                  .child(state.userModel.userId)
-                                                  .child(state
-                                                      .all_favourites[index]
-                                                      .productId)
-                                                  .remove();
-                                              state.remotefavourite(index);
-                                            } else {
-                                              String uid = DateTime.now()
-                                                  .millisecondsSinceEpoch
-                                                  .toString();
-                                              state.all_products[index]
-                                                  .productId = uid;
-                                              kDatabase
-                                                  .child('favourites')
-                                                  .child(state.userModel.userId)
-                                                  .child(uid)
-                                                  .set(state.all_products[index]
-                                                      .toJson());
+                                        onTap: () {
+                                          if (state.all_favourites.contains(
+                                              state.all_products[index])) {
+                                            kDatabase
+                                                .child('favourites')
+                                                .child(state.userModel.userId)
+                                                .child(state
+                                                    .all_favourites[index]
+                                                    .productId)
+                                                .remove();
+                                            state.remotefavourite(index);
+                                          } else {
+                                            String uid = DateTime.now()
+                                                .millisecondsSinceEpoch
+                                                .toString();
+                                            state.all_products[index]
+                                                .productId = uid;
+                                            kDatabase
+                                                .child('favourites')
+                                                .child(state.userModel.userId)
+                                                .child(uid)
+                                                .set(state.all_products[index]
+                                                    .toJson());
 
-                                              state.addfavourite(
-                                                  state.all_products[index]);
-                                            }
-                                            // setState(() {
-                                            //   loader = false;
-                                            // });
-                                          },
-                                          // child: Icon(
-                                          //     state.all_favourites == null
-                                          //         ? Icons.favorite_border
-                                          //         : state.all_favourites
-                                          //                 .contains(state
-                                          //                         .all_products[
-                                          //                     index])
-                                          //             ? Icons.favorite
-                                          //             : Icons.favorite_border,
-                                          //     color: Colors.red,
-                                          //     size: 25)
+                                            state.addfavourite(
+                                                state.all_products[index]);
+                                          }
+                                          // setState(() {
+                                          //   loader = false;
+                                          // });
+                                        },
+                                        // child: Icon(
+                                        //     state.all_favourites == null
+                                        //         ? Icons.favorite_border
+                                        //         : state.all_favourites
+                                        //                 .contains(state
+                                        //                         .all_products[
+                                        //                     index])
+                                        //             ? Icons.favorite
+                                        //             : Icons.favorite_border,
+                                        //     color: Colors.red,
+                                        //     size: 25)
                                         child: state.all_favourites == null
-                                                ? Icons.favorite_border
-                                                : state.all_favourites
-                                                        .contains(state
-                                                                .all_products[
-                                                            index])
-                                                    ?Image.asset("assets/images/heartFilled.png",height: 30,width: 30):Image.asset("assets/images/heartEmpty.png",height: 30,width: 30,),
-
-                                          ),
+                                            ? Icons.favorite_border
+                                            : state.all_favourites.contains(
+                                                    state.all_products[index])
+                                                ? Image.asset(
+                                                    "assets/images/heartFilled.png",
+                                                    height: 30,
+                                                    width: 30)
+                                                : Image.asset(
+                                                    "assets/images/heartEmpty.png",
+                                                    height: 30,
+                                                    width: 30,
+                                                  ),
+                                      ),
                                     ],
                                   ),
                                   Spacer(),

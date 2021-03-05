@@ -336,32 +336,32 @@ mainAxisAlignment: MainAxisAlignment.center,
                   color: white,
                   thickness: 0.5,
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Favourites(),
-                        ));
-                  },
-                  child: ListTile(
-                    title: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: Text(
-                        'Favourites',
-                        style: TextStyle(
-                            fontFamily: "OpenSans",
-                            fontSize: 20,
-                            color: white,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  ),
-                ),
-                Divider(
-                  color: white,
-                  thickness: 0.5,
-                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //           builder: (context) => Favourites(),
+                //         ));
+                //   },
+                //   child: ListTile(
+                //     title: Padding(
+                //       padding: const EdgeInsets.only(left: 20.0),
+                //       child: Text(
+                //         'Favourites',
+                //         style: TextStyle(
+                //             fontFamily: "OpenSans",
+                //             fontSize: 20,
+                //             color: white,
+                //             fontWeight: FontWeight.w400),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // Divider(
+                //   color: white,
+                //   thickness: 0.5,
+                // ),
                 GestureDetector(
                   onTap: () {
                     state.logoutCallback();
