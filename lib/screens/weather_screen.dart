@@ -22,8 +22,11 @@ class WeatherScreen extends StatefulWidget {
   final WeatherRepository weatherRepository = WeatherRepository(
       weatherApiClient: WeatherApiClient(
           httpClient: http.Client(), apiKey: ApiKey.OPEN_WEATHER_MAP));
+
+   WeatherScreen({Key key, this.lat, this.long}) : super(key: key);
   @override
   _WeatherScreenState createState() => _WeatherScreenState();
+final double lat,long;
 }
 
 class _WeatherScreenState extends State<WeatherScreen>
@@ -238,8 +241,16 @@ class _WeatherScreenState extends State<WeatherScreen>
 
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-    _weatherBloc.dispatch(FetchWeather(
-        longitude: position.longitude, latitude: position.latitude));
+    if(widget.lat==null||widget.long==null) {
+      _weatherBloc.dispatch(FetchWeather(
+          longitude: position.longitude, latitude: position.latitude));
+    }
+
+    else{
+      _weatherBloc.dispatch(FetchWeather(
+          longitude:widget.long, latitude: widget.lat));
+
+    }
   }
 
   void _showLocationDeniedDialog(PermissionHandler permissionHandler) {

@@ -338,22 +338,27 @@ class SkinTrackerState extends State<SkinTracker> {
     var state = Provider.of<AuthState>(context, listen: false);
     List<String> months=List<String>();
 for(int i=0;i<state.all_skin_data.length;i++){
+  print("jo");
   months.add(state.all_skin_data[i].month);
 
 }
+print(months);
     distintmonths = LinkedHashSet<String>.from(months).toList();
-;
+print("rizwan bhai");
+print(distintmonths);
     distintmonths.forEach((u) {
       double sum = 0;
       int counter=0;
       for (int i = 0; i < state.all_skin_data.length; i++) {
         if (u.contains(state.all_skin_data[i].month)) {
+          print(state.all_skin_data[i].skintype);
           sum += double.parse(state.all_skin_data[i].skintype);
        counter+=1;
         }
       }
       if(counter!=0){
       values.add(sum/counter);
+      print(values);
       }
     });
     for (int i = 0; i < values.length; i++) {
@@ -434,8 +439,6 @@ for(int i=0;i<state.all_skin_data.length;i++){
                                       enabled: true,
                                       touchTooltipData: BarTouchTooltipData(
                                         tooltipBgColor: chartpointcolor,
-                                        tooltipBottomMargin: 5,
-                                        tooltipRoundedRadius: 30,
                                         getTooltipItem: (
                                           BarChartGroupData group,
                                           int groupIndex,
@@ -468,7 +471,7 @@ for(int i=0;i<state.all_skin_data.length;i++){
                                               fontWeight: FontWeight.bold)),
                                     ),
                                     gridData: FlGridData(
-                                      show: true,
+                                      show: false,
                                     ),
                                     titlesData: FlTitlesData(
                                       show: true,
@@ -483,47 +486,9 @@ for(int i=0;i<state.all_skin_data.length;i++){
                                           for (int i = 0;
                                               i < distintmonths.length;
                                               i++) {
-                                            // List months = [
-                                            //   'Jan',
-                                            //   'Feb',
-                                            //   'Mar',
-                                            //   'Apr',
-                                            //   'May',
-                                            //   'Jun',
-                                            //   'Jul',
-                                            //   'Aug',
-                                            //   'Sep',
-                                            //   'Oct',
-                                            //   'Nov',
-                                            //   'Dec'
-                                            // ];
-                                            // var formatter =
-                                            //     new DateFormat('yyyy-MM-dd');
-                                            // var date = DateTime.parse(
-                                            //     state.all_skin_data[i].date);
-                                            // String formattedDate =
-                                            //     formatter.format(date);
-                                            return distintmonths[i];
+                                            return distintmonths[i].toUpperCase();
                                           }
-                                          // switch (value.toInt()) {
-                                          //
-                                          //   case 0:
-                                          //     return 'Mn';
-                                          //   case 1:
-                                          //     return 'Te';
-                                          //   case 2:
-                                          //     return 'Wd';
-                                          //   case 3:
-                                          //     return 'Tu';
-                                          //   case 4:
-                                          //     return 'Fr';
-                                          //   case 5:
-                                          //     return 'St';
-                                          //   case 6:
-                                          //     return 'Sn';
-                                          //   default:
-                                          //     return '';
-                                          //  }
+
                                         },
                                       ),
                                       leftTitles: SideTitles(
@@ -536,18 +501,30 @@ for(int i=0;i<state.all_skin_data.length;i++){
                                         // margin: 32,
                                         // reservedSize: 14,
                                         getTitles: (value) {
-                                          if (value == 0) {
+                                          if (value == 1) {
                                             return '1';
-                                          } else if (value == 5) {
+                                          } else if (value == 2) {
                                             return '2';
-                                          } else if (value == 10) {
+                                          } else if (value == 3) {
                                             return '3';
-                                          } else if (value == 15) {
+                                          } else if (value == 4) {
                                             return '4';
-                                          } else if (value == 20) {
+                                          } else if (value == 5) {
                                             return '5';
-                                          } else if (value == 25) {
+                                          } else if (value == 6) {
                                             return '6';
+                                          }
+                                          else if (value == 7) {
+                                            return '7';
+                                          }
+                                          else if (value == 8) {
+                                            return '8';
+                                          }
+                                          else if (value == 9) {
+                                            return '9';
+                                          }
+                                          else if (value == 10) {
+                                            return '10';
                                           }
                                         },
                                       ),
@@ -600,6 +577,16 @@ for(int i=0;i<state.all_skin_data.length;i++){
                                     //     barRods: [
                                     //       BarChartRodData(y: 10, color:chartcolor)
                                     //     ],
+
+
+
+
+
+
+
+
+
+
                                     //     showingTooltipIndicators: [0],
                                     //   ),
                                     // ],

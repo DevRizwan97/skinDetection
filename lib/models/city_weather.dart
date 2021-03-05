@@ -10,7 +10,7 @@ class CityWeather {
   String description;
   String iconCode;
   String cityName;
-
+int uvi;
   double windSpeed;
 
   Temperature temperature;
@@ -29,6 +29,7 @@ class CityWeather {
       this.temperature,
       this.maxTemperature,
       this.minTemperature,
+        this.uvi
      });
 
   static CityWeather fromJson(Map<String, dynamic> json) {
@@ -45,7 +46,21 @@ class CityWeather {
       windSpeed: intToDouble(weather['wind']['speed']),
     );
   }
+  static CityWeather fromJson1(Map<String, dynamic> json) {
+    final weather = json;
+    return CityWeather(
+     // id: weather['id'],
+      description: weather['weather'][0]['description'],
+      iconCode: weather['weather'][0]['icon'],
+     // cityName: weather['name'],
+      temperature: Temperature(intToDouble(weather['temp'])),
+      uvi:int.parse((weather['uvi'].toString())),
 
+      humidity: weather['humidity'],
+      windSpeed: intToDouble(weather['wind_speed']),
+
+    );
+  }
 
   IconData getIconData(){
     switch(this.iconCode){
