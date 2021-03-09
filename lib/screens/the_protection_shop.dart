@@ -5,6 +5,7 @@ import 'package:my_cities_time/models/products.dart';
 import 'package:my_cities_time/screens/Travel.dart';
 import 'package:my_cities_time/screens/blog.dart';
 import 'package:my_cities_time/screens/location.dart';
+import 'package:my_cities_time/screens/product_detail.dart';
 import 'package:my_cities_time/screens/shop_detail_page.dart';
 import 'package:my_cities_time/screens/the_skin_lab.dart';
 import 'package:my_cities_time/screens/webview.dart';
@@ -106,7 +107,7 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ShopDetailPage(),
+                            builder: (context) => ProductDetail(),
                           ));
                       // Navigator.push(
                       //     context,
