@@ -77,7 +77,7 @@ return (int.parse(double.parse(time).floor().toString()).toString());
 
         if(weather!=null)
           Text(
-            'Sunburn Time: ${getsunscreentime(context, weather.uv_value!=null?weather.uv_value.toString():'0')}',
+            'Sunburn : ${getsunscreentime(context, weather.uv_value!=null?weather.uv_value.toString():'0')} min',
             style:
             TextStyle(color: AppStateContainer.of(context).theme.accentColor),
           ),

@@ -27,6 +27,10 @@ class _SplashPageState extends State<SplashPage> {
   void timer() async {
     Future.delayed(Duration(seconds: 3)).then((_) {
       var state = Provider.of<AuthState>(context, listen: false);
+      state.getWeatherData("Sydney");
+      state.getWeatherData("San Francisco");
+      state.getWeatherData("London");
+
       // state.authStatus = AuthStatus.NOT_DETERMINED;
       state.getCurrentUser();
       state.getallSkins();

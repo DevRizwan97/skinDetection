@@ -25,14 +25,49 @@ class WeatherSwipePager extends StatelessWidget {
         index: 0,
         itemBuilder: (context, index) {
           if (index == 0) {
-            return CurrentConditions(
-              weather: weather,
-            );
+
+            return
+              Column(
+
+                children: [
+
+                  Text(
+                    this.weather.description.toUpperCase(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w100,
+                        letterSpacing: 5,
+                        fontSize: 15,
+                        color: AppStateContainer.of(context).theme.accentColor),
+                  ),
+          CurrentConditions(
+          weather: weather,
+          )
+                ],
+              );
+
           } else if (index == 1) {
-            return TemperatureLineChart(
-              weather.weatheruv,
-              animate: true,
+            return Column(
+
+              children: [
+
+                Text(
+                  "daily peak UV level".toUpperCase(),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w100,
+                      letterSpacing: 5,
+                      fontSize: 15,
+                      color: AppStateContainer.of(context).theme.accentColor),
+                ),
+          Container(
+          height: 270,
+            child: TemperatureLineChart(
+            weather.weatheruv,
+            animate: true,
+            ),
+          )
+              ],
             );
+
           }
           return EmptyWidget();
         },

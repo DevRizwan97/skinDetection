@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:excel/excel.dart';
@@ -6,14 +7,20 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:my_cities_time/api/api_keys.dart';
+import 'package:my_cities_time/api/http_exception.dart';
 import 'package:my_cities_time/models/blogs.dart';
 import 'package:my_cities_time/models/products.dart';
 import 'package:my_cities_time/models/skin.dart';
 import 'package:my_cities_time/models/user.dart';
+import 'package:my_cities_time/models/weather.dart';
 import 'package:my_cities_time/states/appState.dart';
+import 'package:my_cities_time/utils/constants.dart';
 import 'package:path/path.dart' as Path;
 
+import 'package:http/http.dart' as http;
 import 'package:firebase_database/firebase_database.dart' as dabase;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,6 +40,7 @@ class AuthState extends AppState {
 
   List<Product> _favourites=List<Product>();
 List<Skin> _all_skin_data=List<Skin>();
+List<Weather> _top_three=List<Weather>();
   Skin _skin;
   String userId;
   dabase.Query _profileQuery;
@@ -40,6 +48,13 @@ List<Skin> _all_skin_data=List<Skin>();
   Users get profileUserModel {
     if (_profileUserModelList != null && _profileUserModelList.length > 0) {
       return _profileUserModelList.last;
+    } else {
+      return null;
+    }
+  }
+  List<Weather> get top_three {
+    if (_top_three != null && _top_three.length > 0) {
+      return _top_three;
     } else {
       return null;
     }
@@ -174,38 +189,32 @@ List<Skin> _all_skin_data=List<Skin>();
   }
 
   Future<List<Blog>> getallBlogs() async {
-    try {
-      loading = true;
-      for(int i=1;i>0;i++) {
-        try {
-          print(i.toString());
-       await kDatabase
-              .child("blogs").child(i.toString())
-              .once()
-              .then((DataSnapshot snapshot) {
-            if (snapshot.value != null) {
-              var map = snapshot.value;
-                Blog g=Blog.fromJson(map);
-                g.userId=snapshot.key;
-                _blogs.add(g);
-            }
-            else {
-              i=-1;
-              loading = false;
-            }
-          });
+    final url =
+        'http://xammin.pk/Suntastic/wp-json/wp/v2/posts/';
 
-          loading = false;
-        }catch(e){
-
-          break;}
-      }
-    } catch (error) {
-
-      print("afnan hassan");
-      print(error);
-      loading = false;
+    final res = await http.get(url);
+    if (res.statusCode != 200) {
+      throw HTTPException(res.statusCode, "unable to fetch weather data");
     }
+
+
+    Iterable l = json.decode(res.body);
+    List<Blog> blogs = List<Blog>.from(l.map((model)=> Blog.fromJson(model)));
+    _blogs=blogs;
+    for(int i=0;i<blogs.length;i++){
+
+      final res = await http.get(blogs[i].imageurl);
+      if (res.statusCode != 200) {
+        throw HTTPException(res.statusCode, "unable to fetch weather data");
+      }
+
+
+      final imageDate = json.decode(res.body);
+      blogs[i].imageurl=imageDate["guid"]["rendered"];
+
+    }
+    notifyListeners();
+return blogs;
   }
 
   Future<List<Product>> getallProducts() async {
@@ -237,8 +246,6 @@ List<Skin> _all_skin_data=List<Skin>();
       }
     } catch (error) {
 
-      print("afnan hassan");
-      print(error);
       loading = false;
     }
   }
@@ -380,6 +387,20 @@ int i=0;
 
 
 }
+  void getWeatherData(String cityName) async {
+    var addresses = await Geocoder.local.findAddressesFromQuery(cityName);
+    var first = addresses.first;
+    final url =
+        '${ApiKey.baseUrl}/data/2.5/onecall?lat=${first.coordinates.latitude}&lon=${first.coordinates.longitude}&appid=${ApiKey.OPEN_WEATHER_MAP}';
+
+    final res = await http.get(url);
+    if (res.statusCode != 200) {
+      throw HTTPException(res.statusCode, "unable to fetch weather data");
+    }
+    final weatherJson = json.decode(res.body);
+    _top_three.add(Weather.fromJsoncountry(weatherJson["current"],cityName));
+  notifyListeners();
+  }
   getallUserSkin({String userProfileId}) {
     try {
       loading = true;

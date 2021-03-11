@@ -60,7 +60,23 @@ int uv_date;
       windSpeed: intToDouble(json['wind']['speed']),
     );
   }
-
+  static Weather fromJsoncountry(Map<String, dynamic> json,String name) {
+    final weather = json['weather'][0];
+    return Weather(
+      id: weather['id'],
+      time: json['dt'],
+      description: weather['description'],
+      iconCode: weather['icon'],
+      main: weather['main'],
+      cityName: name,
+      temperature: Temperature(intToDouble(json['temp'])),
+      sunrise: json['sunrise'],
+      sunset: json['sunset'],
+      humidity: json['humidity'],
+      windSpeed: intToDouble(json['wind_speed']),
+      uv_value: int.parse(double.parse(json['uvi'].toString()).floor().toString()),
+    );
+  }
   static List<Weather> fromForecastJson(Map<String, dynamic> json) {
     final weathers = List<Weather>();
     for (final item in json['hourly']) {

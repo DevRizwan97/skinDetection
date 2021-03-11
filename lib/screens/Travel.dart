@@ -159,18 +159,18 @@ _fetchWeatherWithLocation() async {
         _showLocationDeniedDialog(permissionHandler);
         throw Error();
     }
-    setState(() {
-      loader = true;
-    });
-    Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    print(position.longitude);
- // lating  =mapbox.LatLng(position.latitude, position.longitude);
-    // await getweather(position);
-
-    await (getallweatherdata(
-        latitude: position.latitude, longitude: position.longitude));
-    getmarkers();
+ //    setState(() {
+ //      loader = true;
+ //    });
+ //    Position position = await Geolocator()
+ //        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+ //    print(position.longitude);
+ // // lating  =mapbox.LatLng(position.latitude, position.longitude);
+ //    // await getweather(position);
+ //
+ //    await (getallweatherdata(
+ //        latitude: position.latitude, longitude: position.longitude));
+ //    getmarkers();
     // _weatherBloc.dispatch(FetchWeather(
     //     longitude: position.longitude, latitude: position.latitude));
   }
@@ -315,7 +315,8 @@ setState(() {
   }
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<AuthState>(context, listen: false);
+    var state = Provider.of<AuthState>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -410,7 +411,7 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
                         SingleChildScrollView(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children:List.generate(searchcontroller.text!=null||searchcontroller.text.contains("")?(weathers==null?0:weathers.length):(searchweather==null?0:searchweather.length<=0?0:searchweather.length),(index){
+                            children:List.generate(searchcontroller.text!=null||searchcontroller.text.contains("")?(state.top_three==null?0:state.top_three.length):(searchweather==null?0:searchweather.length<=0?0:searchweather.length),(index){
                               if(index<searchweather.length)
                                 return GestureDetector(
                                         onTap: () async {
@@ -539,7 +540,7 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
                               else
                                 return   GestureDetector(
                                  onTap: () async {
-                                   var addresses = await Geocoder.local.findAddressesFromQuery(weathers[index].cityName);
+                                   var addresses = await Geocoder.local.findAddressesFromQuery(state.top_three[index].cityName);
 
                                    var first = addresses.first;
                                    Navigator.push(
@@ -571,7 +572,7 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Center(
-                                                    child: Text("${weathers[index].cityName}",style: TextStyle(
+                                                    child: Text("${state.top_three[index].cityName}",style: TextStyle(
                                                         color: Colors.black,
                                                         fontFamily: "OpenSans",
                                                         fontWeight: FontWeight.w700,
@@ -591,7 +592,7 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
                                                             fontSize: 16),
                                                       ),
                                                       Text("${
-                                                          double.parse(weathers[index].temperature.celsius.toString()).floorToDouble().toString()} \u00B0C",style: TextStyle(
+                                                          double.parse(state.top_three[index].temperature.celsius.toString()).floorToDouble().toString()} \u00B0C",style: TextStyle(
                                                           color: Colors.black,
                                                           fontFamily: "OpenSans",
                                                           fontWeight: FontWeight.w700,
@@ -609,7 +610,7 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
                                                             fontWeight: FontWeight.w700,
                                                             fontSize: 16),
                                                       ),
-                                                      Text("${weathers[index].description}",style: TextStyle(
+                                                      Text("${state.top_three[index].description}",style: TextStyle(
                                                           color: Colors.black,
                                                           fontFamily: "OpenSans",
                                                           fontWeight: FontWeight.w700,
@@ -617,29 +618,29 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
                                                     ],
                                                   ),
                                                   SizedBox(height: 5,),
-                                                  // Row(
-                                                  //   children: [
-                                                  //     Text(
-                                                  //       "Peak UVI Time : ",
-                                                  //       style: TextStyle(
-                                                  //           color: fontOrange,
-                                                  //           fontFamily: "OpenSans",
-                                                  //           fontWeight: FontWeight.w700,
-                                                  //           fontSize: 16),
-                                                  //     ),
-                                                  //     Text("2:10 PM",style: TextStyle(
-                                                  //         color: Colors.black,
-                                                  //         fontFamily: "OpenSans",
-                                                  //         fontWeight: FontWeight.w700,
-                                                  //         fontSize: 16),),
-                                                  //   ],
-                                                  // ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        "UVI Index : ",
+                                                        style: TextStyle(
+                                                            color: fontOrange,
+                                                            fontFamily: "OpenSans",
+                                                            fontWeight: FontWeight.w700,
+                                                            fontSize: 16),
+                                                      ),
+                                                      Text("${state.top_three[index].uv_value}",style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontFamily: "OpenSans",
+                                                          fontWeight: FontWeight.w700,
+                                                          fontSize: 16),),
+                                                    ],
+                                                  ),
 
                                                 ],
                                               ),
 
                                               Icon(
-                                                getIconData(weathers[index].iconCode),
+                                                getIconData(state.top_three[index].iconCode),
                                                 color: Colors.black,
                                                 size: 60,
                                               ),

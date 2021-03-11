@@ -29,14 +29,7 @@ class WeatherWidget extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          Text(
-            this.weather.description.toUpperCase(),
-            style: TextStyle(
-                fontWeight: FontWeight.w100,
-                letterSpacing: 5,
-                fontSize: 15,
-                color: AppStateContainer.of(context).theme.accentColor),
-          ),
+
           WeatherSwipePager(weather: weather),
           Padding(
             child: Divider(
@@ -56,7 +49,7 @@ class WeatherWidget extends StatelessWidget {
             padding: EdgeInsets.all(10),
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            ValueTile("wind speed", '${this.weather.windSpeed} m/s'),
+            ValueTile("Feels like", '${this.weather.windSpeed} m/s'),
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Center(
