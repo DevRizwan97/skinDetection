@@ -92,7 +92,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                               fontWeight: FontWeight.w400),
                         ),
                         Text(
-                          "The Skin Lab",
+                          "Skin Lab",
                           style: TextStyle(
                               color:  Colors.black,
                               fontSize: 32,

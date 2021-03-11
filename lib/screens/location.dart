@@ -206,7 +206,7 @@ String suntime="0";
                       padding:
                           const EdgeInsets.only(top: 150, left: 40, right: 8),
                       child: Text(
-                       "Location",
+                       "Weather",
                         style: TextStyle(
                             color:  Colors.black,
                             fontSize: 32,

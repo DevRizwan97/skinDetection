@@ -347,7 +347,7 @@ setState(() {
                   Padding(
                     padding: const EdgeInsets.only(top: 150, left: 40),
                     child: Text(
-                      "Travel",
+                      "Explore",
                       style: TextStyle(
                           color:  Colors.black,
                           fontSize: 32,
@@ -402,7 +402,7 @@ if(searchcontroller.text==null||searchcontroller.text.contains("")){
 
 
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.56 ,
+                    height: MediaQuery.of(context).size.height * 0.55 ,
                     child: _getTabBarView(
                       <Widget>[
 

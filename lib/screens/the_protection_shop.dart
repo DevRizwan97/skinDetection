@@ -62,7 +62,7 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
               child: Row(
                 children: [
                   Text(
-                    "The Protection Shop",
+                    "Sun Protection",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 26,

@@ -193,7 +193,7 @@ mainAxisAlignment: MainAxisAlignment.center,
                     title: Padding(
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
-                        'The Skin Lab',
+                        'Skin Lab',
                         style: TextStyle(
                             fontFamily: "OpenSans",
                             fontSize: 20,
@@ -219,7 +219,7 @@ mainAxisAlignment: MainAxisAlignment.center,
                     title: Padding(
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
-                        'Location',
+                        'Weather',
                         style: TextStyle(
                             fontFamily: "OpenSans",
                             fontSize: 20,
@@ -245,7 +245,7 @@ mainAxisAlignment: MainAxisAlignment.center,
                     title: Padding(
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
-                        'Travel',
+                        'Explore',
                         style: TextStyle(
                             fontFamily: "OpenSans",
                             fontSize: 20,
@@ -298,7 +298,7 @@ mainAxisAlignment: MainAxisAlignment.center,
                     title: Padding(
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
-                        'The Protection Shop',
+                        'Sun Protection',
                         style: TextStyle(
                             fontFamily: "OpenSans",
                             fontSize: 20,
@@ -324,7 +324,7 @@ mainAxisAlignment: MainAxisAlignment.center,
                     title: Padding(
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
-                        'Blog Section',
+                        'News',
                         style: TextStyle(
                             fontFamily: "OpenSans",
                             fontSize: 20,

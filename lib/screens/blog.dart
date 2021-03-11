@@ -46,7 +46,7 @@ class _BlogState extends State<Blog> {
             Padding(
               padding: const EdgeInsets.only(top: 150, left: 30, right: 8),
               child: Text(
-                "Blog Section",
+                "News",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 32,
@@ -56,9 +56,9 @@ class _BlogState extends State<Blog> {
             ),
             // SizedBox(height: 10,),
 
-            Container(
-            height: MediaQuery.of(context).size.height * 0.65 ,
+            Expanded(
               child: ListView.builder(
+                  padding: EdgeInsets.only(top:15.0,left:0,right: 0,bottom: 0),
                 itemCount: state.all_blogs==null?0:state.all_blogs.length,
                 itemBuilder: (context, index) {
                 return     GestureDetector(
@@ -71,7 +71,7 @@ class _BlogState extends State<Blog> {
                   },
                   child: Padding(
                     padding: EdgeInsets.only(
-                        left: 20.0, top: 20.0, bottom: 20.0, right: 20),
+                        left: 20.0, top: 2, bottom: 10.0, right: 20),
                     child: Stack(
                       children: [
                         Container(
@@ -125,108 +125,7 @@ class _BlogState extends State<Blog> {
                   ),
             )
 
-            //---------- new blog layout ------------\\
 
-            // Padding(
-            //   padding: EdgeInsets.only(left: 20.0,top: 20.0, bottom: 20.0,right: 20),
-            //   child: Stack(
-            //     children: <Widget>[
-            //       Container(
-            //           width: MediaQuery.of(context).size.width ,
-            //           height: MediaQuery.of(context).size.width * 0.90,
-            //           decoration: BoxDecoration(
-            //               borderRadius: BorderRadius.circular(14.0),
-            //               color: Colors.white,
-            //               boxShadow: [BoxShadow(
-            //                   color: Colors.black26,
-            //                   offset: Offset(0.0,4.0),
-            //                   blurRadius: 10.0,
-            //                   spreadRadius: 0.10
-            //               )]
-            //           ),
-            //           child: ClipRRect(
-            //             borderRadius: BorderRadius.circular(14.0),
-            //             child: Image(
-            //               image: AssetImage("assets/images/photo.jpg"),
-            //               fit: BoxFit.cover,
-            //             ),
-            //           )
-            //       ),
-            //       Positioned(
-            //         bottom: 10.0,
-            //         left: 10.0,
-            //         child: Column(
-            //           crossAxisAlignment: CrossAxisAlignment.start,
-            //           children: <Widget>[
-            //             Container(
-            //               width: MediaQuery.of(context).size.width * 0.60,
-            //               child: Text(
-            //                 "blog.name",
-            //                 style: TextStyle(
-            //                   fontSize: 22.0,
-            //                   color: Colors.white,
-            //                   fontWeight: FontWeight.bold,
-            //                   letterSpacing: 1.6,
-            //                 ),
-            //               ),
-            //             ),
-            //             SizedBox(height: 10.0),
-            //             Row(
-            //               mainAxisAlignment: MainAxisAlignment.center,
-            //               children: <Widget>[
-            //                 CircleAvatar(
-            //                     radius: 10.0,
-            //                     backgroundImage: AssetImage("assets/images/photo.jpg")
-            //                 ),
-            //                 SizedBox(width: 8.0),
-            //                 Text(
-            //                     "blog.author.name",
-            //                     style: TextStyle(
-            //                         color: Colors.white,
-            //                         fontSize: 14.0
-            //                     )
-            //                 ),
-            //
-            //               ],
-            //             )
-            //           ],
-            //         ),
-            //       ),
-            //       Positioned(
-            //         bottom: 10.0,
-            //         right: 10.0,
-            //         child: Row(
-            //           children: <Widget>[
-            //             Icon(
-            //               Icons.timer,
-            //               size: 10.0,
-            //               color: Colors.white,
-            //             ),
-            //             SizedBox(width: 5.0),
-            //             Text(
-            //                 "blog.created_at",
-            //                 style: TextStyle(
-            //                   color: Colors.white,
-            //                   fontSize: 12.0,
-            //                 )
-            //             )
-            //           ],
-            //         ),
-            //       ),
-            //       // Positioned(
-            //       //   top: 10.0,
-            //       //   right: 10.0,
-            //       //   child: Icon(
-            //       //       Icons.bookmark,
-            //       //       size: 26.0,
-            //       //       color: Colors.white
-            //       //   ),
-            //       // )
-            //     ],
-            //   ),
-            // ),
-
-            //------------------- new blog post ----------------------\\
 
 
           ],

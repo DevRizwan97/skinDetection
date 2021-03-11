@@ -128,7 +128,7 @@ class SkinTrackerState extends State<SkinTracker> {
           child: Padding(
             padding: const EdgeInsets.only(top: 150),
             child: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
+              //physics: NeverScrollableScrollPhysics(),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -341,86 +341,260 @@ class SkinTrackerState extends State<SkinTracker> {
                                 fontWeight: FontWeight.w700,
                                 fontSize: 24),
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 8, left: 8, top: 30),
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Date",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontFamily: "OpenSans"),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Center(
-                                              child: Text(
-                                                "Location",
+                          SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 8, left: 8, top: 30),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Date",
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w700,
                                                     fontFamily: "OpenSans"),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Skin Color",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontFamily: "OpenSans"),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Center(
+                                                child: Text(
+                                                  "Location",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w700,
+                                                      fontFamily: "OpenSans"),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Skin Color",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontFamily: "OpenSans"),
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+
+                              //
+                              // [
+                              //  ,
+                              //   Card(
+                              //     elevation: 0,
+                              //
+                              //     child: Padding(
+                              //       padding: const EdgeInsets.all(8.0),
+                              //       child: Column(
+                              //         children: [
+                              //           Row(
+                              //             mainAxisAlignment: MainAxisAlignment.center,
+                              //             crossAxisAlignment: CrossAxisAlignment.center,
+                              //             children: [
+                              //               Text("Barcelona",style: TextStyle(color: Colors.black,fontSize: 20),),
+                              //             ],),
+                              //           SizedBox(height: 10,),
+                              //           Row(
+                              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //             children: [
+                              //               Row(
+                              //                 children: [
+                              //                   Text("Date",style: TextStyle(color:Colors.black,fontSize: 20,fontWeight: FontWeight.w700),),
+                              //                   SizedBox(width: 10,),
+                              //                   Text("2019-07-21",style: TextStyle(color: Colors.black,fontSize: 20),),
+                              //                 ],
+                              //               ),
+                              //
+                              //               Row(
+                              //                 children: [
+                              //                   Text("Time",style: TextStyle(color:Colors.black,fontSize: 20,fontWeight: FontWeight.w700),),
+                              //                   SizedBox(width: 10,),
+                              //                   Text("3 Hours",style: TextStyle(color: Colors.black,fontSize: 20),),
+                              //                 ],
+                              //               ),
+                              //             ],),
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ),
+                              //   Card(
+                              //     elevation: 0,
+                              //
+                              //     child: Padding(
+                              //       padding: const EdgeInsets.all(8.0),
+                              //       child: Column(
+                              //         children: [
+                              //           Row(
+                              //             mainAxisAlignment: MainAxisAlignment.center,
+                              //             crossAxisAlignment: CrossAxisAlignment.center,
+                              //             children: [
+                              //               Text("Barcelona",style: TextStyle(color: Colors.black,fontSize: 20),),
+                              //             ],),
+                              //           SizedBox(height: 10,),
+                              //           Row(
+                              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //             children: [
+                              //               Row(
+                              //                 children: [
+                              //                   Text("Date",style: TextStyle(color:Colors.black,fontSize: 20,fontWeight: FontWeight.w700),),
+                              //                   SizedBox(width: 10,),
+                              //                   Text("2019-07-21",style: TextStyle(color: Colors.black,fontSize: 20),),
+                              //                 ],
+                              //               ),
+                              //
+                              //               Row(
+                              //                 children: [
+                              //                   Text("Time",style: TextStyle(color:Colors.black,fontSize: 20,fontWeight: FontWeight.w700),),
+                              //                   SizedBox(width: 10,),
+                              //                   Text("3 Hours",style: TextStyle(color: Colors.black,fontSize: 20),),
+                              //                 ],
+                              //               ),
+                              //             ],),
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ],
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: List.generate(
+                              
+                                state.all_skin_data == null
+                                    ? 0
+                                    : state.all_skin_data.length, (index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    right: 8, left: 8, top: 30),
+                                child: SingleChildScrollView( 
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                state
+                                                    .all_skin_data[index].date
+                                                    .substring(0, 11),
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: "OpenSans"),
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                state.all_skin_data[index]
+                                                    .city,
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: "OpenSans"),
+                                              ),
+                                              SizedBox(
+                                                width: 23,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                width: 40.0,
+                                                height: 20.0,
+                                                child: Container(
+                                                  decoration:
+                                                      new BoxDecoration(
+                                                    color: state.all_skin_data ==
+                                                            null
+                                                        ? Colors.transparent
+                                                        : Color(int.parse(state
+                                                            .all_skin_data[
+                                                                index]
+                                                            .skincolor
+                                                            .replaceAll('#',
+                                                                '0xff'))),
+                                                    shape: BoxShape.rectangle,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 23,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              )
-                            ],
+                              );
+                            }),
 
                             //
                             // [
@@ -444,7 +618,7 @@ class SkinTrackerState extends State<SkinTracker> {
                             //             children: [
                             //               Row(
                             //                 children: [
-                            //                   Text("Date",style: TextStyle(color:Colors.black,fontSize: 20,fontWeight: FontWeight.w700),),
+                            //                   Text("Date",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
                             //                   SizedBox(width: 10,),
                             //                   Text("2019-07-21",style: TextStyle(color: Colors.black,fontSize: 20),),
                             //                 ],
@@ -452,7 +626,7 @@ class SkinTrackerState extends State<SkinTracker> {
                             //
                             //               Row(
                             //                 children: [
-                            //                   Text("Time",style: TextStyle(color:Colors.black,fontSize: 20,fontWeight: FontWeight.w700),),
+                            //                   Text("Time",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
                             //                   SizedBox(width: 10,),
                             //                   Text("3 Hours",style: TextStyle(color: Colors.black,fontSize: 20),),
                             //                 ],
@@ -481,7 +655,7 @@ class SkinTrackerState extends State<SkinTracker> {
                             //             children: [
                             //               Row(
                             //                 children: [
-                            //                   Text("Date",style: TextStyle(color:Colors.black,fontSize: 20,fontWeight: FontWeight.w700),),
+                            //                   Text("Date",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
                             //                   SizedBox(width: 10,),
                             //                   Text("2019-07-21",style: TextStyle(color: Colors.black,fontSize: 20),),
                             //                 ],
@@ -489,7 +663,7 @@ class SkinTrackerState extends State<SkinTracker> {
                             //
                             //               Row(
                             //                 children: [
-                            //                   Text("Time",style: TextStyle(color:Colors.black,fontSize: 20,fontWeight: FontWeight.w700),),
+                            //                   Text("Time",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
                             //                   SizedBox(width: 10,),
                             //                   Text("3 Hours",style: TextStyle(color: Colors.black,fontSize: 20),),
                             //                 ],
@@ -500,182 +674,6 @@ class SkinTrackerState extends State<SkinTracker> {
                             //     ),
                             //   ),
                             // ],
-                          ),
-                          Container(
-                            // width: double.infinity,
-                            height: MediaQuery.of(context).size.height * 0.4,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: List.generate(
-                                    state.all_skin_data == null
-                                        ? 0
-                                        : state.all_skin_data.length, (index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 8, left: 8, top: 30),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  state
-                                                      .all_skin_data[index].date
-                                                      .substring(0, 11),
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 16,
-                                                      fontFamily: "OpenSans"),
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  state.all_skin_data[index]
-                                                      .city,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 16,
-                                                      fontFamily: "OpenSans"),
-                                                ),
-                                                SizedBox(
-                                                  width: 23,
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  width: 40.0,
-                                                  height: 20.0,
-                                                  child: Container(
-                                                    decoration:
-                                                        new BoxDecoration(
-                                                      color: state.all_skin_data ==
-                                                              null
-                                                          ? Colors.transparent
-                                                          : Color(int.parse(state
-                                                              .all_skin_data[
-                                                                  index]
-                                                              .skincolor
-                                                              .replaceAll('#',
-                                                                  '0xff'))),
-                                                      shape: BoxShape.rectangle,
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 23,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-
-                                //
-                                // [
-                                //  ,
-                                //   Card(
-                                //     elevation: 0,
-                                //
-                                //     child: Padding(
-                                //       padding: const EdgeInsets.all(8.0),
-                                //       child: Column(
-                                //         children: [
-                                //           Row(
-                                //             mainAxisAlignment: MainAxisAlignment.center,
-                                //             crossAxisAlignment: CrossAxisAlignment.center,
-                                //             children: [
-                                //               Text("Barcelona",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                //             ],),
-                                //           SizedBox(height: 10,),
-                                //           Row(
-                                //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                //             children: [
-                                //               Row(
-                                //                 children: [
-                                //                   Text("Date",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
-                                //                   SizedBox(width: 10,),
-                                //                   Text("2019-07-21",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                //                 ],
-                                //               ),
-                                //
-                                //               Row(
-                                //                 children: [
-                                //                   Text("Time",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
-                                //                   SizedBox(width: 10,),
-                                //                   Text("3 Hours",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                //                 ],
-                                //               ),
-                                //             ],),
-                                //         ],
-                                //       ),
-                                //     ),
-                                //   ),
-                                //   Card(
-                                //     elevation: 0,
-                                //
-                                //     child: Padding(
-                                //       padding: const EdgeInsets.all(8.0),
-                                //       child: Column(
-                                //         children: [
-                                //           Row(
-                                //             mainAxisAlignment: MainAxisAlignment.center,
-                                //             crossAxisAlignment: CrossAxisAlignment.center,
-                                //             children: [
-                                //               Text("Barcelona",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                //             ],),
-                                //           SizedBox(height: 10,),
-                                //           Row(
-                                //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                //             children: [
-                                //               Row(
-                                //                 children: [
-                                //                   Text("Date",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
-                                //                   SizedBox(width: 10,),
-                                //                   Text("2019-07-21",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                //                 ],
-                                //               ),
-                                //
-                                //               Row(
-                                //                 children: [
-                                //                   Text("Time",style: TextStyle(color:fontOrange,fontSize: 20,fontWeight: FontWeight.w700),),
-                                //                   SizedBox(width: 10,),
-                                //                   Text("3 Hours",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                //                 ],
-                                //               ),
-                                //             ],),
-                                //         ],
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ],
-                              ),
-                            ),
                           ),
                         ],
                       ),
