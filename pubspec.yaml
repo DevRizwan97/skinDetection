@@ -34,6 +34,8 @@ dependencies:
 
   rxdart: any
 
+  connectivity: any
+
   mapbox_gl: ^0.10.0
   queries: ^0.1.14
   flutter_local_notifications: ^4.0.1

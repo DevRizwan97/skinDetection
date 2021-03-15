@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geocoder/geocoder.dart';
@@ -27,6 +28,7 @@ import 'package:my_cities_time/utils/helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:sweetalert/sweetalert.dart';
 import 'package:weather/weather.dart';
 
 class TheSkinLab extends StatefulWidget {
@@ -48,14 +50,12 @@ class _TheSkinLabState extends State<TheSkinLab> {
   Widget build(BuildContext context) {
     var state = Provider.of<AuthState>(context, listen: false);
     return Scaffold(
-
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
       extendBodyBehindAppBar: true,
-
-      drawer:state.user!=null?DrawerWidget():null,
+      drawer: state.user != null ? DrawerWidget() : null,
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -94,7 +94,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                         Text(
                           "Skin Lab",
                           style: TextStyle(
-                              color:  Colors.black,
+                              color: Colors.black,
                               fontSize: 32,
                               fontFamily: "OpenSans",
                               fontWeight: FontWeight.w700),
@@ -102,7 +102,9 @@ class _TheSkinLabState extends State<TheSkinLab> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
@@ -124,12 +126,12 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-
-                                        left: 50,
-                                        right: 50),
+                                        left: 50, right: 50),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Column(
                                           mainAxisAlignment:
@@ -153,8 +155,10 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                               height: 5,
                                             ),
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               children: [
                                                 RaisedButton(
                                                   shape: RoundedRectangleBorder(
@@ -208,7 +212,8 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                                             left: 30.0,
                                                             bottom: 10,
                                                             top: 10),
-                                                    child: Text("Choose Picture",
+                                                    child: Text(
+                                                        "Choose Picture",
                                                         style: TextStyle(
                                                             fontSize: 14,
                                                             fontWeight:
@@ -239,7 +244,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                 Text(
                                   "NOTE ",
                                   style: TextStyle(
-                                      color:  Colors.black,
+                                      color: Colors.black,
                                       fontFamily: "OpenSans",
                                       fontWeight: FontWeight.w700,
                                       fontSize: 25),
@@ -269,7 +274,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                         textAlign: TextAlign.justify,
                                         style: TextStyle(
                                             fontFamily: "OpenSans",
-                                            color:  Colors.black,
+                                            color: Colors.black,
                                             fontWeight: FontWeight.w400),
                                       ),
                                     ),
@@ -307,7 +312,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                         // textDirection: TextDirection.rtl,
                                         textAlign: TextAlign.justify,
                                         style: TextStyle(
-                                            color:  Colors.black,
+                                            color: Colors.black,
                                             fontFamily: "OpenSans",
                                             fontWeight: FontWeight.w400),
                                       ),
@@ -346,7 +351,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                         // textDirection: TextDirection.rtl,
                                         textAlign: TextAlign.justify,
                                         style: TextStyle(
-                                            color:  Colors.black,
+                                            color: Colors.black,
                                             fontFamily: "OpenSans",
                                             fontWeight: FontWeight.w400),
                                       ),
@@ -371,12 +376,15 @@ class _TheSkinLabState extends State<TheSkinLab> {
   }
 
   _imgFromCamera() async {
-    File image = (await  Navigator.push(context, MaterialPageRoute(builder: (context) => Camera(
-        orientationEnablePhoto: CameraOrientation.all,
-
-      imageMask: CameraFocus.square(
-      color: Colors.black.withOpacity(0.5),
-    ),))));
+    File image = (await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Camera(
+                  orientationEnablePhoto: CameraOrientation.all,
+                  imageMask: CameraFocus.square(
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                ))));
 
     // File image = (await picker.ImagePicker.pickImage(
     //     source: picker.ImageSource.camera, imageQuality: 50));
@@ -419,97 +427,111 @@ class _TheSkinLabState extends State<TheSkinLab> {
     setState(() {
       loader = true;
     });
-    try {
-      var postUri = Uri.parse(api_url);
-      var request = new http.MultipartRequest("POST", postUri);
-      print(postUri);
-      request.files.add(new http.MultipartFile.fromBytes(
-          'image', await File.fromUri(file.uri).readAsBytes()));
-      request.files.add(
-        http.MultipartFile(
-          'image',
-          file.readAsBytes().asStream(),
-          file.lengthSync(),
-          filename: "Skinimage",
-        ),
-      );
-      try{
-      // request.headers.addAll(headers);
-      request.send().then((response) async {
-        print(response.statusCode);
-        if (response.statusCode == 201 || response.statusCode == 200) {
-          final respStr = await response.stream.bytesToString();
-          print(respStr);
-          final Map parsed = json.decode(respStr);
-          final skinmodel = Skin.fromJson(parsed);
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      // I am not connected to a mobile network.
+   showsnackbartop("Network", "Connection error", 4,Colors.redAccent, Colors.red, Colors.red, context);
+    } else {
 
-          WeatherFactory wf = new WeatherFactory(ApiKey.OPEN_WEATHER_MAP);
-          var state = Provider.of<AuthState>(context,listen: false);
+      try {
+        var postUri = Uri.parse(api_url);
+        var request = new http.MultipartRequest("POST", postUri);
+        request.files.add(new http.MultipartFile.fromBytes(
+            'image', await File.fromUri(file.uri).readAsBytes()));
+        request.files.add(
+          http.MultipartFile(
+            'image',
+            file.readAsBytes().asStream(),
+            file.lengthSync(),
+            filename: "Skinimage",
+          ),
+        );
+        // request.headers.addAll(headers);
+        request.send().then((response) async {
+          if (response.statusCode == 201 || response.statusCode == 200) {
+            final respStr = await response.stream.bytesToString();
+            final Map parsed = json.decode(respStr);
+            final skinmodel = Skin.fromJson(parsed);
+            WeatherFactory wf = new WeatherFactory(ApiKey.OPEN_WEATHER_MAP);
+            var state = Provider.of<AuthState>(context, listen: false);
 
-          Position position = await Geolocator()
-              .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-          final coordinates =
-              new Coordinates(position.latitude, position.longitude);
-          var addresses =
-              await Geocoder.local.findAddressesFromCoordinates(coordinates); DateTime now = new DateTime.now();
-          DateTime date = new DateTime(now.year, now.month, now.day);
-          skinmodel.date = date.toString();
-          List months =
-          ['jan', 'feb', 'mar', 'apr', 'may','jun','jul','aug','sep','oct','nov','dec'];
-          // var formatter = new DateFormat('yyyy-MM-dd');
-          // var date=DateTime.parse(state.all_skin_data[i].date);
-          // String formattedDate = formatter.format(date);
-          skinmodel.month=months[now.month-1];
-          Weather weather = await wf.currentWeatherByLocation(
-              position.latitude, position.longitude);
+            Position position = await Geolocator()
+                .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+            final coordinates =
+            new Coordinates(position.latitude, position.longitude);
+            var addresses =
+            await Geocoder.local.findAddressesFromCoordinates(coordinates);
+            DateTime now = new DateTime.now();
+            DateTime date = new DateTime(now.year, now.month, now.day);
+            skinmodel.date = date.toString();
+            List months = [
+              'jan',
+              'feb',
+              'mar',
+              'apr',
+              'may',
+              'jun',
+              'jul',
+              'aug',
+              'sep',
+              'oct',
+              'nov',
+              'dec'
+            ];
+            skinmodel.month = months[now.month - 1];
+            Weather weather = await wf.currentWeatherByLocation(
+                position.latitude, position.longitude);
 
-          skinmodel.lat=position.latitude==null?0:position.latitude;
-          skinmodel.long=position.longitude==null?0:position.longitude;
-          if (state.user != null) {
+            skinmodel.lat = position.latitude == null ? 0 : position.latitude;
+            skinmodel.long = position.longitude == null ? 0 : position.longitude;
+            if (state.user != null) {
+              skinmodel.city = addresses.first.locality;
+              skinmodel.temperature = weather.temperature.celsius.toString();
+              skinmodel.weather_detail = weather.weatherDescription;
+              skinmodel.weathericon = weather.weatherIcon;
 
-            skinmodel.city = addresses.first.locality;
-            skinmodel.temperature = weather.temperature.celsius.toString();
-            skinmodel.weather_detail = weather.weatherDescription;
-            skinmodel.weathericon = weather.weatherIcon;
+              skinmodel.time = DateFormat.Hms().format(now);
 
-            skinmodel.time = DateFormat.Hms().format(now);
+              kDatabase.child('skin').child(state.userModel.userId)
+                ..child(addresses.first.locality)
+                    .child(DateTime.now().millisecondsSinceEpoch.toString())
+                    .set(skinmodel.toJson());
+              setState(() {
+                loader = false;
+              });
 
-            kDatabase.child('skin').child(state.userModel.userId)
-              ..child(addresses.first.locality)
-                  .child(DateTime.now().millisecondsSinceEpoch.toString())
-                  .set(skinmodel.toJson());
-            setState(() {
-              loader = false;
-            });
-        state.addskin(skinmodel);
-            // Navigator.push(
-            //     context, MaterialPageRoute(builder: (context) => SplashPage()));
-          } else {
-            setState(() {
-              loader = false;
-            });
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => SignUp(
-                          skinmodel: skinmodel,
-                        )));
+              state.addskin(skinmodel);
+              SweetAlert.show(context,
+                  title: "Success", subtitle: "Successfully detected skin");
+
+              // Navigator.push(
+              //     context, MaterialPageRoute(builder: (context) => SplashPage()));
+            } else {
+              setState(() {
+                loader = false;
+              });
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SignUp(
+                        skinmodel: skinmodel,
+                      )));
+            }
           }
-        } else {
-          setState(() {
-            loader = false;
-          });
-        }
-      });}catch(e){
+          else {
+            setState(() {
+              loader = false;
+            });
+          }
+        });
+      } catch (e) {
         setState(() {
           loader = false;
         });
-
       }
-    } catch (e) {
-      setState(() {
-        loader = false;
-      });
+      // I am connected to a wifi network.
+
     }
+
   }
 }

@@ -16,6 +16,7 @@ class Weather {
   double windSpeed;
 
   Temperature temperature;
+  Temperature feelsLike;
   Temperature maxTemperature;
   Temperature minTemperature;
 int uv_value;
@@ -40,6 +41,7 @@ int uv_date;
         this.uv_date,
         this.uv_value,
         this.weatheruv,
+        this.feelsLike,
       this.forecast});
 
   static Weather fromJson(Map<String, dynamic> json) {
@@ -52,6 +54,7 @@ int uv_date;
       main: weather['main'],
       cityName: json['name'],
       temperature: Temperature(intToDouble(json['main']['temp'])),
+    feelsLike: Temperature(intToDouble(json['main']['feels_like'])),
       maxTemperature: Temperature(intToDouble(json['main']['temp_max'])),
       minTemperature: Temperature(intToDouble(json['main']['temp_min'])),
       sunrise: json['sys']['sunrise'],

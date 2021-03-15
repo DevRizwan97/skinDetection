@@ -72,6 +72,8 @@ class SkinTrackerState extends State<SkinTracker> {
     var state = Provider.of<AuthState>(context, listen: false);
     List<SkinGraph> data = List<SkinGraph>();
     for (int i = 0; i < state.all_skin_data.length; i++) {
+      print(
+          int.parse(state.all_skin_data[i].skintype));
       data.add(new SkinGraph(
           state.all_skin_data[i].month,
           int.parse(state.all_skin_data[i].skintype),
@@ -84,7 +86,28 @@ class SkinTrackerState extends State<SkinTracker> {
         displayName: "Month",
 
         colorFn: (SkinGraph graph, _) =>
+            charts.Color.transparent,
+        domainFn: (SkinGraph graph, _) => graph.month.toUpperCase(),
+        measureFn: (SkinGraph graph, _) => graph.type,
+        data: data,
+
+      ),
+      new charts.Series<SkinGraph, String>(
+        id: 'Skintone',
+        displayName: "Month",
+
+        colorFn: (SkinGraph graph, _) =>
             charts.Color.fromHex(code: graph.skincolorcode),
+        domainFn: (SkinGraph graph, _) => graph.month.toUpperCase(),
+        measureFn: (SkinGraph graph, _) => graph.type,
+        data: data,
+
+      ),   new charts.Series<SkinGraph, String>(
+        id: 'Skintone',
+        displayName: "Month",
+
+        colorFn: (SkinGraph graph, _) =>
+            charts.Color.transparent,
         domainFn: (SkinGraph graph, _) => graph.month.toUpperCase(),
         measureFn: (SkinGraph graph, _) => graph.type,
         data: data,

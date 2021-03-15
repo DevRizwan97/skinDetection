@@ -49,7 +49,8 @@ class WeatherWidget extends StatelessWidget {
             padding: EdgeInsets.all(10),
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            ValueTile("Feels like", '${this.weather.windSpeed} m/s'),
+            ValueTile("Feels like", '${'${this.weather.feelsLike.as(AppStateContainer.of(context).temperatureUnit).round()}'}°C'),
+
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Center(
