@@ -22,6 +22,7 @@ class WebViewExampleState extends State<WebViewExample> {
   @override
   Widget build(BuildContext context) {
     return WebView(
+      javascriptMode: JavascriptMode.unrestricted,
       initialUrl: widget.url,
     );
   }
