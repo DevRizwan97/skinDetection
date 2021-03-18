@@ -300,7 +300,14 @@ int i=0;
        if(i!=0) {
          details['skintype'] = row[0];
          details['uv'] = row[1];
-         details['time'] = row[4] / row[3];
+         if(row[1]==0||row[1]==1){
+           details['time'] = 'safe';
+
+
+         }
+         else {
+           details['time'] = row[4] / row[3];
+         }
          print(details);
          _excel.add(details);
        }
