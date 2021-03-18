@@ -26,8 +26,13 @@ final Weather weather;
 
       if(uv==uv_index&&all_data[i]['skintype'].toString()==state.all_skin_data[state.all_skin_data.length-1].skintype){
         String time= state.all_excel_data[i]['time'].toString();
-return (int.parse(double.parse(time).floor().toString()).toString());
-        // break;
+        try {
+          return (int.parse(double.parse(time).floor().toString()).toString())+" min";
+          // break;
+        }catch(e){
+
+          return 'safe';
+        }
       }
 
     }}
@@ -77,7 +82,7 @@ return (int.parse(double.parse(time).floor().toString()).toString());
 
         if(weather!=null)
           Text(
-            'Sunburn : ${getsunscreentime(context, weather.uv_value!=null?weather.uv_value.toString():'0')} min',
+            'Sunburn : ${getsunscreentime(context, weather.uv_value!=null?weather.uv_value.toString():'0')}',
             style:
             TextStyle(color: AppStateContainer.of(context).theme.accentColor),
           ),
