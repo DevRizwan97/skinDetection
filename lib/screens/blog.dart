@@ -96,6 +96,7 @@ class _BlogState extends State<Blog> {
                                         bottomLeft: Radius.circular(15)),
                                     child: new Image.network(
                                       state.all_blogs[index].imageurl,
+
                                       height:
                                       MediaQuery.of(context).size.width * 0.35,
                                       width: MediaQuery.of(context).size.width * 0.33,

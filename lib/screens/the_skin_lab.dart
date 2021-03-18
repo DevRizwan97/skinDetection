@@ -232,7 +232,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                             ),
                           ),
                           SizedBox(
-                            height: 5,
+                            height: 20,
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
@@ -250,7 +250,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                       fontSize: 25),
                                 ),
                                 SizedBox(
-                                  height: 10,
+                                  height: 20,
                                 ),
                                 Row(
                                   children: [
@@ -267,7 +267,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        "Please take a close distance picture that only contains your skin.",
+                                        "Pictures should only contain your skin.",
                                         maxLines: 4,
                                         overflow: TextOverflow.ellipsis,
                                         // textDirection: TextDirection.rtl,
@@ -306,7 +306,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        "Try to avoid shadow and insufficient lighting conditions.",
+                                        "Avoid Shadow and overexposure.",
                                         maxLines: 4,
                                         overflow: TextOverflow.ellipsis,
                                         // textDirection: TextDirection.rtl,
@@ -330,37 +330,7 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                 SizedBox(
                                   height: 10,
                                 ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 10.0,
-                                      width: 10.0,
-                                      decoration: new BoxDecoration(
-                                        color: fontOrange,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        "Choose Broad Spectrum Sunscream",
-                                        maxLines: 4,
-                                        overflow: TextOverflow.ellipsis,
-                                        // textDirection: TextDirection.rtl,
-                                        textAlign: TextAlign.justify,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: "OpenSans",
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
+
                               ],
                             ),
                           ),
