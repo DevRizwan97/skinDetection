@@ -175,19 +175,7 @@ class _SignInState extends State<SignIn> {
                                   ),
                                 ),
                               ),
-                              if (passwordchecking == false)
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 8.0, left: 25, right: 25),
-                                  child: Text(
-                                    "Password is not valid",
-                                    style: TextStyle(
-                                        fontFamily: "OpenSans",
-                                        fontSize: 15,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
+
                               Padding(
                                 padding:
                                     const EdgeInsets.only(top: 10, right: 30),
@@ -215,13 +203,13 @@ class _SignInState extends State<SignIn> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                   Padding(
+                                  Padding(
                                           padding: const EdgeInsets.only(
                                               top: 12.0,
                                               bottom: 12.0,
                                               right: 40,
                                               left: 40),
-                                          child: RaisedButton(
+                                          child:  loader?SpinKitRipple(color: fontOrange,size: 40,):RaisedButton(
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(9.0),
@@ -229,15 +217,18 @@ class _SignInState extends State<SignIn> {
                                             onPressed: () {
                                               if (email.text != null &&
                                                   password.text != null) {
-                                                // setState(() {
-                                                //   loader = true;
-                                                // });
+                                                setState(() {
+                                                  loader = true;
+                                                });
                                                 state
                                                     .signIn(email.text,
                                                         password.text)
                                                     .then((status) {
-                                                  if (state.user != null) {
 
+                                                  if (state.user != null) {
+                                                    setState(() {
+                                                      loader = false;
+                                                    });
                                                     Navigator.of(context)
                                                         .pushAndRemoveUntil(
                                                             MaterialPageRoute(
@@ -248,7 +239,9 @@ class _SignInState extends State<SignIn> {
                                                                     route) =>
                                                                 false);
                                                   } else {
-
+                                                    setState(() {
+                                                      loader = false;
+                                                    });
                                                     showsnackbartop("Signin Error", "There is no user record corresponding to this identifier. The user may have been deleted.", 4, Colors.red,Colors.red, Colors.red,  _scaffoldKey.currentContext);
 
                                                   }

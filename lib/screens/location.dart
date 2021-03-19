@@ -474,7 +474,7 @@ String suntime="0";
                                               Text(
                                                 suntime == null
                                                     ? ""
-                                                    : int.parse(double.parse(suntime).floor().toString()).toString()+" minutes",
+                                                    :suntime.contains("safe")?suntime:int.parse(double.parse(suntime).floor().toString()).toString()+" minutes",
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontFamily: "OpenSans",
