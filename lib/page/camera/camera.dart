@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
 
-import 'bloc/bloc_camera.dart';
-import 'package:my_cities_time/shared/widgets/orientation_icon.dart';
-import 'package:my_cities_time/shared/widgets/rotate_icon.dart';
+import '../bloc/bloc_camera.dart';
+import 'package:my_cities_time/widgets/orientation_icon.dart';
+import 'package:my_cities_time/widgets/rotate_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';

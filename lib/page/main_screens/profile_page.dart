@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:my_cities_time/page/camera.dart';
-import 'package:my_cities_time/shared/widgets/focus_widget.dart';
+import 'package:my_cities_time/page/camera/camera.dart';
+import 'package:my_cities_time/widgets/focus_widget.dart';
 import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/utils/constants.dart';
 
@@ -12,8 +12,8 @@ import 'package:image_picker/image_picker.dart' as picker;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../main.dart';
-import '../themes.dart';
+import '../../main.dart';
+import '../../themes.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -51,6 +51,16 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       _image = image;
     });
+
+    final state = Provider.of<AuthState>(context,listen: false);
+    state
+        .updateUserProfile(state.userModel,
+        image: _image)
+        .then((status) {
+      setState(() {
+        loader = false;
+      });
+    });
   }
 
   _imgFromGallery() async {
@@ -59,6 +69,14 @@ class _ProfilePageState extends State<ProfilePage> {
 
     setState(() {
       _image = image;
+    });    final state = Provider.of<AuthState>(context,listen: false);
+    state
+        .updateUserProfile(state.userModel,
+        image: _image)
+        .then((status) {
+      setState(() {
+        loader = false;
+      });
     });
   }
 

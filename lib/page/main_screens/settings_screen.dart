@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_cities_time/utils/converters.dart';
 
-import '../main.dart';
-import '../themes.dart';
+import '../../main.dart';
+import '../../themes.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override

@@ -1,7 +1,7 @@
 
-import 'package:my_cities_time/flutter_datetime_picker.dart';
-import 'package:my_cities_time/src/date_format.dart';
-import 'package:my_cities_time/src/i18n_model.dart';
+import 'package:my_cities_time/plugins/flutter_datetime_picker.dart';
+import 'package:my_cities_time/utils/src/date_format.dart';
+import 'package:my_cities_time/utils/src/i18n_model.dart';
 
 import 'datetime_util.dart';
 import 'dart:math';

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:charcode/charcode.dart';
 import 'package:flutter/material.dart';
-import 'package:my_cities_time/screens/weather_screen.dart';
+import 'package:my_cities_time/page/main_screens/weather_screen.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:geocoder/geocoder.dart';
@@ -14,14 +14,14 @@ import 'package:my_cities_time/api/api_keys.dart';
 import 'package:my_cities_time/api/http_exception.dart';
 import 'package:my_cities_time/main.dart';
 import 'package:my_cities_time/models/city_weather.dart';
-import 'package:my_cities_time/screens/blog.dart';
-import 'package:my_cities_time/screens/the_protection_shop.dart';
-import 'package:my_cities_time/screens/the_skin_lab.dart';
-import 'package:my_cities_time/shared/widgets/DrawerWidget.dart';
+import 'package:my_cities_time/page/main_screens/blog.dart';
+import 'package:my_cities_time/page/main_screens/the_protection_shop.dart';
+import 'package:my_cities_time/page/main_screens/the_skin_lab.dart';
+import 'package:my_cities_time/widgets/DrawerWidget.dart';
 import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/themes.dart';
 import 'package:my_cities_time/utils/constants.dart';
-import 'package:my_cities_time/screens/location.dart';
+import 'package:my_cities_time/page/main_screens/location.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:my_cities_time/api/api_keys.dart';

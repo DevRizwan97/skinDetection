@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_cities_time/screens/location.dart';
-import 'package:my_cities_time/screens/signin.dart';
-import 'package:my_cities_time/screens/the_skin_lab.dart';
+import 'package:my_cities_time/page/main_screens/location.dart';
+import 'package:my_cities_time/page/main_screens/signin.dart';
+import 'package:my_cities_time/page/main_screens/the_skin_lab.dart';
 import 'package:my_cities_time/states/authstate.dart';
 import 'package:provider/provider.dart';
 

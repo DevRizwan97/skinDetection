@@ -17,15 +17,15 @@ import 'package:my_cities_time/api/weather_api_client.dart';
 import 'package:my_cities_time/bloc/weather_bloc.dart';
 import 'package:my_cities_time/bloc/weather_event.dart';
 import 'package:my_cities_time/bloc/weather_state.dart';
-import 'package:my_cities_time/flutter_datetime_picker.dart';
+import 'package:my_cities_time/plugins/flutter_datetime_picker.dart';
 import 'package:my_cities_time/models/weather.dart' as weather;
 import 'package:my_cities_time/repository/weather_repository.dart';
-import 'package:my_cities_time/shared/widgets/DrawerWidget.dart';
-import 'package:my_cities_time/screens/Travel.dart';
-import 'package:my_cities_time/screens/blog.dart';
-import 'package:my_cities_time/screens/the_protection_shop.dart';
-import 'package:my_cities_time/screens/the_skin_lab.dart';
-import 'package:my_cities_time/screens/weather_screen.dart';
+import 'package:my_cities_time/widgets/DrawerWidget.dart';
+import 'package:my_cities_time/page/main_screens/Travel.dart';
+import 'package:my_cities_time/page/main_screens/blog.dart';
+import 'package:my_cities_time/page/main_screens/the_protection_shop.dart';
+import 'package:my_cities_time/page/main_screens/the_skin_lab.dart';
+import 'package:my_cities_time/page/main_screens/weather_screen.dart';
 import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/themes.dart';
 import 'package:my_cities_time/utils/WeatherIconMapper.dart';
@@ -39,7 +39,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather/weather.dart';
 
-import '../main.dart';
+import '../../main.dart';
 
 class Location extends StatefulWidget {
   final WeatherRepository weatherRepository = WeatherRepository(
@@ -653,23 +653,28 @@ String suntime="0";
           initialIntegerValue: 1,
         );
       },
-    ).then((num value) {
+    ).then((num value) async {
       prefs.setString("uv", value.toString());
       print(value.toString());
 
+      await AndroidAlarmManager.initialize();
+      print("usman");
                                      AndroidAlarmManager.periodic(
-      const Duration(seconds: 5),
+      const Duration(seconds: 3),
       // Ensure we have a unique alarm ID.
-      Random().nextInt(pow(2, 31).toInt()),
-      printHello,
+      1,
+     showprint,
       );
+      print("usman1");
       // if (value != null) {
       //   setState(() => _currentIntValue = value);
       //   integerNumberPicker.animateInt(value);
       // }
     });
   }
-
+  showprint() {
+    print('alarm done');
+  }
   void _showDialog1() {
     DatePicker.showTime12hPicker(context, showTitleActions: true,
 
@@ -695,7 +700,7 @@ String suntime="0";
 
   }
   void printHello() async {
-
+print("hassan");
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
     final url =
@@ -708,6 +713,9 @@ String suntime="0";
     final weatherJson = json.decode(res.body);
     setState(() {
       uvi_index=weatherJson['current']['uvi'].toString();
+      print("hassan rehman checking");
+      print(uvi_index);
+      print(prefs.getString("uv"));
  if(double.parse(uvi_index)<=double.parse(prefs.getString("uv"))){
    const AndroidNotificationDetails androidPlatformChannelSpecifics =
    AndroidNotificationDetails(

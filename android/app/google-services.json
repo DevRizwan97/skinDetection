@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1030801878178",
+    "firebase_url": "https://skin-5d325-default-rtdb.firebaseio.com",
     "project_id": "skin-5d325",
     "storage_bucket": "skin-5d325.appspot.com"
   },
@@ -13,6 +14,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "1030801878178-3276tagmvjllo1c7ascmt9srq7toar72.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.getweys.skindetection",
+            "certificate_hash": "9bca530d5b338a0e64f11095f55cb01569d6acba"
+          }
+        },
+        {
+          "client_id": "1030801878178-t4i6skbdjg4iqlq3lscf79i1kdcubnoh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.getweys.skindetection",
+            "certificate_hash": "dda54cf0c6711361c1d0c9e563b40794462c2bd1"
+          }
+        },
         {
           "client_id": "1030801878178-sfdcsmbmu5b2t25ag35ceg4ithgi3kmf.apps.googleusercontent.com",
           "client_type": 3

@@ -1,16 +1,16 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:my_cities_time/screens/the_skin_lab.dart';
-import 'package:my_cities_time/screens/weather_screen.dart';
+import 'package:my_cities_time/page/main_screens/the_skin_lab.dart';
+import 'package:my_cities_time/page/main_screens/weather_screen.dart';
 import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:my_cities_time/utils/helper.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import '../main.dart';
-import '../themes.dart';
-import 'Splash.dart';
+import '../../main.dart';
+import '../../themes.dart';
+import '../Splash.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -306,16 +306,28 @@ class _SignInState extends State<SignIn> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image.asset(
-                                    'assets/images/one.PNG',
-                                    fit: BoxFit.cover,
+                                  GestureDetector(
+                                    onTap:(){
+
+
+                              },
+                                    child: Image.asset(
+                                      'assets/images/one.PNG',
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 50,
                                   ),
-                                  Image.asset(
-                                    'assets/images/two.PNG',
-                                    fit: BoxFit.cover,
+                                  GestureDetector(
+                                    onTap: (){
+
+
+                                    },
+                                    child: Image.asset(
+                                      'assets/images/two.PNG',
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ],
                               ),

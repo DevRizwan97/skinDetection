@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_cities_time/main.dart';
 import 'package:my_cities_time/models/products.dart';
-import 'package:my_cities_time/screens/Travel.dart';
-import 'package:my_cities_time/screens/blog.dart';
-import 'package:my_cities_time/screens/location.dart';
-import 'package:my_cities_time/screens/product_detail.dart';
-import 'package:my_cities_time/screens/shop_detail_page.dart';
-import 'package:my_cities_time/screens/the_skin_lab.dart';
-import 'package:my_cities_time/screens/webview.dart';
-import 'package:my_cities_time/shared/widgets/DrawerWidget.dart';
+import 'package:my_cities_time/page/main_screens/Travel.dart';
+import 'package:my_cities_time/page/main_screens/blog.dart';
+import 'package:my_cities_time/page/main_screens/location.dart';
+import 'package:my_cities_time/page/main_screens/product_detail.dart';
+import 'package:my_cities_time/page/main_screens/shop_detail_page.dart';
+import 'package:my_cities_time/page/main_screens/the_skin_lab.dart';
+import 'package:my_cities_time/page/webview.dart';
+import 'package:my_cities_time/widgets/DrawerWidget.dart';
 import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/themes.dart';
 import 'package:my_cities_time/utils/constants.dart';
@@ -318,14 +318,8 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
     //       sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
     // } else {
     await Share.share(
-        "Product Name:" +
-            product.name +
-            "\n" "Product Description:" +
-            product.subtitle +
-            "\n" "Price: " '\$' +
-            product.price +
-            "\n" "Quantity: " +
-            product.quantity,
+        "Product Url:" +
+            product.producturl ,
         subject: product.quantity,
         sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
     //}

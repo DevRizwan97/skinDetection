@@ -3,9 +3,9 @@ library flutter_datetime_picker;
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_cities_time/src/date_model.dart';
-import 'package:my_cities_time/src/datetime_picker_theme.dart';
-import 'package:my_cities_time/src/i18n_model.dart';
+import 'package:my_cities_time/utils/src/date_model.dart';
+import 'package:my_cities_time/utils/src/datetime_picker_theme.dart';
+import 'package:my_cities_time/utils/src/i18n_model.dart';
 
 
 typedef DateChangedCallback(DateTime time);

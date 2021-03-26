@@ -40,8 +40,6 @@ class WeatherApiClient {
   }
 
   Future<List<Weather>> getForecast(String cityName,double lat,double long) async {
-    //http://api.openweathermap.org/data/2.5/onecall?lat=37.4219927&lon=-122.084035&exclude=minutely,current,daily,alerts&appid=4598e3e8b70d175fd36e3963636ea9e1
-//    final url = '$baseUrl/data/2.5/forecast?q=$cityName&appid=$apiKey';
 
     final url =
         '$baseUrl/data/2.5/onecall?lat=$lat&lon=$long&exclude=minutely,current,daily,alerts&appid=$apiKey';
@@ -55,9 +53,6 @@ class WeatherApiClient {
     return weathers;
   }
   Future<List<Weather>> getUvForecast(String cityName,double lat,double long) async {
-    //http://api.openweathermap.org/data/2.5/onecall?lat=37.4219927&lon=-122.084035&exclude=minutely,current,daily,alerts&appid=4598e3e8b70d175fd36e3963636ea9e1
-//    final url = '$baseUrl/data/2.5/forecast?q=$cityName&appid=$apiKey';
-//http://api.openweathermap.org/data/2.5/uvi/forecast?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
     final url =
           '$baseUrl/data/2.5/onecall?lat=$lat&lon=$long&appid=$apiKey&exclude=hourly,alerts,minutely,current';
     print('fetching $url');

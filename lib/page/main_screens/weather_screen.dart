@@ -9,12 +9,12 @@ import 'package:my_cities_time/bloc/weather_bloc.dart';
 import 'package:my_cities_time/bloc/weather_event.dart';
 import 'package:my_cities_time/bloc/weather_state.dart';
 import 'package:my_cities_time/repository/weather_repository.dart';
-import 'package:my_cities_time/screens/settings_screen.dart';
-import 'package:my_cities_time/shared/widgets/DrawerWidget.dart';
+import 'package:my_cities_time/page/main_screens/settings_screen.dart';
+import 'package:my_cities_time/widgets/DrawerWidget.dart';
 import 'package:my_cities_time/widgets/weather_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../main.dart';
+import '../../main.dart';
 
 enum OptionsMenu { changeCity, settings }
 
@@ -70,24 +70,7 @@ class _WeatherScreenState extends State<WeatherScreen>
               )
             ],
           ),
-//           actions: <Widget>[
-//             PopupMenuButton<OptionsMenu>(
-//                 child: Icon(
-//                   Icons.more_vert,
-//                   color: AppStateContainer.of(context).theme.accentColor,
-//                 ),
-//                 onSelected: this._onOptionMenuItemSelected,
-//                 itemBuilder: (context) => <PopupMenuEntry<OptionsMenu>>[
-// //                      PopupMenuItem<OptionsMenu>(
-// //                        value: OptionsMenu.changeCity,
-// //                        child: Text("change city"),
-// //                      ),
-//                       PopupMenuItem<OptionsMenu>(
-//                         value: OptionsMenu.settings,
-//                         child: Text("settings"),
-//                       ),
-//                     ])
-//           ],
+
         ),
         backgroundColor: Colors.white,
         body: Material(

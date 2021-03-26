@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:my_cities_time/screens/Travel.dart';
-import 'package:my_cities_time/screens/blog.dart';
-import 'package:my_cities_time/screens/favourites.dart';
-import 'package:my_cities_time/screens/location.dart';
-import 'package:my_cities_time/screens/profile_page.dart';
-import 'package:my_cities_time/screens/signin.dart';
-import 'package:my_cities_time/screens/skintracker.dart';
-import 'package:my_cities_time/screens/the_protection_shop.dart';
-import 'package:my_cities_time/screens/the_skin_lab.dart';
+import 'package:my_cities_time/page/main_screens/Travel.dart';
+import 'package:my_cities_time/page/main_screens/blog.dart';
+import 'package:my_cities_time/page/main_screens/favourites.dart';
+import 'package:my_cities_time/page/main_screens/location.dart';
+import 'package:my_cities_time/page/main_screens/profile_page.dart';
+import 'package:my_cities_time/page/main_screens/signin.dart';
+import 'package:my_cities_time/page/main_screens/skintracker.dart';
+import 'package:my_cities_time/page/main_screens/the_protection_shop.dart';
+import 'package:my_cities_time/page/main_screens/the_skin_lab.dart';
 import 'package:my_cities_time/states/authstate.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:provider/provider.dart';
@@ -24,54 +24,6 @@ class DrawerWidget extends StatefulWidget {
 class _DrawerWidgetState extends State<DrawerWidget> {
   bool loader = false;
 
-  Widget _menuHeader() {
-    final state = Provider.of<AuthState>(context);
-    if (state.userModel == null) {
-      return Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              height: 56,
-              width: 56,
-              margin: EdgeInsets.only(left: 17, top: 10),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage(
-                        "assets/images/Group.jpg",
-                      ))),
-            ),
-            ListTile(
-              onTap: () {
-
-                // _navigateTo("ProfilePage");
-              },
-              title: Row(
-                children: <Widget>[
-                  Text(
-                   state.user.displayName,
-              style: TextStyle(
-              fontFamily: "OpenSans",
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                  fontSize: 22.0),
-                  ),
-                  SizedBox(
-                    width: 3,
-                  ),
-
-                ],
-              ),
-
-            ),
-          ],
-        ),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,46 +38,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
             child: Drawer(
               child: ListView(padding: EdgeInsets.all(0.0), children: <Widget>[
-//             UserAccountsDrawerHeader(
-//               decoration: BoxDecoration(color: fontOrange),
-//
-//               currentAccountPicture: Container(
-//                 decoration: BoxDecoration(
-//                     shape: BoxShape.circle,
-//                     image: DecorationImage(
-//                         fit: BoxFit.fill,
-//                         image: AssetImage(
-//                           "assets/images/photo.jpg",
-//                         ))),
-//               ),
-//
-// // decoration: BoxDecoration(
-// //   color: fontOrange
-// // ),
-//
-//               accountName: Row(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   Text(
-//                     state.userModel == null ? '' : state.userModel.username,
-//                     style: TextStyle(
-//                         fontFamily: "OpenSans",
-//                         fontWeight: FontWeight.w700,
-//                         color: Colors.black,
-//                         fontSize: 22.0),
-//                   ),
-//                 ],
-//               ),
-//               arrowColor: Colors.transparent,
-//
-//               // currentAccountPicture: CircleAvatar(
-//               //
-//               //   backgroundImage: AssetImage("assets/images/img.jpeg"),
-//               //   backgroundColor: Colors.transparent,
-//               //   radius: 30,
-//               // ),
-//               onDetailsPressed: () {},
-//             ),
 
                 ListTile(
                   onTap: () {
@@ -337,40 +249,13 @@ mainAxisAlignment: MainAxisAlignment.center,
                   color: white,
                   thickness: 0.5,
                 ),
-                // GestureDetector(
-                //   onTap: () {
-                //     Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //           builder: (context) => Favourites(),
-                //         ));
-                //   },
-                //   child: ListTile(
-                //     title: Padding(
-                //       padding: const EdgeInsets.only(left: 20.0),
-                //       child: Text(
-                //         'Favourites',
-                //         style: TextStyle(
-                //             fontFamily: "OpenSans",
-                //             fontSize: 20,
-                //             color: white,
-                //             fontWeight: FontWeight.w400),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // Divider(
-                //   color: white,
-                //   thickness: 0.5,
-                // ),
+
                 GestureDetector(
                   onTap: () {
                     state.logoutCallback();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SignIn(),
-                        ));
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                        SignIn()), (Route<dynamic> route) => false);
+
                   },
                   child: ListTile(
                     title: Padding(
