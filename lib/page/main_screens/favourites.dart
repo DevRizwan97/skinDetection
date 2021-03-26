@@ -2,20 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_cities_time/main.dart';
 import 'package:my_cities_time/models/products.dart';
-import 'package:my_cities_time/page/main_screens/Travel.dart';
-import 'package:my_cities_time/page/main_screens/blog.dart';
-import 'package:my_cities_time/page/main_screens/location.dart';
 import 'package:my_cities_time/page/main_screens/shop_detail_page.dart';
-import 'package:my_cities_time/page/main_screens/the_skin_lab.dart';
-import 'package:my_cities_time/page/webview.dart';
 import 'package:my_cities_time/widgets/DrawerWidget.dart';
 import 'package:my_cities_time/states/authstate.dart';
-import 'package:my_cities_time/themes.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:my_cities_time/utils/helper.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class Favourites extends StatefulWidget {
   @override
@@ -61,10 +54,6 @@ class _FavouritesState extends State<Favourites> {
                     fontWeight: FontWeight.w700),
               ),
             ),
-            // SizedBox(
-            //   height: 10,
-            // ),
-
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -74,16 +63,15 @@ class _FavouritesState extends State<Favourites> {
                             : state.all_favourites.length, (index) {
                   return GestureDetector(
                     onTap: () {
+
+  //                Navigate to shopDetail Page
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => ShopDetailPage(),
                           ));
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => WebViewExample(url: state.all_favourites[index].producturl,),
-                      //     ));
+
+
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -159,70 +147,65 @@ class _FavouritesState extends State<Favourites> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       GestureDetector(
-                                          onTap: () {
-                                            _onShare(context,
-                                                state.all_favourites[index]);
-                                          },
-                                          // child: Icon(
-                                          //   Icons.sync,
-                                          //   color: fontOrange,
-                                          //   size: 30,
-                                          // )
-                                        child:Image.asset("assets/images/share.png",height: 30,width: 30,),
+                                        onTap: () {
+                                          //Will share this product
+                                          _onShare(context,
+                                              state.all_favourites[index]);
+                                        },
+                                        child: Image.asset(
+                                          "assets/images/share.png",
+                                          height: 30,
+                                          width: 30,
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 8,
                                       ),
                                       GestureDetector(
-                                          onTap: () {
-                                            if (state.all_favourites.contains(
-                                                state.all_favourites[index])) {
-                                              print(state.userModel.userId);
-                                              kDatabase
-                                                  .child('favourites')
-                                                  .child(state.userModel.userId)
-                                                  .child(state
-                                                      .all_favourites[index]
-                                                      .productId)
-                                                  .remove();
-                                              state.remotefavourite(index);
-                                            } else {
-                                              kDatabase
-                                                  .child('favourites')
-                                                  .child(state.userModel.userId)
-                                                  .child(DateTime.now()
-                                                      .millisecondsSinceEpoch
-                                                      .toString())
-                                                  .set(state
-                                                      .all_favourites[index]
-                                                      .toJson());
+                                        onTap: () {
+                                          //Condition will check whether this product exist in userdatabase
+                                         //If the product exist then it will remove the product from database
 
-                                              state.addfavourite(
-                                                  state.all_favourites[index]);
-                                            }
-                                            // setState(() {
-                                            //   loader = false;
-                                            // });
-                                          },
-                                          // child: Icon(
-                                          //     state.all_favourites == null
-                                          //         ? Icons.favorite_border
-                                          //         : state.all_favourites.contains(
-                                          //                 state.all_favourites[
-                                          //                     index])
-                                          //             ? Icons.favorite
-                                          //             : Icons.favorite_border,
-                                          //     color: Colors.red,
-                                          //     size: 30)
+                                          if (state.all_favourites.contains(
+                                              state.all_favourites[index])) {
+                                            kDatabase
+                                                .child('favourites')
+                                                .child(state.userModel.userId)
+                                                .child(state
+                                                    .all_favourites[index]
+                                                    .productId)
+                                                .remove();
+                                            state.remotefavourite(index);
+                                          }
+                                          //Else it will add the product in database
+                                          else {
+                                            kDatabase
+                                                .child('favourites')
+                                                .child(state.userModel.userId)
+                                                .child(DateTime.now()
+                                                    .millisecondsSinceEpoch
+                                                    .toString())
+                                                .set(state.all_favourites[index]
+                                                    .toJson());
 
+                                            state.addfavourite(
+                                                state.all_favourites[index]);
+                                          }
+                                        },
                                         child: state.all_favourites == null
                                             ? Icons.favorite_border
-                                            : state.all_favourites
-                                            .contains(state
-                                            .all_products[
-                                        index])
-                                            ?Image.asset("assets/images/heartFilled.png",height: 30,width: 30):Image.asset("assets/images/heartEmpty.png",height: 30,width: 30,),
-                                            ),
+                                            : state.all_favourites.contains(
+                                                    state.all_products[index])
+                                                ? Image.asset(
+                                                    "assets/images/heartFilled.png",
+                                                    height: 30,
+                                                    width: 30)
+                                                : Image.asset(
+                                                    "assets/images/heartEmpty.png",
+                                                    height: 30,
+                                                    width: 30,
+                                                  ),
+                                      ),
                                     ],
                                   ),
                                   Spacer(),
@@ -238,19 +221,7 @@ class _FavouritesState extends State<Favourites> {
                       ),
                     ),
                   );
-                })
-                    // [
-                    //   // SizedBox(
-                    //   //   height: 5,
-                    //   // ),
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    // ],
-                    ),
+                })),
               ),
             )
           ],
@@ -258,24 +229,11 @@ class _FavouritesState extends State<Favourites> {
       ),
     );
   }
-
+//This will share this product
   _onShare(BuildContext context, Product product) async {
-    // A builder is used to retrieve the context immediately
-    // surrounding the RaisedButton.
-    //
-    // The context's `findRenderObject` returns the first
-    // RenderObject in its descendent tree when it's not
-    // a RenderObjectWidget. The RaisedButton's RenderObject
-    // has its position and size after it's built.
     final RenderBox box = context.findRenderObject();
     List<String> imageurls = List<String>();
     imageurls.add(product.imageurl);
-    // if (imageurls.isNotEmpty) {
-    //   await Share.shareFiles(imageurls,
-    //       text: product.name,
-    //       subject: product.quantity,
-    //       sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
-    // } else {
 
     await Share.share(
         "Name:" +
@@ -288,10 +246,5 @@ class _FavouritesState extends State<Favourites> {
             product.quantity,
         subject: product.quantity,
         sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
-    //}
-  }
-
-  _onShareWithEmptyOrigin(BuildContext context) async {
-    await Share.share("text");
   }
 }

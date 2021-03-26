@@ -1,36 +1,22 @@
 import 'dart:convert';
-import 'dart:isolate';
-import 'dart:math';
-
 import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:my_cities_time/api/api_keys.dart';
 import 'package:my_cities_time/api/http_exception.dart';
 import 'package:my_cities_time/api/weather_api_client.dart';
 import 'package:my_cities_time/bloc/weather_bloc.dart';
-import 'package:my_cities_time/bloc/weather_event.dart';
-import 'package:my_cities_time/bloc/weather_state.dart';
 import 'package:my_cities_time/plugins/flutter_datetime_picker.dart';
-import 'package:my_cities_time/models/weather.dart' as weather;
 import 'package:my_cities_time/repository/weather_repository.dart';
 import 'package:my_cities_time/widgets/DrawerWidget.dart';
-import 'package:my_cities_time/page/main_screens/Travel.dart';
-import 'package:my_cities_time/page/main_screens/blog.dart';
-import 'package:my_cities_time/page/main_screens/the_protection_shop.dart';
-import 'package:my_cities_time/page/main_screens/the_skin_lab.dart';
 import 'package:my_cities_time/page/main_screens/weather_screen.dart';
 import 'package:my_cities_time/states/authstate.dart';
-import 'package:my_cities_time/themes.dart';
 import 'package:my_cities_time/utils/WeatherIconMapper.dart';
 import 'package:my_cities_time/utils/constants.dart';
-import 'package:my_cities_time/widgets/weather_widget.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -56,110 +42,7 @@ class _LocationState extends State<Location> {
   WeatherBloc _weatherBloc;
   String _cityName = 'karachi';
   SharedPreferences prefs;
-
-  _fetchWeatherWithLocation() async {
-
-   prefs = await SharedPreferences.getInstance();
-    var permissionHandler = PermissionHandler();
-    var permissionResult = await permissionHandler
-        .requestPermissions([PermissionGroup.locationWhenInUse]);
-
-    switch (permissionResult[PermissionGroup.locationWhenInUse]) {
-      case PermissionStatus.denied:
-      case PermissionStatus.unknown:
-        print('location permission denied');
-        _showLocationDeniedDialog(permissionHandler);
-        throw Error();
-    }
-    setState(() {
-      loader = true;
-    });
-    Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-
-    await getweather(position);
-
-   await (onecallweatherdata(
-          latitude: position.latitude, longitude: position.longitude));
-
-    // _weatherBloc.dispatch(FetchWeather(
-    //     longitude: position.longitude, latitude: position.latitude));
-  }
-
-  void _showLocationDeniedDialog(PermissionHandler permissionHandler) {
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.white,
-            title: Text('Location is disabled :(',
-                style: TextStyle(color: Colors.black)),
-            actions: <Widget>[
-              FlatButton(
-                child: Text(
-                  'Enable!',
-                  style: TextStyle(color: Colors.green, fontSize: 16),
-                ),
-                onPressed: () {
-                  permissionHandler.openAppSettings();
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        });
-  }
-
-  getweather(Position position) async {
-    WeatherFactory wf = new WeatherFactory(ApiKey.OPEN_WEATHER_MAP);
-    Weather weather = await wf.currentWeatherByLocation(
-        position.latitude, position.longitude);
-    setState(() {
-      weather_temp = weather.temperature.celsius.toString();
-      weather_desc = weather.weatherDescription;
-      weather_icon = weather.weatherIcon;
-      _cityName=weather.areaName;
-      loader = false;
-    });
-  }
-String suntime="0";
-  Future onecallweatherdata({double latitude, double longitude}) async {
-    final url =
-        '${ApiKey.baseUrl}/data/2.5/onecall?lat=$latitude&lon=$longitude&appid=${ApiKey.OPEN_WEATHER_MAP}';
-    print('fetching $url');
-    final res = await http.get(url);
-    if (res.statusCode != 200) {
-      throw HTTPException(res.statusCode, "unable to fetch weather data");
-    }
-    final weatherJson = json.decode(res.body);
-    setState(() {
-      uvi_index=weatherJson['current']['uvi'].toString();
-      prefs.setString("uvi_index",uvi_index);
-    });
-
-    var state = Provider.of<AuthState>(context, listen: false);
-    List<Map> all_data=state.all_excel_data;
-    // print(state.all_excel_data);
-    for(int i=0;i<state.all_excel_data.length;i++){
-      String uv=all_data[i]['uv'].toString();
-   String uv_index=(int.parse(double.parse(uvi_index).floor().toString()).toString());
-//print(uv==uv_index);
-// print(state.all_excel_data[i]['uv'].contains(uvi_index));
-// print(state.all_excel_data[i]['skintype'].contains(state.all_skin_data[state.all_skin_data.length-1].skintype));
-//
-      if(uv==uv_index&&all_data[i]['skintype'].toString()==state.all_skin_data[state.all_skin_data.length-1].skintype){
-        setState(() {
-
-          suntime=state.all_excel_data[i]['time'].toString();
-          print("rafay");
-        print(suntime);
-        });
-       // break;
-      }
-    }
-   // return weatherJson['current']['uvi'].toString();
-  }
+  String suntime = "0";
 
   @override
   void initState() {
@@ -167,17 +50,13 @@ String suntime="0";
     super.initState();
     _weatherBloc = WeatherBloc(weatherRepository: widget.weatherRepository);
 
-    _fetchWeatherWithLocation().catchError((error) {
-      // _fetchWeatherWithCity();
-    });
+    _fetchWeatherWithLocation().catchError((error) {});
   }
 
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<AuthState>(context, listen: false);
-    // _cityName = state.skin == null ? "karachi" : state.skin.city;
     return Scaffold(
-
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0.0,
@@ -185,20 +64,20 @@ String suntime="0";
         extendBodyBehindAppBar: true,
         drawer: DrawerWidget(),
         body: Container(
-                width: MediaQuery.of(context).size.width,
-                height: double.infinity,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image:AssetImage("assets/images/bggg.png"),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                child: loader
-                    ? SpinKitRipple(
+          width: MediaQuery.of(context).size.width,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/bggg.png"),
+              fit: BoxFit.fill,
+            ),
+          ),
+          child: loader
+              ? SpinKitRipple(
                   color: fontOrange,
                   size: 40,
                 )
-                    : Column(
+              : Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -206,9 +85,9 @@ String suntime="0";
                       padding:
                           const EdgeInsets.only(top: 150, left: 40, right: 8),
                       child: Text(
-                       "Weather",
+                        "Weather",
                         style: TextStyle(
-                            color:  Colors.black,
+                            color: Colors.black,
                             fontSize: 32,
                             fontFamily: "OpenSans",
                             fontWeight: FontWeight.w700),
@@ -265,20 +144,24 @@ String suntime="0";
                                             bottom: 20,
                                             right: 20),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                SizedBox(height: 10,),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
                                                 Row(
                                                   children: [
                                                     Text(
                                                       "UV Index : ",
                                                       style: TextStyle(
                                                           color: fontOrange,
-                                                          fontFamily: "OpenSans",
+                                                          fontFamily:
+                                                              "OpenSans",
                                                           fontWeight:
                                                               FontWeight.w700,
                                                           fontSize: 16),
@@ -287,10 +170,15 @@ String suntime="0";
                                                     Text(
                                                       uvi_index == null
                                                           ? ""
-                                                          : int.parse(double.parse(uvi_index).floor().toString()).toString(),
+                                                          : int.parse(double.parse(
+                                                                      uvi_index)
+                                                                  .floor()
+                                                                  .toString())
+                                                              .toString(),
                                                       style: TextStyle(
                                                           color: Colors.black,
-                                                          fontFamily: "OpenSans",
+                                                          fontFamily:
+                                                              "OpenSans",
                                                           fontWeight:
                                                               FontWeight.w700,
                                                           fontSize: 16),
@@ -306,16 +194,23 @@ String suntime="0";
                                                       "Temperature : ",
                                                       style: TextStyle(
                                                           color: fontOrange,
-                                                          fontFamily: "OpenSans",
+                                                          fontFamily:
+                                                              "OpenSans",
                                                           fontWeight:
                                                               FontWeight.w700,
                                                           fontSize: 16),
                                                     ),
                                                     Text(
-                                                      weather_temp==null?"":double.parse(weather_temp).round().toString() ,
+                                                      weather_temp == null
+                                                          ? ""
+                                                          : double.parse(
+                                                                  weather_temp)
+                                                              .round()
+                                                              .toString(),
                                                       style: TextStyle(
                                                           color: Colors.black,
-                                                          fontFamily: "OpenSans",
+                                                          fontFamily:
+                                                              "OpenSans",
                                                           fontWeight:
                                                               FontWeight.w700,
                                                           fontSize: 16),
@@ -331,47 +226,26 @@ String suntime="0";
                                                       "Weather : ",
                                                       style: TextStyle(
                                                           color: fontOrange,
-                                                          fontFamily: "OpenSans",
+                                                          fontFamily:
+                                                              "OpenSans",
                                                           fontWeight:
                                                               FontWeight.w700,
                                                           fontSize: 16),
                                                     ),
                                                     Text(
-                                                     weather_desc==null?"": weather_desc + "",
+                                                      weather_desc == null
+                                                          ? ""
+                                                          : weather_desc + "",
                                                       style: TextStyle(
                                                           color: Colors.black,
-                                                          fontFamily: "OpenSans",
+                                                          fontFamily:
+                                                              "OpenSans",
                                                           fontWeight:
                                                               FontWeight.w700,
                                                           fontSize: 16),
                                                     ),
                                                   ],
                                                 ),
-                                                // SizedBox(
-                                                //   height: 5,
-                                                // ),
-                                                // Row(
-                                                //   children: [
-                                                //     Text(
-                                                //       "Peak UVI Time : ",
-                                                //       style: TextStyle(
-                                                //           color: fontOrange,
-                                                //           fontFamily: "OpenSans",
-                                                //           fontWeight:
-                                                //               FontWeight.w700,
-                                                //           fontSize: 16),
-                                                //     ),
-                                                //     Text(
-                                                //       "2:10 PM",
-                                                //       style: TextStyle(
-                                                //           color: Colors.black,
-                                                //           fontFamily: "OpenSans",
-                                                //           fontWeight:
-                                                //               FontWeight.w700,
-                                                //           fontSize: 16),
-                                                //     ),
-                                                //   ],
-                                                // ),
                                               ],
                                             ),
                                             Column(
@@ -383,12 +257,6 @@ String suntime="0";
                                                 ),
                                               ],
                                             )
-                                            // Image.asset(
-                                            //   'assets/images/sun.png',
-                                            //   width: 100,
-                                            //   height: 100,
-                                            //   fit: BoxFit.cover,
-                                            // ),
                                           ],
                                         ),
                                       )),
@@ -402,9 +270,10 @@ String suntime="0";
                               padding: const EdgeInsets.only(
                                   left: 12.0, right: 12.0, bottom: 5),
                               child: Container(
-                                height: MediaQuery.of(context).size.height * 0.24,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.24,
                                 child: Card(
-                                    color:cardColor,
+                                    color: cardColor,
                                     elevation: 5,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
@@ -440,20 +309,21 @@ String suntime="0";
                                                 height: 20.0,
                                                 child: Container(
                                                   decoration: new BoxDecoration(
-                                                    color:state.all_skin_data == null
+                                                    color: state.all_skin_data ==
+                                                            null
                                                         ? Colors.transparent
-                                                        : Color(int.parse(state.all_skin_data[state.all_skin_data.length-1].skincolor
+                                                        : Color(int.parse(state
+                                                            .all_skin_data[state
+                                                                    .all_skin_data
+                                                                    .length -
+                                                                1]
+                                                            .skincolor
                                                             .replaceAll(
                                                                 '#', '0xff'))),
                                                     shape: BoxShape.rectangle,
                                                   ),
                                                 ),
                                               ),
-                                              // Text("no. "+(state.skin==null?"":state.skin.skintype),style: TextStyle(
-                                              //     color: Colors.black,
-                                              //     fontFamily: "OpenSans",
-                                              //     fontWeight: FontWeight.w700,
-                                              //     fontSize: 16),),
                                             ],
                                           ),
                                           SizedBox(
@@ -461,8 +331,14 @@ String suntime="0";
                                           ),
                                           Row(
                                             children: [
-                                              Image.asset("assets/images/sun-protection (1).png",height: 20,width: 20,),
-                                              SizedBox(width: 6,),
+                                              Image.asset(
+                                                "assets/images/sun-protection (1).png",
+                                                height: 20,
+                                                width: 20,
+                                              ),
+                                              SizedBox(
+                                                width: 6,
+                                              ),
                                               Text(
                                                 "Time To Sunburn : ",
                                                 style: TextStyle(
@@ -474,7 +350,14 @@ String suntime="0";
                                               Text(
                                                 suntime == null
                                                     ? ""
-                                                    :suntime.contains("safe")?suntime:int.parse(double.parse(suntime).floor().toString()).toString()+" minutes",
+                                                    : suntime.contains("safe")
+                                                        ? suntime
+                                                        : int.parse(double.parse(
+                                                                        suntime)
+                                                                    .floor()
+                                                                    .toString())
+                                                                .toString() +
+                                                            " minutes",
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontFamily: "OpenSans",
@@ -497,10 +380,16 @@ String suntime="0";
                                                     fontSize: 17),
                                               ),
                                               Text(
-                                                uvi_index==null?"":double.parse(uvi_index)<=3?"15+":double.parse(uvi_index)<=8?"30+":"50+",
-                                                // (state.skin == null
-                                                //     ? ""
-                                                //     : state.skin.spf),
+                                                uvi_index == null
+                                                    ? ""
+                                                    : double.parse(uvi_index) <=
+                                                            3
+                                                        ? "15+"
+                                                        : double.parse(
+                                                                    uvi_index) <=
+                                                                8
+                                                            ? "30+"
+                                                            : "50+",
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontFamily: "OpenSans",
@@ -517,22 +406,18 @@ String suntime="0";
                             SizedBox(
                               height: 10,
                             ),
-
                             Padding(
                               padding: const EdgeInsets.only(
                                   top: 12.0, bottom: 12.0, right: 40, left: 40),
                               child: Container(
                                 height: 50,
-
                                 child: RaisedButton(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12.0),
                                   ),
                                   onPressed: () {
-
                                     _showIntDialog();
-
-                                    },
+                                  },
                                   color: fontOrange,
                                   textColor: Colors.white,
                                   child: Row(
@@ -557,28 +442,18 @@ String suntime="0";
                                   top: 3.0, bottom: 12.0, right: 40, left: 40),
                               child: Container(
                                 height: 50,
-
                                 child: RaisedButton(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12.0),
                                   ),
                                   onPressed: () {
-        _showDialog1();
-
-    //                                AndroidAlarmManager.periodic(
-    // const Duration(seconds: 5),
-    // // Ensure we have a unique alarm ID.
-    // Random().nextInt(pow(2, 31).toInt()),
-    // printHello,
-    // );
-
+                                    _showDialog1();
                                   },
                                   color: fontOrange,
                                   textColor: Colors.white,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-
                                       Text("Set up sunscreen Reminder",
                                           style: TextStyle(
                                               fontSize: 18,
@@ -589,7 +464,6 @@ String suntime="0";
                                 ),
                               ),
                             ),
-
                             SizedBox(width: 10),
                           ],
                         ),
@@ -597,7 +471,100 @@ String suntime="0";
                     )
                   ],
                 ),
-              ));
+        ));
+  }
+//Function to fetch weahter data w.r.t location
+  _fetchWeatherWithLocation() async {
+    prefs = await SharedPreferences.getInstance();
+    var permissionHandler = PermissionHandler();
+    var permissionResult = await permissionHandler
+        .requestPermissions([PermissionGroup.locationWhenInUse]);
+
+    switch (permissionResult[PermissionGroup.locationWhenInUse]) {
+      case PermissionStatus.denied:
+      case PermissionStatus.unknown:
+        print('location permission denied');
+        _showLocationDeniedDialog(permissionHandler);
+        throw Error();
+    }
+    setState(() {
+      loader = true;
+    });
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+
+    await getweather(position);
+
+    await (onecallweatherdata(
+        latitude: position.latitude, longitude: position.longitude));
+  }
+
+  void _showLocationDeniedDialog(PermissionHandler permissionHandler) {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: Text('Location is disabled :(',
+                style: TextStyle(color: Colors.black)),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  'Enable!',
+                  style: TextStyle(color: Colors.green, fontSize: 16),
+                ),
+                onPressed: () {
+                  permissionHandler.openAppSettings();
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  getweather(Position position) async {
+    WeatherFactory wf = new WeatherFactory(ApiKey.OPEN_WEATHER_MAP);
+    Weather weather = await wf.currentWeatherByLocation(
+        position.latitude, position.longitude);
+    setState(() {
+      weather_temp = weather.temperature.celsius.toString();
+      weather_desc = weather.weatherDescription;
+      weather_icon = weather.weatherIcon;
+      _cityName = weather.areaName;
+      loader = false;
+    });
+  }
+
+  Future onecallweatherdata({double latitude, double longitude}) async {
+    final url =
+        '${ApiKey.baseUrl}/data/2.5/onecall?lat=$latitude&lon=$longitude&appid=${ApiKey.OPEN_WEATHER_MAP}';
+    final res = await http.get(url);
+    if (res.statusCode != 200) {
+      throw HTTPException(res.statusCode, "unable to fetch weather data");
+    }
+    final weatherJson = json.decode(res.body);
+    setState(() {
+      uvi_index = weatherJson['current']['uvi'].toString();
+      prefs.setString("uvi_index", uvi_index);
+    });
+
+    var state = Provider.of<AuthState>(context, listen: false);
+    List<Map> all_data = state.all_excel_data;
+    for (int i = 0; i < state.all_excel_data.length; i++) {
+      String uv = all_data[i]['uv'].toString();
+      String uv_index =
+          (int.parse(double.parse(uvi_index).floor().toString()).toString());
+      if (uv == uv_index &&
+          all_data[i]['skintype'].toString() ==
+              state.all_skin_data[state.all_skin_data.length - 1].skintype) {
+        setState(() {
+          suntime = state.all_excel_data[i]['time'].toString();
+        });
+        // break;
+      }
+    }
   }
 
   IconData getIconData(String iconCode) {
@@ -640,67 +607,34 @@ String suntime="0";
         return WeatherIcons.clear_day;
     }
   }
-  Future _showIntDialog() async {
-    await showDialog<int>(
-      context: context,
-      builder: (BuildContext context) {
 
-        return new NumberPickerDialog.integer(
-          minValue: 1,
-          title: Text("Setup UV Alarm"),
-          maxValue: 10,
-          step: 1,
-          initialIntegerValue: 1,
-        );
-      },
-    ).then((num value) async {
-      prefs.setString("uv", value.toString());
-      print(value.toString());
-
-      await AndroidAlarmManager.initialize();
-      print("usman");
-                                     AndroidAlarmManager.periodic(
-      const Duration(seconds: 3),
-      // Ensure we have a unique alarm ID.
-      1,
-     showprint,
-      );
-      print("usman1");
-      // if (value != null) {
-      //   setState(() => _currentIntValue = value);
-      //   integerNumberPicker.animateInt(value);
-      // }
-    });
-  }
-  showprint() {
-    print('alarm done');
-  }
   void _showDialog1() {
     DatePicker.showTime12hPicker(context, showTitleActions: true,
-
         onChanged: (date) {
-      print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+      print('change $date in time zone ' +
+          date.timeZoneOffset.inHours.toString());
     }, onConfirm: (date) {
-
-      Time notificationtime=Time(date.hour,date.minute,0);
+      Time notificationtime = Time(date.hour, date.minute, 0);
       const AndroidNotificationDetails androidPlatformChannelSpecifics =
-      AndroidNotificationDetails(
-          'your chairvnnel id', 'your channel name', 'your channel description',
-          importance: Importance.max,
-          priority: Priority.high,
-          playSound: true,
-
-          sound: RawResourceAndroidNotificationSound('slow_spring_board'),
-          showWhen: false);
+          AndroidNotificationDetails('your chairvnnel id', 'your channel name',
+              'your channel description',
+              importance: Importance.max,
+              priority: Priority.high,
+              playSound: true,
+              sound: RawResourceAndroidNotificationSound('slow_spring_board'),
+              showWhen: false);
       const NotificationDetails platformChannelSpecifics =
-      NotificationDetails(android: androidPlatformChannelSpecifics);
-      flutterLocalNotificationsPlugin.showDailyAtTime(0, "Sunscreen Remainder","Remainder for sun screeen", notificationtime,platformChannelSpecifics);
-
+          NotificationDetails(android: androidPlatformChannelSpecifics);
+      flutterLocalNotificationsPlugin.showDailyAtTime(
+          0,
+          "Sunscreen Remainder",
+          "Remainder for sun screeen",
+          notificationtime,
+          platformChannelSpecifics);
     }, currentTime: DateTime.now());
-
   }
-  void printHello() async {
-print("hassan");
+
+  void callnotification() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
     final url =
@@ -712,41 +646,49 @@ print("hassan");
     }
     final weatherJson = json.decode(res.body);
     setState(() {
-      uvi_index=weatherJson['current']['uvi'].toString();
+      uvi_index = weatherJson['current']['uvi'].toString();
       print("hassan rehman checking");
       print(uvi_index);
       print(prefs.getString("uv"));
- if(double.parse(uvi_index)<=double.parse(prefs.getString("uv"))){
-   const AndroidNotificationDetails androidPlatformChannelSpecifics =
-   AndroidNotificationDetails(
-       'your channel id', 'your channel name', 'your channel description',
-       importance: Importance.max,
-       priority: Priority.high,
-       playSound: true,
-
-       sound: RawResourceAndroidNotificationSound('slow_spring_board'),
-       showWhen: false);
-   const NotificationDetails platformChannelSpecifics =
-   NotificationDetails(android: androidPlatformChannelSpecifics);
-   flutterLocalNotificationsPlugin.show(0, "UV Alarm", "UV index reached",platformChannelSpecifics);
-
-
- }
+      if (double.parse(uvi_index) <= double.parse(prefs.getString("uv"))) {
+        const AndroidNotificationDetails androidPlatformChannelSpecifics =
+            AndroidNotificationDetails('your channel id', 'your channel name',
+                'your channel description',
+                importance: Importance.max,
+                priority: Priority.high,
+                playSound: true,
+                sound: RawResourceAndroidNotificationSound('slow_spring_board'),
+                showWhen: false);
+        const NotificationDetails platformChannelSpecifics =
+            NotificationDetails(android: androidPlatformChannelSpecifics);
+        flutterLocalNotificationsPlugin.show(
+            0, "UV Alarm", "UV index reached", platformChannelSpecifics);
+      }
     });
-    // return weatherJson['current']['uvi'].toString();
-    // int ub=prefs.getInt("uv");
-    // final DateTime now = DateTime.now();
-    // final int isolateId = Isolate.current.hashCode;
-    // print("[$now] Hello, world! isolate=${isolateId} function='$printHello'");
   }
 
-
-}
-
-class _IconData extends IconData {
-  const _IconData(int codePoint)
-      : super(
-          codePoint,
-          fontFamily: 'WeatherIcons',
+  Future _showIntDialog() async {
+    await showDialog<int>(
+      context: context,
+      builder: (BuildContext context) {
+        return new NumberPickerDialog.integer(
+          minValue: 1,
+          title: Text("Setup UV Alarm"),
+          maxValue: 10,
+          step: 1,
+          initialIntegerValue: 1,
         );
+      },
+    ).then((num value) async {
+      prefs.setString("uv", value.toString());
+
+      await AndroidAlarmManager.initialize();
+      AndroidAlarmManager.periodic(
+        const Duration(seconds: 3),
+        // Ensure we have a unique alarm ID.
+        1,
+        callnotification,
+      );
+    });
+  }
 }
