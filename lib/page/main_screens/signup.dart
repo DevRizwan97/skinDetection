@@ -22,36 +22,39 @@ import 'package:location/location.dart' as loc;
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather/weather.dart';
+
 class SignUp extends StatefulWidget {
   final Skin skinmodel;
 
   const SignUp({Key key, this.skinmodel}) : super(key: key);
+
   @override
   _SignUpState createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
-bool loader=false;
+  bool loader = false,
+      emailchecking = true,
+      passwordchecking = true,
+      confirmpasswordchecking = true;
+  TextEditingController email = TextEditingController(),
+      username = TextEditingController(),
+      password = TextEditingController(),
+      confirm_password = TextEditingController();
+  loc.Location location =
+      loc.Location(); //explicit reference to the Location class
 
-bool emailchecking=true,passwordchecking=true,confirmpasswordchecking=true;
-  TextEditingController email=TextEditingController(),username=TextEditingController(),password=TextEditingController(),confirm_password=TextEditingController();
-  loc.Location location = loc.Location();//explicit reference to the Location class
-  Future _checkGps() async {
-    if (!await location.serviceEnabled()) {
-      location.requestService();
-    }
-  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _checkGps();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-      Container(
+      body: Container(
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
@@ -90,7 +93,8 @@ bool emailchecking=true,passwordchecking=true,confirmpasswordchecking=true;
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                  padding: const EdgeInsets.only(
+                                      top: 8.0, left: 25, right: 25),
                                   child: Text(
                                     "Email",
                                     style: TextStyle(
@@ -100,15 +104,16 @@ bool emailchecking=true,passwordchecking=true,confirmpasswordchecking=true;
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top:8.0,left: 10,right: 10),
+                                  padding: const EdgeInsets.only(
+                                      top: 8.0, left: 10, right: 10),
                                   child: TextField(
                                     keyboardType: TextInputType.emailAddress,
                                     controller: email,
                                     onChanged: (value) {
-setState(() {
-
-  emailchecking = EmailValidator.validate(email.text);
-});
+                                      setState(() {
+                                        emailchecking =
+                                            EmailValidator.validate(email.text);
+                                      });
                                     },
                                     autofocus: false,
                                     style: TextStyle(
@@ -123,8 +128,10 @@ setState(() {
                                       contentPadding: const EdgeInsets.only(
                                           left: 20.0, bottom: 7.0, top: 7.0),
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: emailchecking?Colors.white:Colors.red),
+                                        borderSide: BorderSide(
+                                            color: emailchecking
+                                                ? Colors.white
+                                                : Colors.red),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       enabledBorder: UnderlineInputBorder(
@@ -135,9 +142,10 @@ setState(() {
                                     ),
                                   ),
                                 ),
-                                if(emailchecking==false)
+                                if (emailchecking == false)
                                   Padding(
-                                    padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0, left: 25, right: 25),
                                     child: Text(
                                       "Email is not valid",
                                       style: TextStyle(
@@ -151,7 +159,8 @@ setState(() {
                                   height: 12,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                  padding: const EdgeInsets.only(
+                                      top: 8.0, left: 25, right: 25),
                                   child: Text(
                                     "Username",
                                     style: TextStyle(
@@ -161,8 +170,8 @@ setState(() {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(top:8.0,left: 10,right: 10),
+                                  padding: const EdgeInsets.only(
+                                      top: 8.0, left: 10, right: 10),
                                   child: TextField(
                                     autofocus: false,
                                     controller: username,
@@ -194,7 +203,8 @@ setState(() {
                                   height: 12,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                  padding: const EdgeInsets.only(
+                                      top: 8.0, left: 25, right: 25),
                                   child: Text(
                                     "Password",
                                     style: TextStyle(
@@ -204,23 +214,19 @@ setState(() {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                  const EdgeInsets.only(top:8.0,left: 10,right: 10),
+                                  padding: const EdgeInsets.only(
+                                      top: 8.0, left: 10, right: 10),
                                   child: TextField(
                                     autofocus: false,
                                     controller: password,
                                     onChanged: (value) {
-                                      if(password.text.length<8){
+                                      if (password.text.length < 8) {
                                         setState(() {
-                                          passwordchecking=false;
-
+                                          passwordchecking = false;
                                         });
-
-                                      }
-                                      else{
+                                      } else {
                                         setState(() {
-                                          passwordchecking=true;
-
+                                          passwordchecking = true;
                                         });
                                       }
                                     },
@@ -242,17 +248,19 @@ setState(() {
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       enabledBorder: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: passwordchecking?Colors.white:Colors.red),
+                                        borderSide: BorderSide(
+                                            color: passwordchecking
+                                                ? Colors.white
+                                                : Colors.red),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                     ),
                                   ),
                                 ),
-                                if(passwordchecking==false)
+                                if (passwordchecking == false)
                                   Padding(
-
-                                    padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0, left: 25, right: 25),
                                     child: Text(
                                       "Password is not valid",
                                       style: TextStyle(
@@ -262,118 +270,50 @@ setState(() {
                                           fontWeight: FontWeight.w400),
                                     ),
                                   ),
-                                // SizedBox(
-                                //   height: 12,
-                                // ),
-                                // Padding(
-                                //   padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
-                                //   child: Text(
-                                //     "Confirm Password",
-                                //     style: TextStyle(
-                                //         fontFamily: "OpenSans",
-                                //         fontSize: 15,
-                                //         fontWeight: FontWeight.w400),
-                                //   ),
-                                // ),
-                                //
-                                // Padding(
-                                //   padding:
-                                //       const EdgeInsets.only(top:8.0,left: 10,right: 10),
-                                //   child: TextField(
-                                //     autofocus: false,
-                                //     controller: confirm_password,
-                                //     obscureText: true,
-                                //       onChanged: (value) {
-                                //         if(confirm_password.text.length<8||!(password.text.contains(confirm_password.text))){
-                                //           setState(() {
-                                //             confirmpasswordchecking=false;
-                                //
-                                //           }
-                                //           );
-                                //         }
-                                //         else{
-                                //           setState(() {
-                                //             confirmpasswordchecking=true;
-                                //
-                                //           });
-                                //
-                                //         }
-                                //       },
-                                //
-                                //     style: TextStyle(
-                                //         fontSize: 15.0, color: Colors.black),
-                                //     decoration: InputDecoration(
-                                //       filled: true,
-                                //       fillColor: Color(0xfff3f3f3),
-                                //       hintText: 'Confirm Password',
-                                //       hintStyle: TextStyle(
-                                //           fontFamily: "OpenSans",
-                                //           color: Colors.grey.shade600),
-                                //       contentPadding: const EdgeInsets.only(
-                                //           left: 20.0, bottom: 7.0, top: 7.0),
-                                //       focusedBorder: OutlineInputBorder(
-                                //         borderSide:
-                                //             BorderSide(color: Colors.white),
-                                //         borderRadius: BorderRadius.circular(5),
-                                //       ),
-                                //       enabledBorder: UnderlineInputBorder(
-                                //         borderSide:
-                                //             BorderSide(color: confirmpasswordchecking?Colors.white:Colors.red),
-                                //         borderRadius: BorderRadius.circular(5),
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
-                                // if(confirmpasswordchecking==false)
-                                //   Padding(
-                                //
-                                //     padding: const EdgeInsets.only(top:8.0,left: 25,right: 25),
-                                //     child: Text(
-                                //       "Password are not same",
-                                //       style: TextStyle(
-                                //           fontFamily: "OpenSans",
-                                //           fontSize: 15,
-                                //           color: Colors.red,
-                                //           fontWeight: FontWeight.w400),
-                                //     ),
-                                //   ),
-                                SizedBox(height: 10,),
-
+                                SizedBox(
+                                  height: 10,
+                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    loader?SpinKitRipple(color: fontOrange,size: 40,):      Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 12.0,
-                                          bottom: 12.0,
-                                          right: 40,
-                                          left: 40),
-                                      child: RaisedButton(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(9.0),
-                                        ),
-                                        onPressed: () {
-                                          signup();
-
-                                        },
-                                        color: fontOrange,
-                                        textColor: Colors.white,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 20.0,
-                                              left: 20.0,
-                                              bottom: 10,
-                                              top: 10),
-                                          child: Text("Sign Up",
-                                              style: TextStyle(
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontFamily: "OpenSans")),
-                                        ),
-                                      ),
-                                    ),
+                                    loader
+                                        ? SpinKitRipple(
+                                            color: fontOrange,
+                                            size: 40,
+                                          )
+                                        : Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 12.0,
+                                                bottom: 12.0,
+                                                right: 40,
+                                                left: 40),
+                                            child: RaisedButton(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(9.0),
+                                              ),
+                                              onPressed: () {
+                                                signup();
+                                              },
+                                              color: fontOrange,
+                                              textColor: Colors.white,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 20.0,
+                                                    left: 20.0,
+                                                    bottom: 10,
+                                                    top: 10),
+                                                child: Text("Sign Up",
+                                                    style: TextStyle(
+                                                        fontSize: 17,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontFamily:
+                                                            "OpenSans")),
+                                              ),
+                                            ),
+                                          ),
                                   ],
                                 ),
                                 Row(
@@ -411,33 +351,28 @@ setState(() {
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-
                                   children: [
                                     GestureDetector(
-                                     onTap: () {
-
-                                     },
+                                      onTap: () {},
                                       child: Image.asset(
                                         'assets/images/one.PNG',
-
                                         fit: BoxFit.cover,
                                       ),
                                     ),
-                                    SizedBox(width: 30,),
+                                    SizedBox(
+                                      width: 30,
+                                    ),
                                     GestureDetector(
                                       onTap: () {
                                         signupgoogle();
-
                                       },
                                       child: Image.asset(
                                         'assets/images/two.PNG',
-
                                         fit: BoxFit.cover,
                                       ),
                                     ),
                                   ],
                                 ),
-
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -455,13 +390,12 @@ setState(() {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     GestureDetector(
-                                     onTap: () {
-                                      signup_anonymous();
-                                     },
+                                      onTap: () {
+                                        signup_anonymous();
+                                      },
                                       child: Text(
                                         "Sign-up later",
                                         style: TextStyle(
-
                                           fontFamily: "OpenSans",
                                           fontSize: 16,
                                           fontWeight: FontWeight.w700,
@@ -471,7 +405,6 @@ setState(() {
                                     ),
                                   ],
                                 ),
-
                               ],
                             ),
                           ),
@@ -487,196 +420,116 @@ setState(() {
       ),
     );
   }
-signupgoogle() async {
 
-  User user;
-    try{
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  /// Record log in firebase kAnalytics about Google login
-  final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-  if (googleUser == null) {
-    throw Exception('Google login cancelled by user');
-  }
-setState(() {
-  loader=true;
-});
-  final GoogleSignInAuthentication googleAuth =
-      await googleUser.authentication;
+  signupgoogle() async {
+    User user;
+    try {
+      final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+      final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  final AuthCredential credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth.accessToken,
-    idToken: googleAuth.idToken,
-  );
-
-  user = (await _firebaseAuth.signInWithCredential(credential)).user;
-  WeatherFactory wf = new WeatherFactory(ApiKey.OPEN_WEATHER_MAP);
-  var state = Provider.of<AuthState>(context, listen: false);
-
-  Position position = await Geolocator()
-      .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-  final coordinates = new Coordinates(
-      position.latitude,  position.longitude);
-  var addresses = await Geocoder.local.findAddressesFromCoordinates(
-      coordinates);
-  Weather weather = await wf.currentWeatherByLocation(position.latitude, position.longitude);
-  Users users=Users(
-    username: user.displayName,
-    confirm_password: user.uid,
-    email: user.email,
-    password: user.uid,
-
-  );
-  try {
-    await state.createUser(users);
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    Skin skinmodel = widget.skinmodel;
-    skinmodel.city = addresses.first.locality;
-    skinmodel.temperature = weather.temperature.celsius.toString();
-    skinmodel.weather_detail = weather.weatherDescription;
-    skinmodel.weathericon = weather.weatherIcon;
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
-    skinmodel.date = date.toString();
-    skinmodel.time = DateFormat.Hms().format(now);
-    setState(() {
-      loader = false;
-    });
-
-    kDatabase.child('skin').child(state.userModel.userId)
-      ..child(addresses.first.locality).child(DateTime
-          .now()
-          .millisecondsSinceEpoch
-          .toString()).set(
-          skinmodel.toJson()
-      ).then((value) => {
-        prefs.setString("location", addresses.first.locality).then((
-            bool success) {
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-              SplashPage()), (Route<dynamic> route) => false);
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => SplashPage()),
-          // );
-        })
+      /// Record log in firebase kAnalytics about Google login
+      final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        throw Exception('Google login cancelled by user');
+      }
+      setState(() {
+        loader = true;
       });
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
 
-  }catch(e){
+      user = (await _firebaseAuth.signInWithCredential(credential)).user;
+      WeatherFactory wf = new WeatherFactory(ApiKey.OPEN_WEATHER_MAP);
+      var state = Provider.of<AuthState>(context, listen: false);
 
-    showsnackbartop("Registration Error", "Error registering this user", 4, Colors.red,Colors.red, Colors.red, context);
-  }
-  setState(() {
-    loader = false;
-  });
-} on PlatformException catch (error) {
+      Position position = await Geolocator()
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+      final coordinates =
+          new Coordinates(position.latitude, position.longitude);
+      var addresses =
+          await Geocoder.local.findAddressesFromCoordinates(coordinates);
+      Weather weather = await wf.currentWeatherByLocation(
+          position.latitude, position.longitude);
+      Users users = Users(
+        username: user.displayName,
+        confirm_password: user.uid,
+        email: user.email,
+        password: user.uid,
+      );
+      try {
+        await state.createUser(users);
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        Skin skinmodel = widget.skinmodel;
+        skinmodel.city = addresses.first.locality;
+        skinmodel.temperature = weather.temperature.celsius.toString();
+        skinmodel.weather_detail = weather.weatherDescription;
+        skinmodel.weathericon = weather.weatherIcon;
+        DateTime now = new DateTime.now();
+        DateTime date = new DateTime(now.year, now.month, now.day);
+        skinmodel.date = date.toString();
+        skinmodel.time = DateFormat.Hms().format(now);
+        setState(() {
+          loader = false;
+        });
+
+        kDatabase.child('skin').child(state.userModel.userId)
+          ..child(addresses.first.locality)
+              .child(DateTime.now().millisecondsSinceEpoch.toString())
+              .set(skinmodel.toJson())
+              .then((value) => {
+                    prefs
+                        .setString("location", addresses.first.locality)
+                        .then((bool success) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => SplashPage()),
+                          (Route<dynamic> route) => false);
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => SplashPage()),
+                      // );
+                    })
+                  });
+      } catch (e) {
+        showsnackbartop("Registration Error", "Error registering this user", 4,
+            Colors.red, Colors.red, Colors.red, context);
+      }
+      setState(() {
+        loader = false;
+      });
+    } on PlatformException catch (error) {
       print(error);
-user = null;
-setState(() {
-  loader = false;
-});
-return null;
-} on Exception catch (error) {
-
-        print(error);
-user = null;
-setState(() {
-  loader = false;
-});
-return null;
-} catch (error) {
-
-        print(error);
-user = null;
-setState(() {
-  loader = false;
-});
-return null;
-}
-}
-signup_anonymous() async {
-  setState(() {
-    loader=true;
-  });
-
-  WeatherFactory wf = new WeatherFactory(ApiKey.OPEN_WEATHER_MAP);
-  var state = Provider.of<AuthState>(context, listen: false);
-
-  Position position = await Geolocator()
-      .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-  final coordinates = new Coordinates(
-      position.latitude,  position.longitude);
-  var addresses = await Geocoder.local.findAddressesFromCoordinates(
-      coordinates);
-  Weather weather = await wf.currentWeatherByLocation(position.latitude, position.longitude);
-
-  // if(check()==true){
-  //   print(check());
-  //   showsnackbartop("Signup Error", "Field missing", 4,error, error, error, context);
-  //
-  // }
-
-  Users users=Users(
-    username: "Anonymous",
-    confirm_password: "anonymous",
-    email:  "anonymous@gmail.com",
-    password: "anonymous",
-
-  );
-  try {
-    await state.createAnonymousUser(users);
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    Skin skinmodel = widget.skinmodel;
-    skinmodel.city = addresses.first.locality;
-    skinmodel.temperature = weather.temperature.celsius.toString();
-    skinmodel.weather_detail = weather.weatherDescription;
-    skinmodel.weathericon = weather.weatherIcon;
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
-    skinmodel.date = date.toString();
-    skinmodel.time = DateFormat.Hms().format(now);
-    setState(() {
-      loader = false;
-    });
-
-    kDatabase.child('skin').child(state.userModel.userId)
-      ..child(addresses.first.locality).child(DateTime
-          .now()
-          .millisecondsSinceEpoch
-          .toString()).set(
-          skinmodel.toJson()
-      ).then((value) => {
-        prefs.setString("location", addresses.first.locality).then((
-            bool success) {
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-              SplashPage()), (Route<dynamic> route) => false);
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => SplashPage()),
-          // );
-        })
+      user = null;
+      setState(() {
+        loader = false;
       });
-
-
-  }catch(e){
-
-    showsnackbartop("Registration Error", "Error registering this user", 4, Colors.red,Colors.red, Colors.red, context);
+      return null;
+    } on Exception catch (error) {
+      print(error);
+      user = null;
+      setState(() {
+        loader = false;
+      });
+      return null;
+    } catch (error) {
+      print(error);
+      user = null;
+      setState(() {
+        loader = false;
+      });
+      return null;
+    }
   }
-  setState(() {
-    loader = false;
-  });
 
-
-
-
-
-
-}
-  signup() async {
+//Signup anonmyous
+  signup_anonymous() async {
     setState(() {
-      loader=true;
+      loader = true;
     });
 
     WeatherFactory wf = new WeatherFactory(ApiKey.OPEN_WEATHER_MAP);
@@ -684,48 +537,105 @@ signup_anonymous() async {
 
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-    final coordinates = new Coordinates(
-        position.latitude,  position.longitude);
-    var addresses = await Geocoder.local.findAddressesFromCoordinates(
-        coordinates);
-    Weather weather = await wf.currentWeatherByLocation(position.latitude, position.longitude);
+    final coordinates = new Coordinates(position.latitude, position.longitude);
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    Weather weather = await wf.currentWeatherByLocation(
+        position.latitude, position.longitude);
 
+    Users users = Users(
+      username: "Anonymous",
+      confirm_password: "anonymous",
+      email: "anonymous@gmail.com",
+      password: "anonymous",
+    );
+    try {
+      await state.createAnonymousUser(users);
 
-    // if(check()==true){
-    //   print(check());
-    //   showsnackbartop("Signup Error", "Field missing", 4,error, error, error, context);
-    //
-    // }
-    if(email==null){
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Skin skinmodel = widget.skinmodel;
+      skinmodel.city = addresses.first.locality;
+      skinmodel.temperature = weather.temperature.celsius.toString();
+      skinmodel.weather_detail = weather.weatherDescription;
+      skinmodel.weathericon = weather.weatherIcon;
+      DateTime now = new DateTime.now();
+      DateTime date = new DateTime(now.year, now.month, now.day);
+      skinmodel.date = date.toString();
+      skinmodel.time = DateFormat.Hms().format(now);
       setState(() {
-        loader=false;
+        loader = false;
       });
-      showsnackbartop("Fields Missing", "Email is missing", 4,error, error, error, context);
+
+      kDatabase.child('skin').child(state.userModel.userId)
+        ..child(addresses.first.locality)
+            .child(DateTime.now().millisecondsSinceEpoch.toString())
+            .set(skinmodel.toJson())
+            .then((value) => {
+                  prefs
+                      .setString("location", addresses.first.locality)
+                      .then((bool success) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => SplashPage()),
+                        (Route<dynamic> route) => false);
+                  })
+                });
+    } catch (e) {
+      showsnackbartop("Registration Error", "Error registering this user", 4,
+          Colors.red, Colors.red, Colors.red, context);
+    }
+    setState(() {
+      loader = false;
+    });
+  }
+
+  signup() async {
+    //show loader
+    setState(() {
+      loader = true;
+    });
+
+    WeatherFactory wf = new WeatherFactory(ApiKey.OPEN_WEATHER_MAP);
+    var state = Provider.of<AuthState>(context, listen: false);
+
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+    final coordinates = new Coordinates(position.latitude, position.longitude);
+    //converting city name into lat and long
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    Weather weather = await wf.currentWeatherByLocation(
+        position.latitude, position.longitude);
+//Validations
+    if (email == null) {
+      setState(() {
+        loader = false;
+      });
+      showsnackbartop("Fields Missing", "Email is missing", 4, error, error,
+          error, context);
       return;
-
     }
-    if(password.text==null||confirm_password.text==null){
+    if (password.text == null || confirm_password.text == null) {
       setState(() {
-        loader=false;
+        loader = false;
       });
-      showsnackbartop("Fields Missing", "Password field missing", 4,error, error, error, context);
+      showsnackbartop("Fields Missing", "Password field missing", 4, error,
+          error, error, context);
       return;
-
     }
-    if(!(password.text.contains(confirm_password.text))){
+    if (!(password.text.contains(confirm_password.text))) {
       setState(() {
-        loader=false;
+        loader = false;
       });
-      showsnackbartop("Password", "Password are not same", 4,error, error, error, context);
-return;
-
+      showsnackbartop(
+          "Password", "Password are not same", 4, error, error, error, context);
+      return;
     }
-    Users users=Users(
+
+    Users users = Users(
       username: username.text,
       confirm_password: confirm_password.text,
       email: email.text,
       password: password.text,
-
     );
     try {
       await state.createUser(users);
@@ -745,44 +655,30 @@ return;
       });
 
       kDatabase.child('skin').child(state.userModel.userId)
-        ..child(addresses.first.locality).child(DateTime
-            .now()
-            .millisecondsSinceEpoch
-            .toString()).set(
-            skinmodel.toJson()
-        ).then((value) => {
-          prefs.setString("location", addresses.first.locality).then((
-              bool success) {
-            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                SplashPage()), (Route<dynamic> route) => false);
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => SplashPage()),
-            // );
-          })
-        });
-
-
-    }catch(e){
-
-      showsnackbartop("Registration Error", "Error registering this user", 4, Colors.red,Colors.red, Colors.red, context);
+        ..child(addresses.first.locality)
+            .child(DateTime.now().millisecondsSinceEpoch.toString())
+            .set(skinmodel.toJson())
+            .then((value) => {
+                  prefs
+                      .setString("location", addresses.first.locality)
+                      .then((bool success) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => SplashPage()),
+                        (Route<dynamic> route) => false);
+                  })
+                });
+    } catch (e) {
+      showsnackbartop("Registration Error", "Error registering this user", 4,
+          Colors.red, Colors.red, Colors.red, context);
     }
     setState(() {
       loader = false;
     });
-
-
-
-
-
-
   }
-//  bool check(){
-//    if(email.text==null||email.text==""||username.text==null||username.text==""||password.text==null||password.text==""||confirm_password.text==""||confirm_password.text!=null){
-//      return true;
-//
-//    }
-//    return false;
-//
-//  }
+
+  Future _checkGps() async {
+    if (!await location.serviceEnabled()) {
+      location.requestService();
+    }
+  }
 }

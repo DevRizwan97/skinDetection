@@ -27,11 +27,10 @@ class _SplashPageState extends State<SplashPage> {
   void timer() async {
     Future.delayed(Duration(seconds: 3)).then((_) {
       var state = Provider.of<AuthState>(context, listen: false);
+      //This will load all the data in states
       state.getWeatherData("Sydney");
       state.getWeatherData("San Francisco");
       state.getWeatherData("London");
-
-      // state.authStatus = AuthStatus.NOT_DETERMINED;
       state.getCurrentUser();
       state.getallSkins();
       state.getallBlogs();
@@ -53,13 +52,6 @@ class _SplashPageState extends State<SplashPage> {
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            // Platform.isIOS
-            //     ? CupertinoActivityIndicator(
-            //   radius: 35,
-            // )
-            //     : CircularProgressIndicator(
-            //   strokeWidth: 2,
-            // ),
             Image.asset(
               'assets/images/tlogo.png',
               height: 120,

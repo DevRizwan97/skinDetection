@@ -1,22 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_cities_time/main.dart';
 import 'package:my_cities_time/models/products.dart';
-import 'package:my_cities_time/page/main_screens/Travel.dart';
-import 'package:my_cities_time/page/main_screens/blog.dart';
-import 'package:my_cities_time/page/main_screens/location.dart';
 import 'package:my_cities_time/page/main_screens/product_detail.dart';
-import 'package:my_cities_time/page/main_screens/shop_detail_page.dart';
-import 'package:my_cities_time/page/main_screens/the_skin_lab.dart';
-import 'package:my_cities_time/page/webview.dart';
 import 'package:my_cities_time/widgets/DrawerWidget.dart';
 import 'package:my_cities_time/states/authstate.dart';
-import 'package:my_cities_time/themes.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:my_cities_time/utils/helper.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import 'favourites.dart';
 
@@ -75,18 +66,18 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
                   Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: GestureDetector(
-                    onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Favourites(),
-            ));
-      },
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Favourites(),
+                              ));
+                        },
                         child: Icon(
-                      Icons.favorite_rounded,
-                      color: Colors.red,
-                      size: 35,
-                    )),
+                          Icons.favorite_rounded,
+                          color: Colors.red,
+                          size: 35,
+                        )),
                   ),
                 ],
               ),
@@ -109,11 +100,6 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
                           MaterialPageRoute(
                             builder: (context) => ProductDetail(),
                           ));
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => WebViewExample(url: state.all_products[index].producturl,),
-                      //     ));
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -239,17 +225,7 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
                                           //   loader = false;
                                           // });
                                         },
-                                        // child: Icon(
-                                        //     state.all_favourites == null
-                                        //         ? Icons.favorite_border
-                                        //         : state.all_favourites
-                                        //                 .contains(state
-                                        //                         .all_products[
-                                        //                     index])
-                                        //             ? Icons.favorite
-                                        //             : Icons.favorite_border,
-                                        //     color: Colors.red,
-                                        //     size: 25)
+
                                         child: state.all_favourites == null
                                             ? Icons.favorite_border
                                             : state.all_favourites.contains(
@@ -280,17 +256,7 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
                     ),
                   );
                 })
-                    // [
-                    //   // SizedBox(
-                    //   //   height: 5,
-                    //   // ),
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    // ],
+
                     ),
               ),
             )
@@ -299,29 +265,14 @@ class _TheProtectionShopState extends State<TheProtectionShop> {
       ),
     );
   }
-
+//This will share the product with users through email and whatsapp
   _onShare(BuildContext context, Product product) async {
-    // A builder is used to retrieve the context immediately
-    // surrounding the RaisedButton.
-    //
-    // The context's `findRenderObject` returns the first
-    // RenderObject in its descendent tree when it's not
-    // a RenderObjectWidget. The RaisedButton's RenderObject
-    // has its position and size after it's built.
     final RenderBox box = context.findRenderObject();
     List<String> imageurls = List<String>();
     imageurls.add(product.imageurl);
-    // if (imageurls.isNotEmpty) {
-    //   await Share.shareFiles(imageurls,
-    //       text: product.name,
-    //       subject: product.quantity,
-    //       sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
-    // } else {
-    await Share.share(
-        "Product Url:" +
-            product.producturl ,
+
+    await Share.share("Product Url:" + product.producturl,
         subject: product.quantity,
         sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
-    //}
   }
 }

@@ -6,27 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart' as picker;
 import 'package:intl/intl.dart';
 import 'package:my_cities_time/api/api_keys.dart';
-import 'package:my_cities_time/api/http_exception.dart';
 import 'package:my_cities_time/plugins/camera_camera.dart';
-import 'package:my_cities_time/main.dart';
 import 'package:my_cities_time/models/skin.dart';
-import 'package:my_cities_time/page/Splash.dart';
-import 'package:my_cities_time/page/main_screens/Travel.dart';
-import 'package:my_cities_time/page/main_screens/blog.dart';
-import 'package:my_cities_time/page/main_screens/location.dart';
 import 'package:my_cities_time/page/main_screens/signup.dart';
-import 'package:my_cities_time/page/main_screens/the_protection_shop.dart';
 import 'package:my_cities_time/widgets/DrawerWidget.dart';
 import 'package:my_cities_time/states/authstate.dart';
-import 'package:my_cities_time/themes.dart';
 import 'package:my_cities_time/utils/constants.dart';
 import 'package:my_cities_time/utils/helper.dart';
 import 'package:http/http.dart' as http;
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:sweetalert/sweetalert.dart';
 import 'package:weather/weather.dart';
@@ -330,7 +320,6 @@ class _TheSkinLabState extends State<TheSkinLab> {
                                 SizedBox(
                                   height: 10,
                                 ),
-
                               ],
                             ),
                           ),
@@ -355,28 +344,6 @@ class _TheSkinLabState extends State<TheSkinLab> {
                     color: Colors.black.withOpacity(0.5),
                   ),
                 ))));
-
-    // File image = (await picker.ImagePicker.pickImage(
-    //     source: picker.ImageSource.camera, imageQuality: 50));
-    // File croppedFile = await ImageCropper.cropImage(
-    //     sourcePath: image.path,
-    //     aspectRatioPresets: [
-    //       CropAspectRatioPreset.square,
-    //       CropAspectRatioPreset.ratio3x2,
-    //       CropAspectRatioPreset.original,
-    //       CropAspectRatioPreset.ratio4x3,
-    //       CropAspectRatioPreset.ratio16x9
-    //     ],
-    //     androidUiSettings: AndroidUiSettings(
-    //         toolbarTitle: 'Crop Image',
-    //         toolbarColor: fontOrange,
-    //         toolbarWidgetColor: Colors.white,
-    //         initAspectRatio: CropAspectRatioPreset.original,
-    //         lockAspectRatio: false),
-    //     iosUiSettings: IOSUiSettings(
-    //       minimumAspectRatio: 1.0,
-    //     )
-    // );
     setState(() {
       _image = image;
       sendimagefile(_image);
@@ -400,9 +367,9 @@ class _TheSkinLabState extends State<TheSkinLab> {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       // I am not connected to a mobile network.
-   showsnackbartop("Network", "Connection error", 4,Colors.redAccent, Colors.red, Colors.red, context);
+      showsnackbartop("Network", "Connection error", 4, Colors.redAccent,
+          Colors.red, Colors.red, context);
     } else {
-
       try {
         var postUri = Uri.parse(api_url);
         var request = new http.MultipartRequest("POST", postUri);
@@ -428,9 +395,9 @@ class _TheSkinLabState extends State<TheSkinLab> {
             Position position = await Geolocator()
                 .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
             final coordinates =
-            new Coordinates(position.latitude, position.longitude);
+                new Coordinates(position.latitude, position.longitude);
             var addresses =
-            await Geocoder.local.findAddressesFromCoordinates(coordinates);
+                await Geocoder.local.findAddressesFromCoordinates(coordinates);
             DateTime now = new DateTime.now();
             DateTime date = new DateTime(now.year, now.month, now.day);
             skinmodel.date = date.toString();
@@ -453,7 +420,8 @@ class _TheSkinLabState extends State<TheSkinLab> {
                 position.latitude, position.longitude);
 
             skinmodel.lat = position.latitude == null ? 0 : position.latitude;
-            skinmodel.long = position.longitude == null ? 0 : position.longitude;
+            skinmodel.long =
+                position.longitude == null ? 0 : position.longitude;
             if (state.user != null) {
               skinmodel.city = addresses.first.locality;
               skinmodel.temperature = weather.temperature.celsius.toString();
@@ -473,9 +441,6 @@ class _TheSkinLabState extends State<TheSkinLab> {
               state.addskin(skinmodel);
               SweetAlert.show(context,
                   title: "Success", subtitle: "Successfully detected skin");
-
-              // Navigator.push(
-              //     context, MaterialPageRoute(builder: (context) => SplashPage()));
             } else {
               setState(() {
                 loader = false;
@@ -484,11 +449,10 @@ class _TheSkinLabState extends State<TheSkinLab> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => SignUp(
-                        skinmodel: skinmodel,
-                      )));
+                            skinmodel: skinmodel,
+                          )));
             }
-          }
-          else {
+          } else {
             setState(() {
               loader = false;
             });
@@ -502,6 +466,5 @@ class _TheSkinLabState extends State<TheSkinLab> {
       // I am connected to a wifi network.
 
     }
-
   }
 }

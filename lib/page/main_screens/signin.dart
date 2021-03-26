@@ -8,8 +8,6 @@ import 'package:my_cities_time/utils/helper.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import '../../main.dart';
-import '../../themes.dart';
 import '../Splash.dart';
 
 class SignIn extends StatefulWidget {
@@ -20,14 +18,13 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   TextEditingController email = TextEditingController(),
       password = TextEditingController();
-  bool loader = false;
-  bool emailchecking = true, passwordchecking = true;
+  bool loader = false, emailchecking = true, passwordchecking = true;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<AuthState>(context);
     return Scaffold(
-
       key: _scaffoldKey,
       body: Container(
         width: double.infinity,
@@ -151,7 +148,6 @@ class _SignInState extends State<SignIn> {
                                   },
                                   autofocus: false,
                                   style: TextStyle(
-
                                       fontSize: 17.0, color: Colors.black),
                                   decoration: InputDecoration(
                                     filled: true,
@@ -175,7 +171,6 @@ class _SignInState extends State<SignIn> {
                                   ),
                                 ),
                               ),
-
                               Padding(
                                 padding:
                                     const EdgeInsets.only(top: 10, right: 30),
@@ -183,16 +178,21 @@ class _SignInState extends State<SignIn> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     GestureDetector(
-                                      onTap:(){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => TheSkinLab(),));
-                                      },
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    TheSkinLab(),
+                                              ));
+                                        },
                                         child: Text(
-                                      "Create an account",
-                                      style: TextStyle(
-                                          color: fontOrange,
-                                          fontFamily: "OpenSans",
-                                          fontSize: 15),
-                                    ))
+                                          "Create an account",
+                                          style: TextStyle(
+                                              color: fontOrange,
+                                              fontFamily: "OpenSans",
+                                              fontSize: 15),
+                                        ))
                                   ],
                                 ),
                               ),
@@ -204,12 +204,17 @@ class _SignInState extends State<SignIn> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 12.0,
-                                              bottom: 12.0,
-                                              right: 40,
-                                              left: 40),
-                                          child:  loader?SpinKitRipple(color: fontOrange,size: 40,):RaisedButton(
+                                    padding: const EdgeInsets.only(
+                                        top: 12.0,
+                                        bottom: 12.0,
+                                        right: 40,
+                                        left: 40),
+                                    child: loader
+                                        ? SpinKitRipple(
+                                            color: fontOrange,
+                                            size: 40,
+                                          )
+                                        : RaisedButton(
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(9.0),
@@ -224,7 +229,6 @@ class _SignInState extends State<SignIn> {
                                                     .signIn(email.text,
                                                         password.text)
                                                     .then((status) {
-
                                                   if (state.user != null) {
                                                     setState(() {
                                                       loader = false;
@@ -242,8 +246,15 @@ class _SignInState extends State<SignIn> {
                                                     setState(() {
                                                       loader = false;
                                                     });
-                                                    showsnackbartop("Signin Error", "There is no user record corresponding to this identifier. The user may have been deleted.", 4, Colors.red,Colors.red, Colors.red,  _scaffoldKey.currentContext);
-
+                                                    showsnackbartop(
+                                                        "Signin Error",
+                                                        "There is no user record corresponding to this identifier. The user may have been deleted.",
+                                                        4,
+                                                        Colors.red,
+                                                        Colors.red,
+                                                        Colors.red,
+                                                        _scaffoldKey
+                                                            .currentContext);
                                                   }
                                                 });
                                                 // setState(() {
@@ -267,7 +278,7 @@ class _SignInState extends State<SignIn> {
                                                       fontFamily: "OpenSans")),
                                             ),
                                           ),
-                                        ),
+                                  ),
                                 ],
                               ),
                               Row(
@@ -307,10 +318,7 @@ class _SignInState extends State<SignIn> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   GestureDetector(
-                                    onTap:(){
-
-
-                              },
+                                    onTap: () {},
                                     child: Image.asset(
                                       'assets/images/one.PNG',
                                       fit: BoxFit.cover,
@@ -320,10 +328,7 @@ class _SignInState extends State<SignIn> {
                                     width: 50,
                                   ),
                                   GestureDetector(
-                                    onTap: (){
-
-
-                                    },
+                                    onTap: () {},
                                     child: Image.asset(
                                       'assets/images/two.PNG',
                                       fit: BoxFit.cover,
@@ -345,6 +350,4 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
-
-
 }

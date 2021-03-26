@@ -27,61 +27,6 @@ class SkinTrackerState extends State<SkinTracker> {
   List<double> values = List<double>();
   bool loader = false;
 
-
-  List<charts.Series<SkinGraph, String>> _createchartData() {
-    var state = Provider.of<AuthState>(context, listen: false);
-    List<SkinGraph> data = List<SkinGraph>();
-    for (int i = 0; i < state.all_skin_data.length; i++) {
-      print(
-          int.parse(state.all_skin_data[i].skintype));
-      data.add(new SkinGraph(
-          state.all_skin_data[i].month,
-          int.parse(state.all_skin_data[i].skintype),
-          state.all_skin_data[i].skincolor));
-    }
-
-    return [
-      new charts.Series<SkinGraph, String>(
-        id: 'Skintone',
-        displayName: "Month",
-
-        colorFn: (SkinGraph graph, _) =>
-            charts.Color.transparent,
-        domainFn: (SkinGraph graph, _) => graph.month.toUpperCase(),
-        measureFn: (SkinGraph graph, _) => graph.type,
-        data: data,
-
-      ),
-      new charts.Series<SkinGraph, String>(
-        id: 'Skintone',
-        displayName: "Month",
-
-        colorFn: (SkinGraph graph, _) =>
-            charts.Color.fromHex(code: graph.skincolorcode),
-        domainFn: (SkinGraph graph, _) => graph.month.toUpperCase(),
-        measureFn: (SkinGraph graph, _) => graph.type,
-        data: data,
-
-      ),   new charts.Series<SkinGraph, String>(
-        id: 'Skintone',
-        displayName: "Month",
-
-        colorFn: (SkinGraph graph, _) =>
-            charts.Color.transparent,
-        domainFn: (SkinGraph graph, _) => graph.month.toUpperCase(),
-        measureFn: (SkinGraph graph, _) => graph.type,
-        data: data,
-
-      ),
-    ];
-  }
-
-// class OrdinalSales {
-//   final String year;
-//   final int sales;
-//
-//   OrdinalSales(this.year, this.sales);
-// }
   @override
   void initState() {
     // TODO: implement initState
@@ -140,11 +85,9 @@ class SkinTrackerState extends State<SkinTracker> {
                                 _createchartData(),
                                 animate: true,
                                 defaultRenderer: new charts.BarRendererConfig(
-                                    cornerStrategy: const charts.ConstCornerStrategy(0)),
-
+                                    cornerStrategy:
+                                        const charts.ConstCornerStrategy(0)),
                               ),
-
-
                             ),
                     ),
                     SizedBox(
@@ -214,7 +157,8 @@ class SkinTrackerState extends State<SkinTracker> {
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: 16,
-                                                      fontWeight: FontWeight.w700,
+                                                      fontWeight:
+                                                          FontWeight.w700,
                                                       fontFamily: "OpenSans"),
                                                 ),
                                               ),
@@ -245,25 +189,21 @@ class SkinTrackerState extends State<SkinTracker> {
                                   ),
                                 )
                               ],
-
                             ),
                           ),
                           Column(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: List.generate(
-                              
                                 state.all_skin_data == null
                                     ? 0
                                     : state.all_skin_data.length, (index) {
                               return Padding(
                                 padding: const EdgeInsets.only(
                                     right: 8, left: 8, top: 30),
-                                child: SingleChildScrollView( 
+                                child: SingleChildScrollView(
                                   child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
@@ -279,8 +219,7 @@ class SkinTrackerState extends State<SkinTracker> {
                                           Row(
                                             children: [
                                               Text(
-                                                state
-                                                    .all_skin_data[index].date
+                                                state.all_skin_data[index].date
                                                     .substring(0, 11),
                                                 style: TextStyle(
                                                     color: Colors.black,
@@ -295,8 +234,7 @@ class SkinTrackerState extends State<SkinTracker> {
                                           Row(
                                             children: [
                                               Text(
-                                                state.all_skin_data[index]
-                                                    .city,
+                                                state.all_skin_data[index].city,
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 16,
@@ -313,8 +251,7 @@ class SkinTrackerState extends State<SkinTracker> {
                                                 width: 40.0,
                                                 height: 20.0,
                                                 child: Container(
-                                                  decoration:
-                                                      new BoxDecoration(
+                                                  decoration: new BoxDecoration(
                                                     color: state.all_skin_data ==
                                                             null
                                                         ? Colors.transparent
@@ -322,8 +259,8 @@ class SkinTrackerState extends State<SkinTracker> {
                                                             .all_skin_data[
                                                                 index]
                                                             .skincolor
-                                                            .replaceAll('#',
-                                                                '0xff'))),
+                                                            .replaceAll(
+                                                                '#', '0xff'))),
                                                     shape: BoxShape.rectangle,
                                                   ),
                                                 ),
@@ -340,7 +277,6 @@ class SkinTrackerState extends State<SkinTracker> {
                                 ),
                               );
                             }),
-
                           ),
                         ],
                       ),
@@ -349,6 +285,47 @@ class SkinTrackerState extends State<SkinTracker> {
             ),
           ),
         ));
+  }
+
+  //This function will get all data of skin of user and will link that data to SKinGraph model
+  List<charts.Series<SkinGraph, String>> _createchartData() {
+    var state = Provider.of<AuthState>(context, listen: false);
+    List<SkinGraph> data = List<SkinGraph>();
+
+    for (int i = 0; i < state.all_skin_data.length; i++) {
+      data.add(new SkinGraph(
+          state.all_skin_data[i].month,
+          int.parse(state.all_skin_data[i].skintype),
+          state.all_skin_data[i].skincolor));
+    }
+
+    return [
+      new charts.Series<SkinGraph, String>(
+        id: 'Skintone',
+        displayName: "Month",
+        colorFn: (SkinGraph graph, _) => charts.Color.transparent,
+        domainFn: (SkinGraph graph, _) => graph.month.toUpperCase(),
+        measureFn: (SkinGraph graph, _) => graph.type,
+        data: data,
+      ),
+      new charts.Series<SkinGraph, String>(
+        id: 'Skintone',
+        displayName: "Month",
+        colorFn: (SkinGraph graph, _) =>
+            charts.Color.fromHex(code: graph.skincolorcode),
+        domainFn: (SkinGraph graph, _) => graph.month.toUpperCase(),
+        measureFn: (SkinGraph graph, _) => graph.type,
+        data: data,
+      ),
+      new charts.Series<SkinGraph, String>(
+        id: 'Skintone',
+        displayName: "Month",
+        colorFn: (SkinGraph graph, _) => charts.Color.transparent,
+        domainFn: (SkinGraph graph, _) => graph.month.toUpperCase(),
+        measureFn: (SkinGraph graph, _) => graph.type,
+        data: data,
+      ),
+    ];
   }
 }
 
