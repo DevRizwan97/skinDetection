@@ -314,28 +314,7 @@ class _SignInState extends State<SignIn> {
                               SizedBox(
                                 height: 10,
                               ),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     GestureDetector(
-                              //       onTap: () {},
-                              //       child: Image.asset(
-                              //         'assets/images/one.PNG',
-                              //         fit: BoxFit.cover,
-                              //       ),
-                              //     ),
-                              //     SizedBox(
-                              //       width: 50,
-                              //     ),
-                              //     GestureDetector(
-                              //       onTap: () {},
-                              //       child: Image.asset(
-                              //         'assets/images/two.PNG',
-                              //         fit: BoxFit.cover,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
+
                             ],
                           ),
                         ),

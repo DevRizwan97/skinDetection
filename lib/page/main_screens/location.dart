@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -473,6 +474,7 @@ class _LocationState extends State<Location> {
                 ),
         ));
   }
+
 //Function to fetch weahter data w.r.t location
   _fetchWeatherWithLocation() async {
     prefs = await SharedPreferences.getInstance();
@@ -634,39 +636,6 @@ class _LocationState extends State<Location> {
     }, currentTime: DateTime.now());
   }
 
-  void callnotification() async {
-    Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    final url =
-        '${ApiKey.baseUrl}/data/2.5/onecall?lat=${position.latitude}&lon=${position.longitude}&appid=${ApiKey.OPEN_WEATHER_MAP}';
-    print('fetching $url');
-    final res = await http.get(url);
-    if (res.statusCode != 200) {
-      throw HTTPException(res.statusCode, "unable to fetch weather data");
-    }
-    final weatherJson = json.decode(res.body);
-    setState(() {
-      uvi_index = weatherJson['current']['uvi'].toString();
-      print("hassan rehman checking");
-      print(uvi_index);
-      print(prefs.getString("uv"));
-      if (double.parse(uvi_index) <= double.parse(prefs.getString("uv"))) {
-        const AndroidNotificationDetails androidPlatformChannelSpecifics =
-            AndroidNotificationDetails('your channel id', 'your channel name',
-                'your channel description',
-                importance: Importance.max,
-                priority: Priority.high,
-                playSound: true,
-                sound: RawResourceAndroidNotificationSound('slow_spring_board'),
-                showWhen: false);
-        const NotificationDetails platformChannelSpecifics =
-            NotificationDetails(android: androidPlatformChannelSpecifics);
-        flutterLocalNotificationsPlugin.show(
-            0, "UV Alarm", "UV index reached", platformChannelSpecifics);
-      }
-    });
-  }
-
   Future _showIntDialog() async {
     await showDialog<int>(
       context: context,
@@ -681,14 +650,29 @@ class _LocationState extends State<Location> {
       },
     ).then((num value) async {
       prefs.setString("uv", value.toString());
+      const oneSec = const Duration(seconds: 3);
 
-      await AndroidAlarmManager.initialize();
-      AndroidAlarmManager.periodic(
-        const Duration(seconds: 3),
-        // Ensure we have a unique alarm ID.
-        1,
-        callnotification,
-      );
+      AndroidNotificationDetails androidPlatformChannelSpecifics =
+          AndroidNotificationDetails('your channel id', 'your channel name',
+              'your channel description',
+              importance: Importance.max,
+              priority: Priority.high,
+              playSound: true,
+              sound: RawResourceAndroidNotificationSound('slow_spring_board'),
+              showWhen: false);
+      NotificationDetails platformChannelSpecifics =
+          NotificationDetails(android: androidPlatformChannelSpecifics);
+
+      Timer.periodic(
+          oneSec,
+          (Timer t) => {
+                if (double.parse(uvi_index) <=
+                    double.parse(prefs.getString("uv")))
+                  {
+                    flutterLocalNotificationsPlugin.show(0, "UV Alarm",
+                        "UV index reached", platformChannelSpecifics)
+                  }
+              });
     });
   }
 }
