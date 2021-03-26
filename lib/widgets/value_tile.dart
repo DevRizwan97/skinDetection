@@ -19,7 +19,7 @@ final Weather weather;
   getsunscreentime(context,String uvi_index){
     var state = Provider.of<AuthState>(context, listen: false);
     List<Map> all_data=state.all_excel_data;
-    // print(state.all_excel_data);
+    print(state.all_excel_data);
     for(int i=0;i<state.all_excel_data.length;i++){
       String uv=all_data[i]['uv'].toString();
       String uv_index=(int.parse(double.parse(uvi_index).floor().toString()).toString());

@@ -349,30 +349,30 @@ class _SignUpState extends State<SignUp> {
                                 SizedBox(
                                   height: 15,
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Image.asset(
-                                        'assets/images/one.PNG',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 30,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        signupgoogle();
-                                      },
-                                      child: Image.asset(
-                                        'assets/images/two.PNG',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                //   children: [
+                                //     GestureDetector(
+                                //       onTap: () {},
+                                //       child: Image.asset(
+                                //         'assets/images/one.PNG',
+                                //         fit: BoxFit.cover,
+                                //       ),
+                                //     ),
+                                //     SizedBox(
+                                //       width: 30,
+                                //     ),
+                                //     GestureDetector(
+                                //       onTap: () {
+                                //         signupgoogle();
+                                //       },
+                                //       child: Image.asset(
+                                //         'assets/images/two.PNG',
+                                //         fit: BoxFit.cover,
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -420,111 +420,111 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-
-  signupgoogle() async {
-    User user;
-    try {
-      final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-      final GoogleSignIn _googleSignIn = GoogleSignIn();
-
-      /// Record log in firebase kAnalytics about Google login
-      final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) {
-        throw Exception('Google login cancelled by user');
-      }
-      setState(() {
-        loader = true;
-      });
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      user = (await _firebaseAuth.signInWithCredential(credential)).user;
-      WeatherFactory wf = new WeatherFactory(ApiKey.OPEN_WEATHER_MAP);
-      var state = Provider.of<AuthState>(context, listen: false);
-
-      Position position = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-      final coordinates =
-          new Coordinates(position.latitude, position.longitude);
-      var addresses =
-          await Geocoder.local.findAddressesFromCoordinates(coordinates);
-      Weather weather = await wf.currentWeatherByLocation(
-          position.latitude, position.longitude);
-      Users users = Users(
-        username: user.displayName,
-        confirm_password: user.uid,
-        email: user.email,
-        password: user.uid,
-      );
-      try {
-        await state.createUser(users);
-
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        Skin skinmodel = widget.skinmodel;
-        skinmodel.city = addresses.first.locality;
-        skinmodel.temperature = weather.temperature.celsius.toString();
-        skinmodel.weather_detail = weather.weatherDescription;
-        skinmodel.weathericon = weather.weatherIcon;
-        DateTime now = new DateTime.now();
-        DateTime date = new DateTime(now.year, now.month, now.day);
-        skinmodel.date = date.toString();
-        skinmodel.time = DateFormat.Hms().format(now);
-        setState(() {
-          loader = false;
-        });
-
-        kDatabase.child('skin').child(state.userModel.userId)
-          ..child(addresses.first.locality)
-              .child(DateTime.now().millisecondsSinceEpoch.toString())
-              .set(skinmodel.toJson())
-              .then((value) => {
-                    prefs
-                        .setString("location", addresses.first.locality)
-                        .then((bool success) {
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => SplashPage()),
-                          (Route<dynamic> route) => false);
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => SplashPage()),
-                      // );
-                    })
-                  });
-      } catch (e) {
-        showsnackbartop("Registration Error", "Error registering this user", 4,
-            Colors.red, Colors.red, Colors.red, context);
-      }
-      setState(() {
-        loader = false;
-      });
-    } on PlatformException catch (error) {
-      print(error);
-      user = null;
-      setState(() {
-        loader = false;
-      });
-      return null;
-    } on Exception catch (error) {
-      print(error);
-      user = null;
-      setState(() {
-        loader = false;
-      });
-      return null;
-    } catch (error) {
-      print(error);
-      user = null;
-      setState(() {
-        loader = false;
-      });
-      return null;
-    }
-  }
+  //
+  // signupgoogle() async {
+  //   User user;
+  //   try {
+  //     final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  //     final GoogleSignIn _googleSignIn = GoogleSignIn();
+  //
+  //     /// Record log in firebase kAnalytics about Google login
+  //     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+  //     if (googleUser == null) {
+  //       throw Exception('Google login cancelled by user');
+  //     }
+  //     setState(() {
+  //       loader = true;
+  //     });
+  //     final GoogleSignInAuthentication googleAuth =
+  //         await googleUser.authentication;
+  //
+  //     final AuthCredential credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth.accessToken,
+  //       idToken: googleAuth.idToken,
+  //     );
+  //
+  //     user = (await _firebaseAuth.signInWithCredential(credential)).user;
+  //     WeatherFactory wf = new WeatherFactory(ApiKey.OPEN_WEATHER_MAP);
+  //     var state = Provider.of<AuthState>(context, listen: false);
+  //
+  //     Position position = await Geolocator()
+  //         .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+  //     final coordinates =
+  //         new Coordinates(position.latitude, position.longitude);
+  //     var addresses =
+  //         await Geocoder.local.findAddressesFromCoordinates(coordinates);
+  //     Weather weather = await wf.currentWeatherByLocation(
+  //         position.latitude, position.longitude);
+  //     Users users = Users(
+  //       username: user.displayName,
+  //       confirm_password: user.uid,
+  //       email: user.email,
+  //       password: user.uid,
+  //     );
+  //     try {
+  //       await state.createUser(users);
+  //
+  //       SharedPreferences prefs = await SharedPreferences.getInstance();
+  //       Skin skinmodel = widget.skinmodel;
+  //       skinmodel.city = addresses.first.locality;
+  //       skinmodel.temperature = weather.temperature.celsius.toString();
+  //       skinmodel.weather_detail = weather.weatherDescription;
+  //       skinmodel.weathericon = weather.weatherIcon;
+  //       DateTime now = new DateTime.now();
+  //       DateTime date = new DateTime(now.year, now.month, now.day);
+  //       skinmodel.date = date.toString();
+  //       skinmodel.time = DateFormat.Hms().format(now);
+  //       setState(() {
+  //         loader = false;
+  //       });
+  //
+  //       kDatabase.child('skin').child(state.userModel.userId)
+  //         ..child(addresses.first.locality)
+  //             .child(DateTime.now().millisecondsSinceEpoch.toString())
+  //             .set(skinmodel.toJson())
+  //             .then((value) => {
+  //                   prefs
+  //                       .setString("location", addresses.first.locality)
+  //                       .then((bool success) {
+  //                     Navigator.of(context).pushAndRemoveUntil(
+  //                         MaterialPageRoute(builder: (context) => SplashPage()),
+  //                         (Route<dynamic> route) => false);
+  //                     // Navigator.push(
+  //                     //   context,
+  //                     //   MaterialPageRoute(builder: (context) => SplashPage()),
+  //                     // );
+  //                   })
+  //                 });
+  //     } catch (e) {
+  //       showsnackbartop("Registration Error", "Error registering this user", 4,
+  //           Colors.red, Colors.red, Colors.red, context);
+  //     }
+  //     setState(() {
+  //       loader = false;
+  //     });
+  //   } on PlatformException catch (error) {
+  //     print(error);
+  //     user = null;
+  //     setState(() {
+  //       loader = false;
+  //     });
+  //     return null;
+  //   } on Exception catch (error) {
+  //     print(error);
+  //     user = null;
+  //     setState(() {
+  //       loader = false;
+  //     });
+  //     return null;
+  //   } catch (error) {
+  //     print(error);
+  //     user = null;
+  //     setState(() {
+  //       loader = false;
+  //     });
+  //     return null;
+  //   }
+  // }
 
 //Signup anonmyous
   signup_anonymous() async {
